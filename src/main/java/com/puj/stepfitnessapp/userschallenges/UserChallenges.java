@@ -4,37 +4,36 @@ import com.puj.stepfitnessapp.challenge.Challenge;
 import com.puj.stepfitnessapp.user.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 
 @Getter
 @Setter
-//@Entity
+@EnableAutoConfiguration
+@Entity
+@Table(name = "user_challenges")
 public class UserChallenges {
-
-    /*
-
     @EmbeddedId
     private UserChallengesKey id;
 
     @ManyToOne
     @MapsId("userId")
-    @JoinColumn(referencedColumnName = "user_id")
+    @JoinColumn(referencedColumnName = "userId")
     private User user;
 
     @ManyToOne
     @MapsId("challengeId")
-    @JoinColumn(referencedColumnName = "challenge_id")
+    @JoinColumn(referencedColumnName = "challengeId")
     private Challenge challenge;
 
     private int progress;
 
-    @Column(name = "time_left")
-    private int timeLeft;
+    private @NotNull LocalDateTime challengeEndDateTime;
 
-    @Column(name = "amount_of_steps")
     private int amountOfSteps;
 
-     */
 }

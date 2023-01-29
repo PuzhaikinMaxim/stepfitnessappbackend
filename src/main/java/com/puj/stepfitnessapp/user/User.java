@@ -6,13 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,18 +34,15 @@ public class User {
     private Long userId;
 
     private @NotBlank @Column(unique = true) String username;
-    private @NotBlank @Column(unique = true) String login;
     private @NotBlank @Column(unique = true) String email;
     private @NotBlank String password;
     private @NotNull @Column(unique = true) String enterToken;
     private @NotNull String role;
 
     public User(String username,
-                String login,
                 String email,
                 String password) {
         this.username = username;
-        this.login = login;
         this.email = email;
         this.password = password;
     }
@@ -66,7 +60,6 @@ public class User {
         return "User{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
-                ", login='" + login + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", enterToken='" + enterToken + '\'' +

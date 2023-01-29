@@ -42,7 +42,7 @@ public class UserController {
 
     @GetMapping(value = "/getUser")
     public User getData() {
-        return new User("fucking", "faggot", "bitch", "nigger");
+        return new User("fucking", "bitch", "nigger");
     }
 
     @GetMapping(value = "/test")

@@ -1,7 +1,6 @@
 package com.puj.stepfitnessapp;
 
 import com.puj.stepfitnessapp.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -45,6 +44,8 @@ public class TokenFilter extends OncePerRequestFilter {
                         user.getUsername(),
                         user.getPassword(),
                         user.getGrantedAuthorities());
+
+        authentication.setDetails(user);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);

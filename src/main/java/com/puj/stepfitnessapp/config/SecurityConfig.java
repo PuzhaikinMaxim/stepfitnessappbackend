@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -38,50 +40,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
-        /*
-        http = http.csrf().disable();
-
-        http = http
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and();
-
-        http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/authorized").hasRole("USER");
-
-        http.addFilterBefore(
-                tokenFilter,
-                UsernamePasswordAuthenticationFilter.class
-        );
-        return http.build();
-
-         */
-
         return http
                 .csrf().disable()
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/authorized").hasRole("USER")
+                .antMatchers("/user_challenges").hasRole("USER")
                 .antMatchers("/**").permitAll()
                 .and()
                 .httpBasic(Customizer.withDefaults())
-                .build();
-        /*
-        return http
-                .csrf().disable()
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
-                .antMatchers("/registerUser").permitAll()
-                .antMatchers("/authorized").hasRole("USER")
+                .exceptionHandling()
+                .authenticationEntryPoint(
+                        ((request, response, authException) -> {
+                            response.sendError(
+                                    HttpServletResponse.SC_UNAUTHORIZED,
+                                    authException.getMessage()
+                            );
+                        })
+                )
                 .and()
-                .httpBasic(Customizer.withDefaults())
                 .build();
-
-         */
-
     }
 
     @Bean
@@ -89,13 +68,4 @@ public class SecurityConfig {
         return service;
     }
 
-    /*
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationManagerBuilder authenticationManagerBuilder
-    ) throws Exception {
-        return authenticationManagerBuilder.userDetailsService(service).and().build();
-    }
-
-     */
 }

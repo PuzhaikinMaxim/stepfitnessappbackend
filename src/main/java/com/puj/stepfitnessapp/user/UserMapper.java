@@ -19,7 +19,6 @@ public class UserMapper {
     public User mapUserDtoToUser(UserDto userDto) {
         String encryptedPassword = encoder.encode(userDto.getPassword());
         User user = new User();
-        user.setLogin(userDto.getLogin());
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
         user.setPassword(encryptedPassword);

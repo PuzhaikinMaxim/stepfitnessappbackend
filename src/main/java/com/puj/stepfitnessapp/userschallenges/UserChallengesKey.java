@@ -12,8 +12,6 @@ import java.util.Objects;
 @Setter
 @Embeddable
 public class UserChallengesKey implements Serializable {
-    /*
-
     @Column(name = "user_id")
     private Long userId;
 
@@ -37,6 +35,4 @@ public class UserChallengesKey implements Serializable {
     public int hashCode() {
         return Objects.hash(userId, challengeId);
     }
-
-     */
 }

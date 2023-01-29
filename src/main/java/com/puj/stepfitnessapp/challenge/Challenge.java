@@ -1,13 +1,17 @@
 package com.puj.stepfitnessapp.challenge;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @Entity
+@Table(name = "challenges")
 public class Challenge {
 
     @Id
@@ -21,15 +25,21 @@ public class Challenge {
             generator = "challenge_sequence"
     )
     private Long challengeId;
+    private @NotBlank @Column(unique = true) String challengeName;
 
-    private int amountOfPoints;
-    private int baseHoursToFinish;
+    private @NotBlank int amountOfPoints;
+    private @NotBlank int baseHoursToFinish;
+    private @NotBlank int minimumUserLevel;
+    private @NotBlank int challengeLevel;
 
     public Challenge() {
 
     }
 
-    public Challenge(int amountOfPoints, int baseHoursToFinish) {
+    public Challenge(
+            int amountOfPoints,
+            int baseHoursToFinish
+    ) {
         this.amountOfPoints = amountOfPoints;
         this.baseHoursToFinish = baseHoursToFinish;
     }
