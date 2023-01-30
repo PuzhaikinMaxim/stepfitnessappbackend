@@ -2,7 +2,9 @@ package com.puj.stepfitnessapp.userschallenges;
 
 import com.puj.stepfitnessapp.challenge.Challenge;
 import com.puj.stepfitnessapp.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @EnableAutoConfiguration
+@NoArgsConstructor
 @Entity
 @Table(name = "user_challenges")
 public class UserChallenges {
@@ -36,4 +39,12 @@ public class UserChallenges {
 
     private int amountOfSteps;
 
+    public UserChallenges(UserChallengesKey id, User user, Challenge challenge, int progress, @NotNull LocalDateTime challengeEndDateTime, int amountOfSteps) {
+        this.id = id;
+        this.user = user;
+        this.challenge = challenge;
+        this.progress = progress;
+        this.challengeEndDateTime = challengeEndDateTime;
+        this.amountOfSteps = amountOfSteps;
+    }
 }

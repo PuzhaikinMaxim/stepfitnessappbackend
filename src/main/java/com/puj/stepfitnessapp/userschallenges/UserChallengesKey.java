@@ -1,6 +1,8 @@
 package com.puj.stepfitnessapp.userschallenges;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Embeddable
+@NoArgsConstructor
 public class UserChallengesKey implements Serializable {
     @Column(name = "user_id")
     private Long userId;
@@ -18,7 +21,7 @@ public class UserChallengesKey implements Serializable {
     @Column(name = "challenge_id")
     private Long challengeId;
 
-    public void UserChallengesKey(Long userId, Long challengeId){
+    public UserChallengesKey(Long userId, Long challengeId){
         this.userId = userId;
         this.challengeId = challengeId;
     }

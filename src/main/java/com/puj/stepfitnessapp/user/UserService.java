@@ -28,6 +28,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
+    public Optional<User> getUserById(long id){
+        return userRepository.findById(id);
+    }
+
     public Optional<User> getUserByToken(String token) { return userRepository.findUserByToken(token); }
 
     public void addUser(UserDto user) {

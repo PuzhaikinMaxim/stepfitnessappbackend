@@ -1,6 +1,6 @@
 package com.puj.stepfitnessapp.userschallenges;
 
-public class UserChallengesMapper {
+public class ActiveChallengesMapper {
 
     public UserChallengesDto mapUserChallengesToDto(UserChallenges userChallenges) {
         return new UserChallengesDto(
