@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @RestController()
-@RequestMapping("user_challenges")
+@RequestMapping("active_challenges")
 public class ActiveChallengesController {
 
     private ActiveChallengesService activeChallengesService;
@@ -32,7 +32,7 @@ public class ActiveChallengesController {
         this.userService = userService;
     }
 
-    @GetMapping("active_challenges")
+    @GetMapping("active_challenge")
     public ResponseEntity<UserChallengesDto> getUserChallengesByUser() {
         final var userId = getUserId();
 
@@ -42,8 +42,8 @@ public class ActiveChallengesController {
         return createResponseEntity(httpStatus, result);
     }
 
-    @PostMapping("start_challenge/{challenge_id}")
-    public ResponseEntity<String> startChallenge(@PathVariable int challenge_id) {
+    @PostMapping("start_challenge")
+    public ResponseEntity<String> startChallenge(@RequestBody int challenge_id) {
         final var userId = getUserId();
 
         final var user = userService.getUserById(userId).get();
@@ -83,7 +83,8 @@ public class ActiveChallengesController {
     @PutMapping("update_user_progress")
     public ResponseEntity<String> updateUserProgress(@RequestBody int amountOfSteps) {
         var amountOfPoints = amountOfSteps;
-        updateUserProgress(amountOfPoints);
+
+        activeChallengesService.updateUserChallengesProgress(amountOfPoints, getUserId());
         
         final var activeChallenge = activeChallengesService.getUserChallengesByUser(getUserId());
 

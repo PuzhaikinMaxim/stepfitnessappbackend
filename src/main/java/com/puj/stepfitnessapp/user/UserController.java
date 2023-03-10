@@ -42,16 +42,18 @@ public class UserController {
 
     @GetMapping(value = "/getUser")
     public User getData() {
-        return new User("fucking", "bitch", "nigger");
+        return new User("Test", "test@gmail.com", "testPassowrd");
     }
 
     @GetMapping(value = "/test")
     public String test() {
-        return "Hello faggot";
+        return "Test";
     }
 
     @GetMapping(value = "/authorized")
-    public String authorized() {return "Authorized";}
+    public ResponseEntity<String> authorized() {
+        return createResponseEntity(HttpStatus.OK, "Authorized");
+    }
 
     @GetMapping(value = "/getUserF")
     public User getUser() {
@@ -59,6 +61,8 @@ public class UserController {
         if(req.isEmpty()) return null;
         return req.get();
     }
+
+    @GetMapping(value = "/")
 
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody UserCredentialsDto loginUser){

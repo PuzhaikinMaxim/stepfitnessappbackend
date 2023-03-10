@@ -11,13 +11,17 @@ public class ChallengeService {
 
     private final ChallengeRepository challengeRepository;
 
+    private final ChallengeMapper challengeMapper = new ChallengeMapper();
+
     @Autowired
     public ChallengeService(ChallengeRepository challengeRepository) {
         this.challengeRepository = challengeRepository;
     }
 
-    public Optional<List<Challenge>> getChallengeListByLevel(int challengeLevel) {
-        return challengeRepository.getChallengeListByLevel(challengeLevel);
+    public List<ChallengeDto> getChallengeListByLevel(int challengeLevel) {
+        final var result = challengeRepository.getChallengeListByLevel(challengeLevel);
+
+        return result.map(challengeMapper::mapChallengeListToChallengeDtoList).orElse(null);
     }
 
     public Optional<Challenge> getChallengeById(int challengeId) {

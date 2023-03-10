@@ -22,13 +22,13 @@ public class ChallengeController {
     }
 
     @GetMapping(value = "/{level}")
-    public ResponseEntity<List<Challenge>> getChallengeListByLevel(@PathVariable int level) {
+    public ResponseEntity<List<ChallengeDto>> getChallengeListByLevel(@PathVariable int level) {
         final var result = challengeService.getChallengeListByLevel(level);
-        if(result.isEmpty()){
+        if(result == null){
             return createResponseEntity(HttpStatus.NOT_FOUND, null);
         }
         else {
-            return createResponseEntity(HttpStatus.OK, result.get());
+            return createResponseEntity(HttpStatus.OK, result);
         }
     }
 
