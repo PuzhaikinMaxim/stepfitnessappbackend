@@ -1,4 +1,4 @@
-package com.puj.stepfitnessapp.player.inventory;
+package com.puj.stepfitnessapp.player.inventory.item;
 
 import com.puj.stepfitnessapp.rarity.Rarity;
 import lombok.AllArgsConstructor;

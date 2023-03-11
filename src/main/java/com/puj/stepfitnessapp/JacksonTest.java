@@ -15,10 +15,10 @@ public class JacksonTest {
     public void test() {
         CompletedChallengesConverter mapper = new CompletedChallengesConverter();
         CompletedChallenges challenges1 = new CompletedChallenges(1);
-        challenges1.addCompletedChallenge(1);
-        challenges1.addCompletedChallenge(2);
-        challenges1.addCompletedChallenge(3);
-        challenges1.addCompletedChallenge(4);
+        challenges1.addCompletedChallenge(1L);
+        challenges1.addCompletedChallenge(2L);
+        challenges1.addCompletedChallenge(3L);
+        challenges1.addCompletedChallenge(4L);
         CompletedChallenges challenges2 = new CompletedChallenges(2);
         CompletedChallenges challenges3 = new CompletedChallenges(3);
         ArrayList<CompletedChallenges> list = new ArrayList<>(Arrays.asList(challenges1, challenges2, challenges3));

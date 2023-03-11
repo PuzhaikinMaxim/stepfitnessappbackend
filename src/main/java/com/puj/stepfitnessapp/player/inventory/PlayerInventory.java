@@ -1,9 +1,11 @@
 package com.puj.stepfitnessapp.player.inventory;
 
+import com.puj.stepfitnessapp.player.inventory.item.InventoryItem;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,13 +21,17 @@ public class PlayerInventory {
         equippedItems = new InventoryItem[2];
     }
 
-    public void equipItem(InventoryItem inventoryItem, int slot){
+    public void equipItem(int inventoryItemId, int slot){
         if(slot < 0 || slot >= equippedItems.length) return;
-        equippedItems[slot - 1] = inventoryItem;
+        equippedItems[slot - 1] = inventoryItems.get(inventoryItemId);
     }
 
-    public void addItem(InventoryItem item){
+    public void addItem(InventoryItem item) {
         item.setInventoryId(inventoryItems.size());
         inventoryItems.add(item);
+    }
+
+    public void addItems(List<InventoryItem> list) {
+        inventoryItems.addAll(list);
     }
 }

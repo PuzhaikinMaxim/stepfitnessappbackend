@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 @Getter
 @Setter
@@ -15,19 +14,15 @@ public class CompletedChallenges {
 
     private int level;
 
-    private ArrayList<Integer> challenges;
+    private HashSet<Long> challenges;
 
     public CompletedChallenges(int level){
         this.level = level;
-        challenges = new ArrayList<>();
+        challenges = new HashSet<>();
     }
 
-    public void addCompletedChallenge(int challengeId){
+    public void addCompletedChallenge(Long challengeId){
         challenges.add(challengeId);
-    }
-
-    public List<Integer> getChallengesList(){
-        return challenges;
     }
 
     @JsonIgnore
