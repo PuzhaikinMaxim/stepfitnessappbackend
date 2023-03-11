@@ -1,4 +1,4 @@
-package com.puj.stepfitnessapp.levels;
+package com.puj.stepfitnessapp.challengelevel;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,11 +14,9 @@ import javax.persistence.Table;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-@Table(name = "levels")
-public class Level {
+@Table(name = "challenge_levels")
+public class ChallengeLevel {
 
     @Id
-    private int level;
-
-    private int xp;
+    private int challengeLevel;
 }

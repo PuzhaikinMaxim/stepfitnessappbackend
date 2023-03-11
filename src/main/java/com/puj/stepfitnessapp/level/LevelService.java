@@ -1,4 +1,4 @@
-package com.puj.stepfitnessapp.levels;
+package com.puj.stepfitnessapp.level;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

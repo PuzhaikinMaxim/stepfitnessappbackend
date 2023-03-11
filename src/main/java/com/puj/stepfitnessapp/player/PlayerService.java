@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.player;
 
+import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
 import com.puj.stepfitnessapp.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,8 @@ public class PlayerService {
                 200,
                 1,
                 1,
-                0
+                0,
+                new PlayerInventory()
         );
         repository.save(p);
     }

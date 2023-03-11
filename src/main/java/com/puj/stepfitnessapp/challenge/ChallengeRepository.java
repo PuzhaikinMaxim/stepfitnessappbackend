@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 
-    @Query("SELECT c FROM Challenge c WHERE c.challengeLevel = ?1")
+    @Query("SELECT c FROM Challenge c WHERE c.level.challengeLevel = ?1")
     Optional<List<Challenge>> getChallengeListByLevel(int challengeLevel);
 
     @Query("SELECT c FROM Challenge c WHERE c.challengeId = ?1")

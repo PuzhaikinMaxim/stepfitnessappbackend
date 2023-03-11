@@ -1,15 +1,19 @@
 package com.puj.stepfitnessapp.challenge;
 
+import com.puj.stepfitnessapp.challengelevel.ChallengeLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "challenges")
 public class Challenge {
@@ -25,31 +29,27 @@ public class Challenge {
             generator = "challenge_sequence"
     )
     private Long challengeId;
-    private @NotBlank @Column(unique = true) String challengeName;
 
-    private @NotBlank int amountOfPoints;
-    private @NotBlank int baseHoursToFinish;
-    private @NotBlank int minimumUserLevel;
+    @NotBlank
+    @Column(unique = true)
+    private String challengeName;
+
+    @NotNull
+    private int amountOfPoints;
+
+    @NotNull
+    private int baseHoursToFinish;
+
+    @NotNull
+    private int minimumUserLevel;
+
+    /*
     private @NotBlank int challengeLevel;
 
-    public Challenge() {
+     */
 
-    }
 
-    public Challenge(
-            int amountOfPoints,
-            int baseHoursToFinish
-    ) {
-        this.amountOfPoints = amountOfPoints;
-        this.baseHoursToFinish = baseHoursToFinish;
-    }
-
-    public void setChallengeId(Long id) {
-        this.challengeId = id;
-    }
-
-    @Id
-    public Long getChallengeId() {
-        return challengeId;
-    }
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "challenge_level", referencedColumnName = "challengeLevel")
+    private ChallengeLevel level;
 }

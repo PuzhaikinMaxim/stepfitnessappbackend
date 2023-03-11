@@ -1,5 +1,7 @@
 package com.puj.stepfitnessapp.player;
 
+import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
+import com.puj.stepfitnessapp.player.inventory.PlayerInventoryConverter;
 import com.puj.stepfitnessapp.user.User;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,6 +44,9 @@ public class Player {
     @NotNull
     private int amountOfSteps;
 
+    @Convert(converter = PlayerInventoryConverter.class)
+    private PlayerInventory inventory;
+
     public Player(
             Long user_id,
             User user,
@@ -50,7 +55,8 @@ public class Player {
             @NotNull int xpToNextLevel,
             @NotNull int endurance,
             @NotNull int strength,
-            @NotNull int amountOfSteps
+            @NotNull int amountOfSteps,
+            @NotNull PlayerInventory inventory
     ) {
         this.user_id = user_id;
         this.user = user;
@@ -60,5 +66,6 @@ public class Player {
         this.endurance = endurance;
         this.strength = strength;
         this.amountOfSteps = amountOfSteps;
+        this.inventory = inventory;
     }
 }

@@ -1,4 +1,4 @@
-package com.puj.stepfitnessapp.playerstatistics;
+package com.puj.stepfitnessapp.playerstatistics.completedchallenges;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

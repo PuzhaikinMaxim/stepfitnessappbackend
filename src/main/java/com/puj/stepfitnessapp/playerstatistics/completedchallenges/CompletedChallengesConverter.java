@@ -1,12 +1,13 @@
-package com.puj.stepfitnessapp.playerstatistics;
+package com.puj.stepfitnessapp.playerstatistics.completedchallenges;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.persistence.AttributeConverter;
 import java.util.List;
 
-public class CompletedChallengesMapper {
+public class CompletedChallengesConverter implements AttributeConverter<List<CompletedChallenges>, String> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -27,5 +28,15 @@ public class CompletedChallengesMapper {
         catch (JsonProcessingException ex){
             return "";
         }
+    }
+
+    @Override
+    public String convertToDatabaseColumn(List<CompletedChallenges> attribute) {
+        return fromCompletedChallengesListToJson(attribute);
+    }
+
+    @Override
+    public List<CompletedChallenges> convertToEntityAttribute(String dbData) {
+        return fromJsonToCompletedChallengesList(dbData);
     }
 }

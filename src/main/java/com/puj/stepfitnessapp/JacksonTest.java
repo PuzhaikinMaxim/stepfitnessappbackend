@@ -1,7 +1,9 @@
 package com.puj.stepfitnessapp;
 
-import com.puj.stepfitnessapp.playerstatistics.CompletedChallenges;
-import com.puj.stepfitnessapp.playerstatistics.CompletedChallengesMapper;
+import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
+import com.puj.stepfitnessapp.player.inventory.PlayerInventoryConverter;
+import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChallenges;
+import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChallengesConverter;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ public class JacksonTest {
 
     @Test
     public void test() {
-        CompletedChallengesMapper mapper = new CompletedChallengesMapper();
+        CompletedChallengesConverter mapper = new CompletedChallengesConverter();
         CompletedChallenges challenges1 = new CompletedChallenges(1);
         challenges1.addCompletedChallenge(1);
         challenges1.addCompletedChallenge(2);
@@ -24,5 +26,11 @@ public class JacksonTest {
         System.out.println(json);
         var newList = mapper.fromJsonToCompletedChallengesList(json);
         System.out.println(newList.get(0).getLevel());
+    }
+
+    @Test
+    public void test2() {
+        PlayerInventoryConverter mapper = new PlayerInventoryConverter();
+        PlayerInventory inventory = new PlayerInventory();
     }
 }
