@@ -22,4 +22,6 @@ public class UserChallengesDto {
     private int amountOfSteps;
 
     private int challengeLevel;
+
+    private boolean isCompleted;
 }

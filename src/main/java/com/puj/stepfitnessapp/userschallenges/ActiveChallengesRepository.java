@@ -14,7 +14,7 @@ public interface ActiveChallengesRepository extends JpaRepository<UserChallenges
     @Query("SELECT uc FROM UserChallenges uc WHERE uc.id.userId = ?1")
     Optional<UserChallenges> getUserChallengesByUser(long userId);
 
-    @Query("UPDATE UserChallenges uc SET uc.progress = uc.progress + ?1 WHERE uc.id.userId = ?2")
+    @Query("UPDATE UserChallenges uc SET uc.progress = uc.progress + ?1, uc.amountOfSteps = uc.amountOfSteps + ?2 WHERE uc.id.userId = ?2")
     @Modifying
-    void updateUserChallengesProgress(int newProgress, long userId);
+    void updateUserChallengesProgress(int newProgress, int amountOfSteps, long userId);
 }

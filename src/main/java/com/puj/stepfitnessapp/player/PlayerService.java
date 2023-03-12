@@ -3,6 +3,7 @@ package com.puj.stepfitnessapp.player;
 import com.puj.stepfitnessapp.items.Item;
 import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
 import com.puj.stepfitnessapp.player.inventory.item.InventoryItemMapper;
+import com.puj.stepfitnessapp.playerstatistics.PlayerStatisticsService;
 import com.puj.stepfitnessapp.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,16 +15,19 @@ public class PlayerService {
 
     private final PlayerRepository repository;
 
+    private final PlayerStatisticsService playerStatisticsService;
+
     @Autowired
-    public PlayerService(PlayerRepository repository){
+    public PlayerService(PlayerRepository repository, PlayerStatisticsService playerStatisticsService){
         this.repository = repository;
+        this.playerStatisticsService = playerStatisticsService;
     }
 
     public void addPlayer(User user) {
         Player p = new Player(
                 user.getUserId(),
                 user,
-                0,
+                1,
                 0,
                 200,
                 1,
@@ -32,11 +36,14 @@ public class PlayerService {
                 new PlayerInventory()
         );
         repository.save(p);
+        addPlayerStatistics(p);
     }
 
-    public void addInventoryItems(User user, List<Item> items) {
-        final var player = getPlayerById(user.getUserId());
+    private void addPlayerStatistics(Player player) {
+        playerStatisticsService.addStatistics(player);
+    }
 
+    public void addInventoryItems(Player player, List<Item> items) {
         final var mapper = new InventoryItemMapper();
         final var inventoryItems = mapper.mapItemListToInventoryItemList(items);
 
@@ -45,9 +52,7 @@ public class PlayerService {
         repository.save(player);
     }
 
-    public void addInventoryItem(User user,Item item) {
-        final var player = getPlayerById(user.getUserId());
-
+    public void addInventoryItem(Player player,Item item) {
         final var mapper = new InventoryItemMapper();
         final var inventoryItem = mapper.mapItemToInventoryItem(item);
 
@@ -64,7 +69,21 @@ public class PlayerService {
         repository.save(player);
     }
 
-    private Player getPlayerById(Long id) {
-        return repository.findPlayerByUser_id(id).get();
+    public int calculateMinutesToFinishChallenge(Player player, int baseMinutesToFinish){
+        return (int) (
+                player.getInventory().calculateAmountOfMinutes(baseMinutesToFinish)
+                        *((100.0+player.getEndurance())/100.0)
+        );
+    }
+
+    public int calculatePointsGained(Player player, int amountOfSteps){
+        return (int) (
+                player.getInventory().calculateAmountOfPoints(amountOfSteps)
+                        *((100.0+player.getStrength())/100.0)
+                );
+    }
+
+    public Player getPlayerById(Long userId){
+        return repository.findPlayerByUser_id(userId).get();
     }
 }

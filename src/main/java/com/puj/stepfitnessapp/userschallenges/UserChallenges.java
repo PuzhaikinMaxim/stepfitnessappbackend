@@ -37,7 +37,9 @@ public class UserChallenges {
 
     private @NotNull LocalDateTime challengeEndDateTime;
 
-    private int amountOfSteps;
+    private @NotNull int amountOfSteps;
+
+    private @NotNull boolean isCompleted = false;
 
     public UserChallenges(UserChallengesKey id, User user, Challenge challenge, int progress, @NotNull LocalDateTime challengeEndDateTime, int amountOfSteps) {
         this.id = id;

@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.user;
 
+import com.puj.stepfitnessapp.player.PlayerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +19,17 @@ public class UserController {
 
     UserService userService;
 
+    PlayerService playerService;
+
     PasswordEncoder encoder;
 
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    UserController(UserService userService, PasswordEncoder encoder) {
+    UserController(UserService userService, PasswordEncoder encoder, PlayerService playerService) {
         this.userService = userService;
         this.encoder = encoder;
+        this.playerService = playerService;
     }
 
     @PostMapping(value = "/registerUser")
@@ -33,6 +37,9 @@ public class UserController {
         logger.trace(newUser.getUsername());
         try {
             userService.addUser(newUser);
+
+            final var user = userService.getUser(newUser.getUsername()).get();
+            playerService.addPlayer(user);
             return createResponseEntity(HttpStatus.OK, "User is created");
         }
         catch (Exception e) {

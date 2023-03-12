@@ -5,6 +5,8 @@ import com.puj.stepfitnessapp.challengelevel.ChallengeLevel;
 import com.puj.stepfitnessapp.challengelevel.ChallengeLevelService;
 import com.puj.stepfitnessapp.player.Player;
 import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChallenges;
+import com.puj.stepfitnessapp.userschallenges.UserChallenges;
+import com.puj.stepfitnessapp.userschallenges.UserChallengesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,11 +45,11 @@ public class PlayerStatisticsService {
         return getPlayerStatistics(player.getUser_id());
     }
 
-    public void addCompletedChallenge(Player player, Challenge challenge) {
+    public void addCompletedChallenge(Player player, int challengeLevel, Long challengeId) {
         final var playerStatistics = getPlayerStatistics(player.getUser_id());
         playerStatistics.getCompletedChallenges().get(
-                challenge.getLevel().getChallengeLevel()-1
-        ).addCompletedChallenge(challenge.getChallengeId());
+                challengeLevel-1
+        ).addCompletedChallenge(challengeId);
         repository.save(playerStatistics);
     }
 

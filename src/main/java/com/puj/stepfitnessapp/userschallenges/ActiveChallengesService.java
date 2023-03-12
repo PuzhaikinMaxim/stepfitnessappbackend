@@ -34,7 +34,13 @@ public class ActiveChallengesService {
         activeChallengesRepository.deleteById(userChallenges.getId());
     }
 
-    public void updateUserChallengesProgress(int newProgress, long userId) {
-        activeChallengesRepository.updateUserChallengesProgress(newProgress, userId);
+    public void setChallengeCompleted(long userId) {
+        final var userChallenges = activeChallengesRepository.getUserChallengesByUser(userId).get();
+        userChallenges.setCompleted(true);
+        activeChallengesRepository.save(userChallenges);
+    }
+
+    public void updateUserChallengesProgress(int newProgress, int amountOfSteps, long userId) {
+        activeChallengesRepository.updateUserChallengesProgress(newProgress, amountOfSteps, userId);
     }
 }

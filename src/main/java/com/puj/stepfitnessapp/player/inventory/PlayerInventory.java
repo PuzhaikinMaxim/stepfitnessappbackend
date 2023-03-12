@@ -31,6 +31,26 @@ public class PlayerInventory {
         inventoryItems.add(item);
     }
 
+    public int calculateAmountOfMinutes(int amountOfMinutes) {
+        var addedMinutes = 0;
+        var minutesMultiplier = 0.0;
+        for(InventoryItem equippedItem : equippedItems){
+            addedMinutes += equippedItem.getPlusTimeMinutes();
+            minutesMultiplier += equippedItem.getTimeMultiplier();
+        }
+        return (int) ((addedMinutes + addedMinutes)*minutesMultiplier);
+    }
+
+    public int calculateAmountOfPoints(int amountOfSteps) {
+        var addedPoints = 0;
+        var pointsMultiplier = 0.0;
+        for (InventoryItem equippedItem : equippedItems) {
+            addedPoints += (equippedItem.getPointsFixed() * amountOfSteps) / 100;
+            pointsMultiplier += equippedItem.getPointsMultiplier();
+        }
+        return (int) ((amountOfSteps + addedPoints)*pointsMultiplier);
+    }
+
     public void addItems(List<InventoryItem> list) {
         inventoryItems.addAll(list);
     }

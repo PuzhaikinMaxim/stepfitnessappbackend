@@ -10,7 +10,8 @@ public class ActiveChallengesMapper {
                 userChallenges.getChallengeEndDateTime().toString(),
                 userChallenges.getProgress(),
                 userChallenges.getAmountOfSteps(),
-                userChallenges.getChallenge().getLevel().getChallengeLevel()
+                userChallenges.getChallenge().getLevel().getChallengeLevel(),
+                userChallenges.isCompleted()
         );
     }
 }
