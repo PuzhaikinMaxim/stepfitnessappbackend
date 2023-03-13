@@ -1,10 +1,8 @@
 package com.puj.stepfitnessapp.challenge;
 
 import com.puj.stepfitnessapp.challengelevel.ChallengeLevel;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
@@ -42,6 +41,9 @@ public class Challenge {
 
     @NotNull
     private int minimumUserLevel;
+
+    @NotNull
+    private int amountOfXp;
 
     /*
     private @NotBlank int challengeLevel;

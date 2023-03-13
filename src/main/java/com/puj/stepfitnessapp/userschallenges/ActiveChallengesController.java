@@ -132,6 +132,7 @@ public class ActiveChallengesController {
         return createResponseEntity(HttpStatus.OK, "New data has been accepted");
     }
 
+    @GetMapping("claim_completed_challenge_reward")
     public ResponseEntity<List<Item>> claimCompletedChallengeReward() {
         final var activeChallenge = activeChallengesService.getUserChallengesByUser(getUserId());
         final var player = playerService.getPlayerById(getUserId());

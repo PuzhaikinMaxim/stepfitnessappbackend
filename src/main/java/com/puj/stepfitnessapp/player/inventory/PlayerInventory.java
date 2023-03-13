@@ -13,12 +13,12 @@ public class PlayerInventory {
 
     static final int FIRST_INVENTORY_SLOT = 1;
 
-    InventoryItem[] equippedItems;
+    InventoryItem[] equippedItems = new InventoryItem[2];
 
     ArrayList<InventoryItem> inventoryItems;
 
     public PlayerInventory() {
-        equippedItems = new InventoryItem[2];
+
     }
 
     public void equipItem(int inventoryItemId, int slot){
@@ -33,18 +33,20 @@ public class PlayerInventory {
 
     public int calculateAmountOfMinutes(int amountOfMinutes) {
         var addedMinutes = 0;
-        var minutesMultiplier = 0.0;
+        var minutesMultiplier = 1.0;
         for(InventoryItem equippedItem : equippedItems){
+            if(equippedItem == null) break;
             addedMinutes += equippedItem.getPlusTimeMinutes();
             minutesMultiplier += equippedItem.getTimeMultiplier();
         }
-        return (int) ((addedMinutes + addedMinutes)*minutesMultiplier);
+        return (int) ((amountOfMinutes + addedMinutes)*minutesMultiplier);
     }
 
     public int calculateAmountOfPoints(int amountOfSteps) {
         var addedPoints = 0;
-        var pointsMultiplier = 0.0;
+        var pointsMultiplier = 1.0;
         for (InventoryItem equippedItem : equippedItems) {
+            if(equippedItem == null) break;
             addedPoints += (equippedItem.getPointsFixed() * amountOfSteps) / 100;
             pointsMultiplier += equippedItem.getPointsMultiplier();
         }
@@ -52,6 +54,23 @@ public class PlayerInventory {
     }
 
     public void addItems(List<InventoryItem> list) {
+        if(inventoryItems == null){
+            this.inventoryItems = new ArrayList<>();
+        }
         inventoryItems.addAll(list);
+    }
+
+    public void setEquippedItems(InventoryItem[] equippedItems){
+        if(equippedItems == null){
+            this.equippedItems = new InventoryItem[2];
+        }
+        this.equippedItems = equippedItems;
+    }
+
+    public void setInventoryItems(ArrayList<InventoryItem> inventoryItems){
+        if(inventoryItems == null){
+            this.inventoryItems = new ArrayList<>();
+        }
+        this.inventoryItems = inventoryItems;
     }
 }

@@ -69,8 +69,6 @@ public class UserController {
         return req.get();
     }
 
-    @GetMapping(value = "/")
-
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody UserCredentialsDto loginUser){
         var result = userService.getUser(loginUser.getUsername());

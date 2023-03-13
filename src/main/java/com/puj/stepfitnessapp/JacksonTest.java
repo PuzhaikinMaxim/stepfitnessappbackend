@@ -2,6 +2,7 @@ package com.puj.stepfitnessapp;
 
 import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
 import com.puj.stepfitnessapp.player.inventory.PlayerInventoryConverter;
+import com.puj.stepfitnessapp.playerstatistics.PlayerStatisticsService;
 import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChallenges;
 import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChallengesConverter;
 import org.junit.Test;

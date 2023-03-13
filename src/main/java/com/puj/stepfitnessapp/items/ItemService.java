@@ -28,7 +28,7 @@ public class ItemService {
         final var rewardChances = getRewardChances(challengeLevel, playerLevel, maxRarity);
         for(int i = maxAmountOfItems; i >= 0; i--){
             Item addedItem = null;
-            for(int rarity = maxRarity; rarity >= 2; rarity++){
+            for(int rarity = maxRarity; rarity >= 2; rarity--){
                 int chance = rewardChances.get(rarity);
                 if(splittableRandom.nextInt(1,101) <= chance){
                     var itemsList = itemGroupsByRarity.get(rarity);
@@ -50,8 +50,8 @@ public class ItemService {
         final var rewardChances = new HashMap<Integer, Integer>();
         var percentLeft = 100;
         for(int i = maxRarity; i >= 2; i--){
-            int chance = 100 - (playerLevel/5+challengeLevel*10)/i;
-            rewardChances.put(i, chance);
+            int chance = (playerLevel/5+challengeLevel*10)/i;
+            rewardChances.put(i, 100 - chance);
             percentLeft -= chance;
             if(percentLeft <= 0) break;
         }
