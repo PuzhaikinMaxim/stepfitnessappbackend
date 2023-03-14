@@ -30,7 +30,7 @@ public class ItemService {
             Item addedItem = null;
             for(int rarity = maxRarity; rarity >= 2; rarity--){
                 int chance = rewardChances.get(rarity);
-                if(splittableRandom.nextInt(1,101) <= chance){
+                if(splittableRandom.nextInt(1,101) >= chance){
                     var itemsList = itemGroupsByRarity.get(rarity);
                     var listSize = itemsList.size();
                     addedItem = itemsList.get(splittableRandom.nextInt(0, listSize));

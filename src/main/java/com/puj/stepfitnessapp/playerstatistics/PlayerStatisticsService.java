@@ -1,16 +1,14 @@
 package com.puj.stepfitnessapp.playerstatistics;
 
-import com.puj.stepfitnessapp.challenge.Challenge;
 import com.puj.stepfitnessapp.challengelevel.ChallengeLevel;
 import com.puj.stepfitnessapp.challengelevel.ChallengeLevelService;
 import com.puj.stepfitnessapp.player.Player;
 import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChallenges;
-import com.puj.stepfitnessapp.userschallenges.UserChallenges;
-import com.puj.stepfitnessapp.userschallenges.UserChallengesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PlayerStatisticsService {
@@ -47,6 +45,7 @@ public class PlayerStatisticsService {
 
     public void addCompletedChallenge(Player player, int challengeLevel, Long challengeId) {
         final var playerStatistics = getPlayerStatistics(player.getUser_id());
+        addChallengeLevelsIfNotExists(challengeLevel, playerStatistics.getCompletedChallenges());
         playerStatistics.getCompletedChallenges().get(
                 challengeLevel-1
         ).addCompletedChallenge(challengeId);
@@ -69,6 +68,17 @@ public class PlayerStatisticsService {
 
     private PlayerStatistics getPlayerStatistics(Long userId) {
         return repository.findById(userId).get();
+    }
+
+    private void addChallengeLevelsIfNotExists(int challengeLevel, List<CompletedChallenges> list) {
+        if(challengeLevel <= list.size()){
+            return ;
+        }
+        for(int i = list.size(); i < challengeLevel; i++){
+            list.add(
+                    new CompletedChallenges(challengeLevel)
+            );
+        }
     }
 
     private ArrayList<CompletedChallenges> createCompletedChallengesList() {

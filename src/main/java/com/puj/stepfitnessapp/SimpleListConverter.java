@@ -1,17 +1,17 @@
-package com.puj.stepfitnessapp.playerstatistics.completedchallenges;
+package com.puj.stepfitnessapp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.puj.stepfitnessapp.SimpleListConverter;
 
+import javax.persistence.AttributeConverter;
 import java.util.List;
 
-public class CompletedChallengesConverter extends SimpleListConverter<CompletedChallenges> {
+public class SimpleListConverter<T> implements AttributeConverter<List<T>, String> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public List<CompletedChallenges> fromJsonToCompletedChallengesList(String json){
+    public List<T> fromJsonToList(String json){
         try {
             return objectMapper.readValue(json, new TypeReference<>() {});
         }
@@ -21,7 +21,7 @@ public class CompletedChallengesConverter extends SimpleListConverter<CompletedC
         }
     }
 
-    public String fromCompletedChallengesListToJson(List<CompletedChallenges> list) {
+    public String fromListToJson(List<T> list) {
         try {
             return objectMapper.writeValueAsString(list);
         }
@@ -31,12 +31,12 @@ public class CompletedChallengesConverter extends SimpleListConverter<CompletedC
     }
 
     @Override
-    public String convertToDatabaseColumn(List<CompletedChallenges> attribute) {
-        return fromCompletedChallengesListToJson(attribute);
+    public String convertToDatabaseColumn(List<T> attribute) {
+        return fromListToJson(attribute);
     }
 
     @Override
-    public List<CompletedChallenges> convertToEntityAttribute(String dbData) {
-        return fromJsonToCompletedChallengesList(dbData);
+    public List<T> convertToEntityAttribute(String dbData) {
+        return fromJsonToList(dbData);
     }
 }

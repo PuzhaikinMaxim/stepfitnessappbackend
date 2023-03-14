@@ -18,4 +18,9 @@ public interface ActiveChallengesRepository extends JpaRepository<UserChallenges
     @Modifying
     @Transactional
     void updateUserChallengesProgress(int newProgress, int amountOfSteps, long userId);
+
+    @Query("DELETE FROM UserChallenges uc WHERE uc.id.userId = ?1")
+    @Modifying
+    @Transactional
+    void deleteActiveChallengeByUserId(long userId);
 }

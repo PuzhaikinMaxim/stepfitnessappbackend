@@ -15,7 +15,7 @@ public class ActiveChallengesService {
         this.activeChallengesRepository = activeChallengesRepository;
     }
 
-    public UserChallengesDto getUserChallengesByUser(long userId) {
+    public UserChallengesDto getUserChallengeDtoByUser(long userId) {
         final var result = activeChallengesRepository.getUserChallengesByUser(userId);
         if(result.isEmpty()){
             return null;
@@ -25,13 +25,27 @@ public class ActiveChallengesService {
         }
     }
 
+    public UserChallenges getUserChallenges(long userId) {
+        final var result = activeChallengesRepository.getUserChallengesByUser(userId);
+        if(result.isEmpty()){
+            return null;
+        }
+        else {
+            return result.get();
+        }
+    }
+
     public void addUserChallenge(UserChallenges userChallenges) {
         activeChallengesRepository.save(userChallenges);
     }
 
     public void deleteUserChallenge(long userId) {
-        final var userChallenges = activeChallengesRepository.getUserChallengesByUser(userId).get();
-        activeChallengesRepository.deleteById(userChallenges.getId());
+        activeChallengesRepository.deleteActiveChallengeByUserId(userId);
+    }
+
+    public void setChallengeFailed(UserChallenges activeChallenge) {
+        activeChallenge.setFailed(true);
+        activeChallengesRepository.save(activeChallenge);
     }
 
     public void setChallengeCompleted(long userId) {

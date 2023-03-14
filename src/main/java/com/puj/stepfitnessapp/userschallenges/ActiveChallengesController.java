@@ -54,7 +54,7 @@ public class ActiveChallengesController {
     public ResponseEntity<UserChallengesDto> getUserChallengesByUser() {
         final var userId = getUserId();
 
-        final var result = activeChallengesService.getUserChallengesByUser(userId);
+        final var result = activeChallengesService.getUserChallengeDtoByUser(userId);
 
         final var httpStatus = result != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return createResponseEntity(httpStatus, result);
@@ -70,7 +70,7 @@ public class ActiveChallengesController {
 
         final var challenge = challengeService.getChallengeById(challenge_id).get();
 
-        if(activeChallengesService.getUserChallengesByUser(userId) != null){
+        if(activeChallengesService.getUserChallengeDtoByUser(userId) != null){
             return createResponseEntity(HttpStatus.CONFLICT, "Another challenge is already active");
         }
 
@@ -100,7 +100,7 @@ public class ActiveChallengesController {
 
     @DeleteMapping("cancel_active_challenge")
     public ResponseEntity<String> cancelChallenge() {
-        final var activeChallenge = activeChallengesService.getUserChallengesByUser(getUserId());
+        final var activeChallenge = activeChallengesService.getUserChallengeDtoByUser(getUserId());
         if(!activeChallenge.isCompleted()){
             activeChallengesService.deleteUserChallenge(getUserId());
             createResponseEntity(HttpStatus.CONFLICT, "Completed challenge can not be canceled");
@@ -112,6 +112,16 @@ public class ActiveChallengesController {
     @PutMapping("update_user_progress")
     public ResponseEntity<String> updateUserProgress(@RequestBody int amountOfSteps) {
         final var player = getPlayerById(getUserId());
+        final var activeChallenge = activeChallengesService.getUserChallenges(getUserId());
+
+        if(activeChallenge.isFailed()){
+            return createResponseEntity(HttpStatus.CONFLICT, "Challenge is failed");
+        }
+
+        if(activeChallenge.getChallengeEndDateTime().isAfter(LocalDateTime.now())){
+            activeChallengesService.setChallengeFailed(activeChallenge);
+            return createResponseEntity(HttpStatus.CONFLICT, "Challenge has been failed");
+        }
 
         var amountOfPoints = playerService.calculatePointsGained(
                 player,
@@ -119,10 +129,8 @@ public class ActiveChallengesController {
         );
 
         activeChallengesService.updateUserChallengesProgress(amountOfPoints, amountOfSteps, getUserId());
-        
-        final var activeChallenge = activeChallengesService.getUserChallengesByUser(getUserId());
 
-        if(activeChallenge.getAmountOfPoints() <= activeChallenge.getProgress()){
+        if(activeChallenge.getChallenge().getAmountOfPoints() <= activeChallenge.getProgress()){
             addCompletedChallenge(player, activeChallenge);
             activeChallengesService.setChallengeCompleted(getUserId());
 
@@ -134,13 +142,14 @@ public class ActiveChallengesController {
 
     @GetMapping("claim_completed_challenge_reward")
     public ResponseEntity<List<Item>> claimCompletedChallengeReward() {
-        final var activeChallenge = activeChallengesService.getUserChallengesByUser(getUserId());
+        final var activeChallenge = activeChallengesService.getUserChallengeDtoByUser(getUserId());
         final var player = playerService.getPlayerById(getUserId());
         if(activeChallenge.isCompleted()){
             var items = itemService.generateRewardItemsForChallenge(
                     activeChallenge.getChallengeLevel(),
                     player.getLevel()
             );
+            activeChallengesService.deleteUserChallenge(player.getUser_id());
             playerService.addInventoryItems(player, items);
             return createResponseEntity(HttpStatus.OK, items);
         }
@@ -149,11 +158,11 @@ public class ActiveChallengesController {
         }
     }
 
-    private void addCompletedChallenge(Player player, UserChallengesDto userChallenges) {
+    private void addCompletedChallenge(Player player, UserChallenges userChallenges) {
         playerStatisticsService.addCompletedChallenge(
                 player,
-                userChallenges.getChallengeLevel(),
-                userChallenges.getChallengeId()
+                userChallenges.getChallenge().getLevel().getChallengeLevel(),
+                userChallenges.getChallenge().getChallengeId()
         );
     }
 
