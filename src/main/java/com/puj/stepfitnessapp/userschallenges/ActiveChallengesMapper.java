@@ -11,7 +11,8 @@ public class ActiveChallengesMapper {
                 userChallenges.getProgress(),
                 userChallenges.getAmountOfSteps(),
                 userChallenges.getChallenge().getLevel().getChallengeLevel(),
-                userChallenges.isCompleted()
+                userChallenges.isCompleted(),
+                userChallenges.isFailed()
         );
     }
 }

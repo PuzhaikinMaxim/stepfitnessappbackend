@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.ZoneOffset;
 import java.util.List;
 
 @RestController
@@ -19,6 +20,19 @@ public class UserDailyChallengeController {
     @Autowired
     public UserDailyChallengeController(UserDailyChallengeService service) {
         this.service = service;
+    }
+
+    @GetMapping("generate_daily_challenge_list")
+    public ResponseEntity<String> generateDailyChallengeData(@RequestBody String offsetDateTime) {
+        final var userDailyChallenges = service.getUserDailyChallenges(getUserId());
+        if(userDailyChallenges == null){
+            service.generateDailyChallengeData(offsetDateTime, getUserId());
+            return createResponseEntity(HttpStatus.OK, "Data has been generated");
+        }
+        else {
+            service.createNewDailyChallenges(userDailyChallenges);
+            return createResponseEntity(HttpStatus.OK, "New daily challenges has been created");
+        }
     }
 
     @PutMapping("update_user_progress")

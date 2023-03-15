@@ -39,8 +39,8 @@ public class PlayerStatisticsService {
         repository.save(playerStatistics);
     }
 
-    public PlayerStatistics getStatistics(Player player) {
-        return getPlayerStatistics(player.getUser_id());
+    public PlayerStatistics getStatistics(Long userId) {
+        return getPlayerStatistics(userId);
     }
 
     public void addCompletedChallenge(Player player, int challengeLevel, Long challengeId) {

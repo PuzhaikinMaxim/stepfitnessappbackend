@@ -3,18 +3,19 @@ package com.puj.stepfitnessapp.userdailychallenge;
 import com.puj.stepfitnessapp.player.Player;
 import com.puj.stepfitnessapp.userdailychallenge.dailychallenge.DailyChallenge;
 import com.puj.stepfitnessapp.userdailychallenge.dailychallenge.DailyChallengeConverter;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Setter
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "user_daily_challenges")
 public class UserDailyChallenge {
@@ -27,7 +28,10 @@ public class UserDailyChallenge {
     private Player player;
 
     @Convert(converter = DailyChallengeConverter.class)
+    @Column(columnDefinition = "TEXT")
     private List<DailyChallenge> dailyChallenges;
+
+    private OffsetDateTime dailyChallengeEndDateTime;
 
     private int amountOfSteps;
 }

@@ -84,7 +84,7 @@ public class UserController {
         }
 
         var token = user.getUsername() + UUID.randomUUID().toString();
-        userService.addEnterToken(token);
+        userService.addEnterToken(token, user);
         return createResponseEntity(HttpStatus.OK, token);
     }
 

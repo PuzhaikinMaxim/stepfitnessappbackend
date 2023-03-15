@@ -38,7 +38,11 @@ public class UserService implements UserDetailsService {
         userRepository.save(mapper.mapUserDtoToUser(user));
     }
 
-    public void addEnterToken(String token) {userRepository.addEnterToken(token);}
+    public void addEnterToken(String token, User user) {
+        //userRepository.addEnterToken(token);
+        user.setEnterToken(token);
+        userRepository.save(user);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

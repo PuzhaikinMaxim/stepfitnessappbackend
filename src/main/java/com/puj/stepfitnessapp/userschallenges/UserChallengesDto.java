@@ -24,4 +24,6 @@ public class UserChallengesDto {
     private int challengeLevel;
 
     private boolean isCompleted;
+
+    private boolean isFailed;
 }

@@ -36,7 +36,7 @@ public class User {
     private @NotBlank @Column(unique = true) String username;
     private @NotBlank @Column(unique = true) String email;
     private @NotBlank String password;
-    private @NotNull @Column(unique = true) String enterToken;
+    private @Column(unique = true) String enterToken;
     private @NotNull String role;
 
     public User(String username,

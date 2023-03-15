@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .antMatchers("/authorized").hasRole("USER")
                 .antMatchers("/user_challenges").hasRole("USER")
                 .antMatchers("/daily_challenges").hasRole("USER")
+                .antMatchers("/player").hasRole("USER")
                 .antMatchers("/**").permitAll()
                 .and()
                 .httpBasic(Customizer.withDefaults())

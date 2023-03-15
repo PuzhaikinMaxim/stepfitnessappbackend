@@ -7,6 +7,7 @@ import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChal
 import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChallengesConverter;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,5 +34,10 @@ public class JacksonTest {
     public void test2() {
         PlayerInventoryConverter mapper = new PlayerInventoryConverter();
         PlayerInventory inventory = new PlayerInventory();
+    }
+
+    @Test
+    public void test3() {
+        System.out.println(OffsetDateTime.now());
     }
 }

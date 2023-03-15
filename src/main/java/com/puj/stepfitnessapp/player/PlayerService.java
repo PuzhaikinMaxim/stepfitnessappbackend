@@ -17,6 +17,8 @@ public class PlayerService {
 
     private final PlayerStatisticsService playerStatisticsService;
 
+    private final PlayerDataMapper playerDataMapper = new PlayerDataMapper();
+
     @Autowired
     public PlayerService(PlayerRepository repository, PlayerStatisticsService playerStatisticsService){
         this.repository = repository;
@@ -81,6 +83,11 @@ public class PlayerService {
                 player.getInventory().calculateAmountOfPoints(amountOfSteps)
                         *((100.0+player.getStrength())/100.0)
                 );
+    }
+
+    public PlayerDataDto getPlayerDataByUserId(Long userId) {
+        var player = getPlayerById(userId);
+        return playerDataMapper.mapPlayerToPlayerDataDto(player);
     }
 
     public Player getPlayerById(Long userId){
