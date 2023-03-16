@@ -25,6 +25,16 @@ public class ActiveChallengesService {
         }
     }
 
+    public UserChallenges getUserChallengeByUser(long userId) {
+        final var result = activeChallengesRepository.getUserChallengesByUser(userId);
+        if(result.isEmpty()){
+            return null;
+        }
+        else {
+            return result.get();
+        }
+    }
+
     public UserChallenges getUserChallenges(long userId) {
         final var result = activeChallengesRepository.getUserChallengesByUser(userId);
         if(result.isEmpty()){

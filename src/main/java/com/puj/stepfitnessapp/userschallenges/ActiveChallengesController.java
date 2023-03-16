@@ -140,18 +140,22 @@ public class ActiveChallengesController {
         return createResponseEntity(HttpStatus.OK, "New data has been accepted");
     }
 
-    @GetMapping("claim_completed_challenge_reward")
-    public ResponseEntity<List<Item>> claimCompletedChallengeReward() {
-        final var activeChallenge = activeChallengesService.getUserChallengeDtoByUser(getUserId());
+    @GetMapping("end_challenge")
+    public ResponseEntity<CompletedChallengeDataDto> claimCompletedChallengeReward() {
+        final var activeChallenge = activeChallengesService.getUserChallengeByUser(getUserId());
         final var player = playerService.getPlayerById(getUserId());
         if(activeChallenge.isCompleted()){
             var items = itemService.generateRewardItemsForChallenge(
-                    activeChallenge.getChallengeLevel(),
+                    activeChallenge.getChallenge().getLevel().getChallengeLevel(),
                     player.getLevel()
             );
             activeChallengesService.deleteUserChallenge(player.getUser_id());
             playerService.addInventoryItems(player, items);
-            return createResponseEntity(HttpStatus.OK, items);
+            final var completedChallengeDataDto = new CompletedChallengeDataDto(
+                    activeChallenge.getChallenge().getAmountOfXp(),
+                    items
+            );
+            return createResponseEntity(HttpStatus.OK, completedChallengeDataDto);
         }
         else {
             return createResponseEntity(HttpStatus.CONFLICT, null);
