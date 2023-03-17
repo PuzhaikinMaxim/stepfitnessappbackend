@@ -1,6 +1,8 @@
 package com.puj.stepfitnessapp.player;
 
 import com.puj.stepfitnessapp.items.Item;
+import com.puj.stepfitnessapp.level.Level;
+import com.puj.stepfitnessapp.level.LevelService;
 import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
 import com.puj.stepfitnessapp.player.inventory.item.InventoryItemMapper;
 import com.puj.stepfitnessapp.playerstatistics.PlayerStatisticsService;
@@ -17,12 +19,19 @@ public class PlayerService {
 
     private final PlayerStatisticsService playerStatisticsService;
 
+    private final LevelService levelService;
+
     private final PlayerDataMapper playerDataMapper = new PlayerDataMapper();
 
     @Autowired
-    public PlayerService(PlayerRepository repository, PlayerStatisticsService playerStatisticsService){
+    public PlayerService(
+            PlayerRepository repository,
+            PlayerStatisticsService playerStatisticsService,
+            LevelService levelService
+    ){
         this.repository = repository;
         this.playerStatisticsService = playerStatisticsService;
+        this.levelService = levelService;
     }
 
     public void addPlayer(User user) {
@@ -83,6 +92,19 @@ public class PlayerService {
                 player.getInventory().calculateAmountOfPoints(amountOfSteps)
                         *((100.0+player.getStrength())/100.0)
                 );
+    }
+
+    public void addPlayerXp(Player player, int xp){
+        int playerXp = player.getXp() + xp;
+        if(playerXp >= player.getXpToNextLevel()){
+            playerXp -= player.getXpToNextLevel();
+
+            int newPlayerLevel = player.getLevel();
+            Level level = levelService.getLevel(newPlayerLevel);
+            player.setLevel(level.getLevel());
+            player.setXpToNextLevel(level.getXp());
+        }
+        player.setXp(playerXp);
     }
 
     public PlayerDataDto getPlayerDataByUserId(Long userId) {

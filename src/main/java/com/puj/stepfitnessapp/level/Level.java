@@ -1,9 +1,6 @@
 package com.puj.stepfitnessapp.level;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,6 +10,7 @@ import javax.persistence.Table;
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "levels")
 public class Level {

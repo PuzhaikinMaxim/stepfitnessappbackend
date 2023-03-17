@@ -3,6 +3,7 @@ package com.puj.stepfitnessapp.challenge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,5 +27,9 @@ public class ChallengeService {
 
     public Optional<Challenge> getChallengeById(int challengeId) {
         return challengeRepository.getChallengeByChallengeId(challengeId);
+    }
+
+    public List<LevelChallenges> getLevelChallengesList() {
+        return challengeRepository.getChallengesCountGroupedOnLevel().orElse(new ArrayList<>());
     }
 }

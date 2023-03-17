@@ -150,6 +150,7 @@ public class ActiveChallengesController {
                     player.getLevel()
             );
             activeChallengesService.deleteUserChallenge(player.getUser_id());
+            playerService.addPlayerXp(player, activeChallenge.getChallenge().getAmountOfXp());
             playerService.addInventoryItems(player, items);
             final var completedChallengeDataDto = new CompletedChallengeDataDto(
                     activeChallenge.getChallenge().getAmountOfXp(),

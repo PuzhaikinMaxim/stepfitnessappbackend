@@ -16,7 +16,11 @@ public class LevelService {
     public Level getLevel(int level){
         var response = levelRepository.getLevel(level);
         if(response.isEmpty()){
-            throw new RuntimeException("Level does not exist");
+            int maximumLevel = levelRepository.getMaximumLevel();
+            return new Level(
+                    maximumLevel,
+                    0
+            );
         }
         return response.get();
     }
