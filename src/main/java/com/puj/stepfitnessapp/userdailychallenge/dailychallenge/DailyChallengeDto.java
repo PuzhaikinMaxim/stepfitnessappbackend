@@ -1,4 +1,4 @@
-package com.puj.stepfitnessapp.challenge;
+package com.puj.stepfitnessapp.userdailychallenge.dailychallenge;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LevelChallenges {
+public class DailyChallengeDto {
 
-    private int level;
+    private int amountOfSteps;
 
-    private int challengeCount;
+    private boolean isCompleted;
 }

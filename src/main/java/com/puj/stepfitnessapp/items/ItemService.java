@@ -25,7 +25,7 @@ public class ItemService {
         final var itemGroupsByRarity = scheduledItemList.getItemGroupsByRarity();
         final var maxRarity = itemGroupsByRarity.size();
         int maxAmountOfItems = 3 + (challengeLevel / 3);
-        final var rewardChances = getRewardChances(challengeLevel, playerLevel, maxRarity);
+        final var rewardChances = getRewardChancesForChallenge(challengeLevel, playerLevel, maxRarity);
         for(int i = maxAmountOfItems; i >= 0; i--){
             Item addedItem = null;
             for(int rarity = maxRarity; rarity >= 2; rarity--){
@@ -46,11 +46,44 @@ public class ItemService {
         return items;
     }
 
-    private Map<Integer, Integer> getRewardChances(int challengeLevel, int playerLevel, int maxRarity){
+    private Map<Integer, Integer> getRewardChancesForChallenge(int challengeLevel, int playerLevel, int maxRarity){
         final var rewardChances = new HashMap<Integer, Integer>();
         var percentLeft = 100;
         for(int i = maxRarity; i >= 2; i--){
             int chance = (playerLevel/5+challengeLevel*10)/i;
+            rewardChances.put(i, 100 - chance);
+            percentLeft -= chance;
+            if(percentLeft <= 0) break;
+        }
+        return rewardChances;
+    }
+
+    public Item generateRewardItemForDailyChallenge(int amountOfSteps, int playerLevel) {
+        Item item = null;
+        final var itemGroupsByRarity = scheduledItemList.getItemGroupsByRarity();
+        final var maxRarity = itemGroupsByRarity.size() - 2;
+        final var rewardChances = getRewardChancesForDailyChallenge(
+                amountOfSteps,
+                playerLevel,
+                maxRarity
+        );
+        for(int rarity = maxRarity; rarity >= 1; rarity--){
+            int chance = rewardChances.get(rarity);
+            if(splittableRandom.nextInt(1,101) >= chance){
+                var itemsList = itemGroupsByRarity.get(rarity);
+                var listSize = itemsList.size();
+                item = itemsList.get(splittableRandom.nextInt(0, listSize));
+                break;
+            }
+        }
+        return item;
+    }
+
+    private Map<Integer, Integer> getRewardChancesForDailyChallenge(int amountOfSteps, int playerLevel, int maxRarity){
+        final var rewardChances = new HashMap<Integer, Integer>();
+        var percentLeft = 100;
+        for(int i = maxRarity; i >= 1; i--){
+            int chance = (amountOfSteps/100+playerLevel)/i;
             rewardChances.put(i, 100 - chance);
             percentLeft -= chance;
             if(percentLeft <= 0) break;

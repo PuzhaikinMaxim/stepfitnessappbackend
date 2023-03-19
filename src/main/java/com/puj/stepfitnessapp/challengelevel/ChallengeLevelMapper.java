@@ -1,6 +1,6 @@
 package com.puj.stepfitnessapp.challengelevel;
 
-import com.puj.stepfitnessapp.challenge.LevelChallenges;
+import com.puj.stepfitnessapp.challenge.LevelChallengesDto;
 import com.puj.stepfitnessapp.playerstatistics.PlayerStatistics;
 import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChallenges;
 
@@ -14,13 +14,13 @@ public class ChallengeLevelMapper {
     public List<ChallengeLevelDto> mapPlayerStatisticsAndChallengeLevelListToChallengeLevelDto(
             PlayerStatistics playerStatistics,
             List<ChallengeLevel> challengeLevelList,
-            List<LevelChallenges> levelChallenges
+            List<LevelChallengesDto> levelChallengeDtos
     ) {
         final var playerChallengesMap = getCompletedChallengesMapFromList(
                 playerStatistics.getCompletedChallenges()
         );
         final var levelChallengesMap = getLevelChallengesMapFromList(
-                levelChallenges
+                levelChallengeDtos
         );
         ArrayList<ChallengeLevelDto> challengeLevelDtoList = new ArrayList<>();
         for(ChallengeLevel challengeLevel : challengeLevelList){
@@ -33,6 +33,7 @@ public class ChallengeLevelMapper {
             setAmountOfCompletedChallenges(challengeLevelDto, completedChallenges);
             setAmountOfChallenges(challengeLevelDto, levelChallenge);
             setMinimumUserLevel(challengeLevelDto, challengeLevel, playerStatistics);
+            challengeLevelDtoList.add(challengeLevelDto);
         }
         return challengeLevelDtoList;
     }
@@ -43,9 +44,9 @@ public class ChallengeLevelMapper {
         }
     }
 
-    private void setAmountOfChallenges(ChallengeLevelDto elem, LevelChallenges levelChallenges) {
-        if(levelChallenges != null){
-            elem.setAmountOfChallenges(levelChallenges.getChallengeCount());
+    private void setAmountOfChallenges(ChallengeLevelDto elem, LevelChallengesDto levelChallengesDto) {
+        if(levelChallengesDto != null){
+            elem.setAmountOfChallenges(levelChallengesDto.getChallengeCount().intValue());
         }
     }
 
@@ -68,10 +69,10 @@ public class ChallengeLevelMapper {
         return map;
     }
 
-    private Map<Integer, LevelChallenges> getLevelChallengesMapFromList(List<LevelChallenges> list) {
-        HashMap<Integer, LevelChallenges> map = new HashMap<>();
+    private Map<Integer, LevelChallengesDto> getLevelChallengesMapFromList(List<LevelChallengesDto> list) {
+        HashMap<Integer, LevelChallengesDto> map = new HashMap<>();
 
-        for(LevelChallenges item : list){
+        for(LevelChallengesDto item : list){
             map.put(item.getLevel(), item);
         }
         return map;

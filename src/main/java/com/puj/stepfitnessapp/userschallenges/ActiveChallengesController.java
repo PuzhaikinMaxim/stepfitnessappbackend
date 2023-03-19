@@ -60,8 +60,8 @@ public class ActiveChallengesController {
         return createResponseEntity(httpStatus, result);
     }
 
-    @PostMapping("start_challenge")
-    public ResponseEntity<String> startChallenge(@RequestBody int challenge_id) {
+    @PostMapping("start_challenge/{challenge_id}")
+    public ResponseEntity<String> startChallenge(@PathVariable int challenge_id) {
         final var userId = getUserId();
 
         final var user = userService.getUserById(userId).get();

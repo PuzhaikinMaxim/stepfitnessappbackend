@@ -23,6 +23,8 @@ public class PlayerService {
 
     private final PlayerDataMapper playerDataMapper = new PlayerDataMapper();
 
+    private final CharacteristicsMapper characteristicsMapper = new CharacteristicsMapper();
+
     @Autowired
     public PlayerService(
             PlayerRepository repository,
@@ -43,6 +45,7 @@ public class PlayerService {
                 200,
                 1,
                 1,
+                0,
                 0,
                 new PlayerInventory()
         );
@@ -80,6 +83,21 @@ public class PlayerService {
         repository.save(player);
     }
 
+    public void incrementStrength(Player player) {
+        player.incrementStrength();
+        repository.save(player);
+    }
+
+    public void incrementEndurance(Player player) {
+        player.incrementEndurance();
+        repository.save(player);
+    }
+
+    public CharacteristicsDto getCharacteristics(Long userId) {
+        var player = getPlayerById(userId);
+        return characteristicsMapper.mapPlayerToCharacteristicsDto(player);
+    }
+
     public int calculateMinutesToFinishChallenge(Player player, int baseMinutesToFinish){
         return (int) (
                 player.getInventory().calculateAmountOfMinutes(baseMinutesToFinish)
@@ -103,6 +121,7 @@ public class PlayerService {
             Level level = levelService.getLevel(newPlayerLevel);
             player.setLevel(level.getLevel());
             player.setXpToNextLevel(level.getXp());
+            addPlayerXp(player, playerXp);
         }
         player.setXp(playerXp);
     }

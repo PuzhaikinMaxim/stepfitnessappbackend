@@ -29,7 +29,7 @@ public class ChallengeService {
         return challengeRepository.getChallengeByChallengeId(challengeId);
     }
 
-    public List<LevelChallenges> getLevelChallengesList() {
+    public List<LevelChallengesDto> getLevelChallengesList() {
         return challengeRepository.getChallengesCountGroupedOnLevel().orElse(new ArrayList<>());
     }
 }

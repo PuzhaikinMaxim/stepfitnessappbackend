@@ -13,15 +13,20 @@ public class DailyChallenge {
 
     private int amountOfStepsToComplete;
 
-    private boolean isCompleted = false;
+    private int amountOfXp = 0;
 
-    public DailyChallenge(int amountOfStepsToComplete) {
+    private boolean completed = false;
+
+    private boolean rewardClaimed = false;
+
+    public DailyChallenge(int amountOfStepsToComplete, int amountOfXp) {
         this.amountOfStepsToComplete = amountOfStepsToComplete;
+        this.amountOfXp = amountOfXp;
     }
 
     public void setIsCompleted(int amountOfSteps) {
         if(amountOfSteps >= amountOfStepsToComplete){
-            isCompleted = true;
+            completed = true;
         }
     }
 }

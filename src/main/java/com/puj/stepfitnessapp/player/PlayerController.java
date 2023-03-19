@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,27 @@ public class PlayerController {
     public ResponseEntity<PlayerDataDto> getPlayerData() {
         var userDataDto = service.getPlayerDataByUserId(getUserId());
         return createResponseEntity(HttpStatus.OK, userDataDto);
+    }
+
+    @GetMapping("get_characteristics")
+    public ResponseEntity<CharacteristicsDto> getCharacteristics() {
+        var characteristics = service.getCharacteristics(getUserId());
+        if(characteristics != null){
+            return createResponseEntity(HttpStatus.OK, characteristics);
+        }
+        return createResponseEntity(HttpStatus.NOT_FOUND, null);
+    }
+
+    @PutMapping("increase_endurance")
+    public void increaseEndurance() {
+        var player = service.getPlayerById(getUserId());
+        service.incrementEndurance(player);
+    }
+
+    @PutMapping("increase_strength")
+    public void increaseStrength() {
+        var player = service.getPlayerById(getUserId());
+        service.incrementStrength(player);
     }
 
     private long getUserId() {

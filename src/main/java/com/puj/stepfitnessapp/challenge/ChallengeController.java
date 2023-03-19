@@ -3,6 +3,7 @@ package com.puj.stepfitnessapp.challenge;
 import com.puj.stepfitnessapp.playerstatistics.PlayerStatisticsService;
 import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChallenges;
 import com.puj.stepfitnessapp.user.User;
+import com.puj.stepfitnessapp.userschallenges.ActiveChallengesController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +21,17 @@ public class ChallengeController {
 
     private final ChallengeService challengeService;
     private final PlayerStatisticsService playerStatisticsService;
+    private final ActiveChallengesController activeChallengesController;
 
     @Autowired
     public ChallengeController(
             ChallengeService challengeService,
-            PlayerStatisticsService playerStatisticsService
+            PlayerStatisticsService playerStatisticsService,
+            ActiveChallengesController activeChallengesController
     ) {
         this.challengeService = challengeService;
         this.playerStatisticsService = playerStatisticsService;
+        this.activeChallengesController = activeChallengesController;
     }
 
     @GetMapping(value = "/{level}")
@@ -36,23 +40,25 @@ public class ChallengeController {
         final var completedChallengesByLevel =
                 playerStatisticsService.getStatistics(getUserId()).getCompletedChallenges();
 
+        final var activeChallenge = activeChallengesController.getUserChallengesByUser();
+        if(activeChallenge.getBody() != null){
+            result.removeIf(challengeDto -> challengeDto.getId() == activeChallenge.getBody().getChallengeId());
+        }
         if(result == null){
             return createResponseEntity(HttpStatus.NOT_FOUND, null);
         }
-        else {
-            for(CompletedChallenges completedChallenges : completedChallengesByLevel){
-                if(completedChallenges.getLevel() == level){
-                    for(ChallengeDto challengeDto : result){
-                        var challengeId = Long.valueOf(challengeDto.getId());
-                        if(completedChallenges.getChallenges().contains(challengeId)){
-                            result.remove(challengeDto);
-                        }
+        for(CompletedChallenges completedChallenges : completedChallengesByLevel){
+            if(completedChallenges.getLevel() == level){
+                for(ChallengeDto challengeDto : result){
+                    var challengeId = Long.valueOf(challengeDto.getId());
+                    if(completedChallenges.getChallenges().contains(challengeId)){
+                        result.remove(challengeDto);
                     }
-                    break;
                 }
+                break;
             }
-            return createResponseEntity(HttpStatus.OK, result);
         }
+        return createResponseEntity(HttpStatus.OK, result);
     }
 
     private long getUserId() {

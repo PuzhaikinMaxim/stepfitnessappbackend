@@ -14,6 +14,6 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     @Query("SELECT c FROM Challenge c WHERE c.challengeId = ?1")
     Optional<Challenge> getChallengeByChallengeId(long challengeId);
 
-    @Query("SELECT c.level.challengeLevel as level, count (c) as challengeCount FROM Challenge c GROUP BY c.level.challengeLevel")
-    Optional<List<LevelChallenges>> getChallengesCountGroupedOnLevel();
+    @Query("SELECT new com.puj.stepfitnessapp.challenge.LevelChallengesDto(c.level.challengeLevel, count (c))  FROM Challenge c GROUP BY c.level.challengeLevel")
+    Optional<List<LevelChallengesDto>> getChallengesCountGroupedOnLevel();
 }

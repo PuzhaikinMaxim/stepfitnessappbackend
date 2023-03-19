@@ -6,9 +6,7 @@ import com.puj.stepfitnessapp.userdailychallenge.dailychallenge.DailyChallengeCo
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Setter

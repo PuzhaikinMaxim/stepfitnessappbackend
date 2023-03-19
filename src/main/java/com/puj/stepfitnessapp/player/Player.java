@@ -44,6 +44,9 @@ public class Player {
     @NotNull
     private int amountOfSteps;
 
+    @NotNull
+    private int unassignedPoints;
+
     @Convert(converter = PlayerInventoryConverter.class)
     private PlayerInventory inventory;
 
@@ -56,6 +59,7 @@ public class Player {
             @NotNull int endurance,
             @NotNull int strength,
             @NotNull int amountOfSteps,
+            @NotNull int unassignedPoints,
             @NotNull PlayerInventory inventory
     ) {
         this.user_id = user_id;
@@ -66,6 +70,21 @@ public class Player {
         this.endurance = endurance;
         this.strength = strength;
         this.amountOfSteps = amountOfSteps;
+        this.unassignedPoints = unassignedPoints;
         this.inventory = inventory;
+    }
+
+    public void incrementStrength() {
+        if(unassignedPoints > 0) {
+            unassignedPoints = unassignedPoints - 1;
+            strength = strength + 1;
+        }
+    }
+
+    public void incrementEndurance() {
+        if(unassignedPoints > 0) {
+            unassignedPoints = unassignedPoints - 1;
+            endurance = endurance + 1;
+        }
     }
 }
