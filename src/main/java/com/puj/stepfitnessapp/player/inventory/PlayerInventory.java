@@ -22,13 +22,23 @@ public class PlayerInventory {
     }
 
     public void equipItem(int inventoryItemId, int slot){
-        if(slot < 0 || slot >= equippedItems.length) return;
+        if(slot < 0 || slot > equippedItems.length) return;
+        for(InventoryItem item : equippedItems){
+            if(item != null && inventoryItemId == item.getInventoryId()){
+                return;
+            }
+        }
         equippedItems[slot - 1] = inventoryItems.get(inventoryItemId);
     }
 
     public void addItem(InventoryItem item) {
         item.setInventoryId(inventoryItems.size());
         inventoryItems.add(item);
+    }
+
+    public void unEquipItem(int slot) {
+        if(slot < 0 || slot > equippedItems.length) return;
+        equippedItems[slot - 1] = null;
     }
 
     public int calculateAmountOfMinutes(int amountOfMinutes) {
@@ -57,7 +67,9 @@ public class PlayerInventory {
         if(inventoryItems == null){
             this.inventoryItems = new ArrayList<>();
         }
-        inventoryItems.addAll(list);
+        for(InventoryItem item : list){
+            addItem(item);
+        }
     }
 
     public void setEquippedItems(InventoryItem[] equippedItems){

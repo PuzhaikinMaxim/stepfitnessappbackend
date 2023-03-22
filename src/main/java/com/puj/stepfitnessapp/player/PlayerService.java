@@ -75,11 +75,14 @@ public class PlayerService {
         repository.save(player);
     }
 
-    public void equipItem(User user, int inventoryItemId, int itemSlot){
-        final var player = getPlayerById(user.getUserId());
-
+    public void equipItem(Player player, int inventoryItemId, int itemSlot){
         player.getInventory().equipItem(inventoryItemId, itemSlot);
 
+        repository.save(player);
+    }
+
+    public void unEquipItem(Player player,int itemSlot) {
+        player.getInventory().unEquipItem(itemSlot);
         repository.save(player);
     }
 
