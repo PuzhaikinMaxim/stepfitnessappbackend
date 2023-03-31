@@ -25,6 +25,7 @@ public class PlayerStatistics {
     private Player player;
 
     @Convert(converter = CompletedChallengesConverter.class)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private List<CompletedChallenges> completedChallenges;
 
     private int amountOfSteps;

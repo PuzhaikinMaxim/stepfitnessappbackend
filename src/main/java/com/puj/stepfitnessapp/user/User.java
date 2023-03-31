@@ -33,9 +33,9 @@ public class User {
     @Id
     private Long userId;
 
-    private @NotBlank @Column(unique = true) String username;
-    private @NotBlank @Column(unique = true) String email;
-    private @NotBlank String password;
+    private @NotBlank @Column(unique = true, nullable = false) String username;
+    private @NotBlank @Column(unique = true, nullable = false) String email;
+    private @NotBlank @Column(nullable = false) String password;
     private @Column(unique = true) String enterToken;
     private @NotNull String role;
 

@@ -2,7 +2,6 @@ package com.puj.stepfitnessapp.challenge;
 
 import com.puj.stepfitnessapp.challengelevel.ChallengeLevel;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -30,7 +29,7 @@ public class Challenge {
     private Long challengeId;
 
     @NotBlank
-    @Column(unique = true)
+    @Column(unique = true, length = 30)
     private String challengeName;
 
     @NotNull
@@ -44,12 +43,6 @@ public class Challenge {
 
     @NotNull
     private int amountOfXp;
-
-    /*
-    private @NotBlank int challengeLevel;
-
-     */
-
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "challenge_level", referencedColumnName = "challengeLevel")

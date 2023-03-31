@@ -46,7 +46,6 @@ public class PlayerService {
                 1,
                 1,
                 0,
-                0,
                 new PlayerInventory()
         );
         repository.save(p);

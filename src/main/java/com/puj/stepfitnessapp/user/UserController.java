@@ -64,7 +64,7 @@ public class UserController {
 
     @GetMapping(value = "/getUserF")
     public User getUser() {
-        var req = userService.getUser("fuckin");
+        var req = userService.getUser("function");
         if(req.isEmpty()) return null;
         return req.get();
     }

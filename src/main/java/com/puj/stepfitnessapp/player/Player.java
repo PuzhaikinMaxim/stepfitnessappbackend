@@ -42,12 +42,10 @@ public class Player {
     private int strength;
 
     @NotNull
-    private int amountOfSteps;
-
-    @NotNull
     private int unassignedPoints;
 
     @Convert(converter = PlayerInventoryConverter.class)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private PlayerInventory inventory;
 
     public Player(
@@ -58,7 +56,6 @@ public class Player {
             @NotNull int xpToNextLevel,
             @NotNull int endurance,
             @NotNull int strength,
-            @NotNull int amountOfSteps,
             @NotNull int unassignedPoints,
             @NotNull PlayerInventory inventory
     ) {
@@ -69,7 +66,6 @@ public class Player {
         this.xpToNextLevel = xpToNextLevel;
         this.endurance = endurance;
         this.strength = strength;
-        this.amountOfSteps = amountOfSteps;
         this.unassignedPoints = unassignedPoints;
         this.inventory = inventory;
     }
