@@ -1,16 +1,32 @@
 package com.puj.stepfitnessapp.achievement;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
+
 import javax.persistence.AttributeConverter;
 
-public class AchievementCategoryConverter implements AttributeConverter<AchievementCategory, String> {
+public class AchievementCategoryConverter implements AttributeConverter<AchievementCategory<?>, String> {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public String convertToDatabaseColumn(AchievementCategory attribute) {
-        return null;
+        try {
+            return objectMapper.writeValueAsString(attribute);
+        }
+        catch (JsonProcessingException ex) {
+            return "";
+        }
     }
 
     @Override
-    public AchievementCategory convertToEntityAttribute(String dbData) {
-        return null;
+    public AchievementCategory<?> convertToEntityAttribute(String dbData) {
+        try {
+            return objectMapper.readValue(dbData, AchievementCategory.class);
+        }
+        catch (JsonProcessingException ex) {
+            return null;
+        }
     }
 }

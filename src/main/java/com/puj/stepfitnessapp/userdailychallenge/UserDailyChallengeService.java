@@ -103,6 +103,13 @@ public class UserDailyChallengeService {
             return null;
         }
 
+        final var offset = userDailyChallenges.getDailyChallengeEndDateTime().getOffset();
+        final var dateTimeWithOffset = LocalDateTime.now().atOffset(offset);
+
+        if(dateTimeWithOffset.isAfter(userDailyChallenges.getDailyChallengeEndDateTime())){
+            return null;
+        }
+
         for(var userDailyChallenge : userDailyChallenges.getDailyChallenges()){
             if(userDailyChallenge.isCompleted() && !userDailyChallenge.isRewardClaimed()){
                 amountOfXp += userDailyChallenge.getAmountOfXp();
@@ -110,6 +117,7 @@ public class UserDailyChallengeService {
                         userDailyChallenge.getAmountOfStepsToComplete(),
                         player.getLevel()
                 );
+                userDailyChallenge.setRewardClaimed(true);
                 if(item != null){
                     rewards.add(item);
                 }
@@ -122,6 +130,8 @@ public class UserDailyChallengeService {
         if(rewards.size() != 0){
             playerService.addInventoryItems(player, rewards);
         }
+
+        repository.save(userDailyChallenges);
 
         return new CompletedUserDailyChallengesDataDto(amountOfXp, rewards);
     }

@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -27,6 +28,10 @@ public class PlayerStatistics {
     @Convert(converter = CompletedChallengesConverter.class)
     @Column(columnDefinition = "TEXT", nullable = false)
     private List<CompletedChallenges> completedChallenges;
+
+    @Convert(converter = CompletedAchievementsConverter.class)
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private Set<Integer> completedAchievements;
 
     private int amountOfSteps;
 
