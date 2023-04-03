@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.achievement;
 
+import com.puj.stepfitnessapp.achievement.categories.AchievementCategory;
 import lombok.*;
 
 import javax.persistence.*;

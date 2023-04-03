@@ -1,5 +1,8 @@
 package com.puj.stepfitnessapp.achievement;
 
+import com.puj.stepfitnessapp.achievement.categories.AchievementCategoryChallengeAmount;
+import com.puj.stepfitnessapp.achievement.categories.AchievementCategoryDuelAmount;
+import com.puj.stepfitnessapp.achievement.categories.AchievementCategoryStepAmount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

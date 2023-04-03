@@ -1,5 +1,6 @@
-package com.puj.stepfitnessapp.achievement;
+package com.puj.stepfitnessapp.achievement.categories;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ public class AchievementCategoryDuelAmount implements AchievementCategory<Intege
     private final Integer amountOfDuels;
 
     @Override
+    @JsonIgnore
     public String getDescription() {
         var description = "Победите в " + amountOfDuels + " дуэлях";
         if(amountOfDuels == 1){
@@ -21,12 +23,20 @@ public class AchievementCategoryDuelAmount implements AchievementCategory<Intege
     }
 
     @Override
+    @JsonIgnore
     public Integer getComparableValue() {
         return amountOfDuels;
     }
 
     @Override
+    @JsonIgnore
     public Boolean isCompleted(Integer value) {
         return value >= amountOfDuels;
+    }
+
+    @Override
+    @JsonIgnore
+    public Integer getType() {
+        return 3;
     }
 }

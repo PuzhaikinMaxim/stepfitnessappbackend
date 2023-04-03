@@ -21,7 +21,6 @@ public class PlayerStatisticsService {
 
     private final AchievementService achievementService;
 
-
     @Autowired
     public PlayerStatisticsService(
             PlayerStatisticsRepository repository,
@@ -62,8 +61,7 @@ public class PlayerStatisticsService {
         repository.save(playerStatistics);
     }
 
-    public void addAmountOfSteps(Player player, int amountOfStepsPassed) {
-        final var playerStatistics = getPlayerStatistics(player.getUser_id());
+    public void addAmountOfSteps(PlayerStatistics playerStatistics, int amountOfStepsPassed) {
         final var newAmountOfSteps = playerStatistics.getAmountOfSteps() + amountOfStepsPassed;
         achievementService.addStepCountCompletedAchievements(
                 playerStatistics,

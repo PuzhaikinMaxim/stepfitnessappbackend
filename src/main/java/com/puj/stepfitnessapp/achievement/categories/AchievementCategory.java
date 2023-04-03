@@ -1,4 +1,4 @@
-package com.puj.stepfitnessapp.achievement;
+package com.puj.stepfitnessapp.achievement.categories;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -20,4 +20,6 @@ public interface AchievementCategory<T> {
     T getComparableValue();
 
     Boolean isCompleted(T value);
+
+    Integer getType();
 }

@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.achievement;
 
+import com.puj.stepfitnessapp.achievement.categories.AchievementCategoryStepAmount;
 import com.puj.stepfitnessapp.playerstatistics.PlayerStatistics;
 import com.puj.stepfitnessapp.playerstatistics.PlayerStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,10 @@ public class AchievementService {
         this.achievementRepository = achievementRepository;
         this.playerStatisticsService = playerStatisticsService;
         this.scheduledAchievementList = scheduledAchievementList;
+    }
+
+    public List<Achievement> getAchievementList() {
+        return achievementRepository.findAll();
     }
 
     public void addStepCountCompletedAchievements(

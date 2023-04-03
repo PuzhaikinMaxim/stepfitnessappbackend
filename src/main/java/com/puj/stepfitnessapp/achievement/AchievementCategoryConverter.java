@@ -2,7 +2,7 @@ package com.puj.stepfitnessapp.achievement;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
+import com.puj.stepfitnessapp.achievement.categories.AchievementCategory;
 
 import javax.persistence.AttributeConverter;
 
