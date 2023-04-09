@@ -31,5 +31,5 @@ public class Achievement {
 
     @Convert(converter = AchievementCategoryConverter.class)
     @Column(columnDefinition = "TEXT", nullable = false)
-    private AchievementCategory achievementCategory;
+    private AchievementCategory<?> achievementCategory;
 }

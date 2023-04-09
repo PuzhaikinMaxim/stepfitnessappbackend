@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.AttributeConverter;
+import java.util.Collections;
 import java.util.Set;
 
 public class CompletedAchievementsConverter implements AttributeConverter<Set<Integer>, String> {
@@ -16,8 +17,7 @@ public class CompletedAchievementsConverter implements AttributeConverter<Set<In
             return objectMapper.readValue(json, new TypeReference<>() {});
         }
         catch (JsonProcessingException ex){
-            ex.printStackTrace();
-            return null;
+            return Collections.emptySet();
         }
     }
 

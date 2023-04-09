@@ -30,7 +30,7 @@ public class PlayerStatistics {
     private List<CompletedChallenges> completedChallenges;
 
     @Convert(converter = CompletedAchievementsConverter.class)
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT default ''", nullable = false)
     private Set<Integer> completedAchievements;
 
     private int amountOfSteps;

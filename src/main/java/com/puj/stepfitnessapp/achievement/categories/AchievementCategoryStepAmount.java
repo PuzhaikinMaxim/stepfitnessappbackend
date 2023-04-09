@@ -1,16 +1,19 @@
 package com.puj.stepfitnessapp.achievement.categories;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class AchievementCategoryStepAmount implements AchievementCategory<Integer> {
 
-    private final Integer amountOfSteps;
+    private Integer amountOfSteps;
 
     @Override
     @JsonIgnore

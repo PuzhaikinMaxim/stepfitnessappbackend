@@ -4,8 +4,10 @@ import com.puj.stepfitnessapp.achievement.categories.AchievementCategoryStepAmou
 import com.puj.stepfitnessapp.playerstatistics.PlayerStatistics;
 import com.puj.stepfitnessapp.playerstatistics.PlayerStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,12 +22,23 @@ public class AchievementService {
     @Autowired
     public AchievementService(
             AchievementRepository achievementRepository,
-            PlayerStatisticsService playerStatisticsService,
+            @Lazy PlayerStatisticsService playerStatisticsService,
             ScheduledAchievementList scheduledAchievementList
     ) {
         this.achievementRepository = achievementRepository;
         this.playerStatisticsService = playerStatisticsService;
         this.scheduledAchievementList = scheduledAchievementList;
+        achievementRepository.saveAll(getAchievements());
+    }
+
+    private List<Achievement> getAchievements() {
+        ArrayList achievementList = new ArrayList<Achievement>();
+        achievementList.add(new Achievement(
+                1,
+                "Новичок",
+                new AchievementCategoryStepAmount(10000)
+        ));
+        return achievementList;
     }
 
     public List<Achievement> getAchievementList() {

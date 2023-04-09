@@ -3,14 +3,16 @@ package com.puj.stepfitnessapp.achievement.categories;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class AchievementCategoryDuelAmount implements AchievementCategory<Integer> {
 
-    private final Integer amountOfDuels;
+    private Integer amountOfDuels;
 
     @Override
     @JsonIgnore

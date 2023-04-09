@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = AchievementCategoryChallengeAmount.class, name = "challenge_amount"),
-        @JsonSubTypes.Type(value = AchievementCategoryChallengeAmount.class, name = "duel_amount"),
-        @JsonSubTypes.Type(value = AchievementCategoryChallengeAmount.class, name = "step_amount"),
+        @JsonSubTypes.Type(value = AchievementCategoryDuelAmount.class, name = "duel_amount"),
+        @JsonSubTypes.Type(value = AchievementCategoryStepAmount.class, name = "step_amount")
 })
 public interface AchievementCategory<T> {
 
