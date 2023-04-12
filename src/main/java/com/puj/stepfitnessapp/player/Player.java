@@ -83,4 +83,16 @@ public class Player {
             endurance = endurance + 1;
         }
     }
+
+    public int calculateHp(int baseHp) {
+        return (int) (inventory.calculateAmountOfAdditionalHp(baseHp, endurance));
+    }
+
+    public Double calculatePointMultiplier() {
+        return inventory.calculatePointsMultiplier() + (strength + 100.0)/100.0;
+    }
+
+    public int calculateAmountOfAdditionalPoints() {
+        return inventory.calculateAmountOfAdditionalPoints();
+    }
 }

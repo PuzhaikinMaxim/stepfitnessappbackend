@@ -24,4 +24,8 @@ public class LevelService {
         }
         return response.get();
     }
+
+    public Integer getMaximumLevel() {
+        return levelRepository.getMaximumLevel();
+    }
 }

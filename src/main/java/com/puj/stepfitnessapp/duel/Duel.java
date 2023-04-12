@@ -28,11 +28,11 @@ public class Duel {
     @Id
     private Long duelId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "first_player_id", referencedColumnName = "user_id", unique = true)
     private Player firstPlayer;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "second_player_id", referencedColumnName = "user_id", unique = true)
     private Player secondPlayer;
 
@@ -43,10 +43,10 @@ public class Duel {
     private Integer secondPlayerHp;
 
     @Column(nullable = false)
-    private Integer firstPlayerPointsMultiplier;
+    private Double firstPlayerPointsMultiplier;
 
     @Column(nullable = false)
-    private Integer secondPlayerPointsMultiplier;
+    private Double secondPlayerPointsMultiplier;
 
     @Column(nullable = false)
     private Integer firstPlayerPointsFixed;
@@ -54,7 +54,28 @@ public class Duel {
     @Column(nullable = false)
     private Integer secondPlayerPointsFixed;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "winner_id", referencedColumnName = "user_id", unique = true)
     private Player winner;
+
+    public Duel(Player firstPlayer,
+                Player secondPlayer,
+                Integer firstPlayerHp,
+                Integer secondPlayerHp,
+                Double firstPlayerPointsMultiplier,
+                Double secondPlayerPointsMultiplier,
+                Integer firstPlayerPointsFixed,
+                Integer secondPlayerPointsFixed,
+                Player winner
+    ) {
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
+        this.firstPlayerHp = firstPlayerHp;
+        this.secondPlayerHp = secondPlayerHp;
+        this.firstPlayerPointsMultiplier = firstPlayerPointsMultiplier;
+        this.secondPlayerPointsMultiplier = secondPlayerPointsMultiplier;
+        this.firstPlayerPointsFixed = firstPlayerPointsFixed;
+        this.secondPlayerPointsFixed = secondPlayerPointsFixed;
+        this.winner = winner;
+    }
 }

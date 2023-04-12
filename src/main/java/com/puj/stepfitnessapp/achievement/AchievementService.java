@@ -28,7 +28,7 @@ public class AchievementService {
         this.achievementRepository = achievementRepository;
         this.playerStatisticsService = playerStatisticsService;
         this.scheduledAchievementList = scheduledAchievementList;
-        achievementRepository.saveAll(getAchievements());
+        //achievementRepository.saveAll(getAchievements());
     }
 
     private List<Achievement> getAchievements() {

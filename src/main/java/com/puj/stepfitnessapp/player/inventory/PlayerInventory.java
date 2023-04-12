@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.player.inventory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.puj.stepfitnessapp.player.inventory.item.InventoryItem;
 import lombok.Getter;
 import lombok.Setter;
@@ -61,6 +62,39 @@ public class PlayerInventory {
             pointsMultiplier += equippedItem.getPointsMultiplier();
         }
         return (int) ((amountOfSteps + addedPoints)*pointsMultiplier);
+    }
+
+    @JsonIgnore
+    public int calculateAmountOfAdditionalHp(int baseHp, int endurance) {
+        var hpMultiplier = 0.0;
+        var addedHp = 0;
+        for(InventoryItem equippedItem : equippedItems){
+            if(equippedItem == null) break;
+            hpMultiplier += equippedItem.getTimeMultiplier();
+            addedHp += equippedItem.getPlusTimeMinutes();
+        }
+        double additionalHp = ((baseHp + addedHp) * (hpMultiplier+endurance)) - baseHp;
+        return (int) additionalHp;
+    }
+
+    @JsonIgnore
+    public Double calculatePointsMultiplier() {
+        var pointsMultiplier = 0.0;
+        for(InventoryItem equippedItem : equippedItems){
+            if(equippedItem == null) break;
+            pointsMultiplier += equippedItem.getPointsMultiplier();
+        }
+        return pointsMultiplier;
+    }
+
+    @JsonIgnore
+    public int calculateAmountOfAdditionalPoints() {
+        var additionalPoints = 0;
+        for(InventoryItem equippedItem : equippedItems){
+            if(equippedItem == null) break;
+            additionalPoints += equippedItem.getPointsFixed();
+        }
+        return additionalPoints;
     }
 
     public void addItems(List<InventoryItem> list) {
