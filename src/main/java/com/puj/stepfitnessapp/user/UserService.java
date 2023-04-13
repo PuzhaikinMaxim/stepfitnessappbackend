@@ -34,6 +34,11 @@ public class UserService implements UserDetailsService {
 
     public Optional<User> getUserByToken(String token) { return userRepository.findUserByToken(token); }
 
+    public Long getUserIdByUsername(String username) {
+        var user = getUser(username);
+        return user.get().getUserId();
+    }
+
     public void addUser(UserDto user) {
         userRepository.save(mapper.mapUserDtoToUser(user));
     }

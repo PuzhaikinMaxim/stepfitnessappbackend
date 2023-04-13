@@ -10,7 +10,6 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-//@RequestMapping("/duel")
 public class DuelWebsocketController {
 
     private final SimpMessagingTemplate simpleMessagingTemplate;
@@ -29,11 +28,34 @@ public class DuelWebsocketController {
         this.duelService = duelService;
     }
 
-    @MessageMapping("/sock_test")
-    @SendTo("/topic/test")
-    public Boolean socketTest(Message<?> message) {
+    //@MessageMapping("/try_find_opponent")
+    //@SendTo("/topic/test")
+    /*
+    public Boolean tryFindOpponent(Message<?> message) {
         var userId = getUserId(message);
-        return duelService.tryFindGame(userId);
+        return duelService.tryFindOpponent(userId);
+    }
+
+     */
+
+    @MessageMapping("/try_find_opponent")
+    public void tryFindOpponent(Message<?> message) {
+        var userId = getUserId(message);
+        var result = duelService.tryFindOpponent(userId, getUsername(message));
+        if(result.getFirstUserName() != null && result.getFirstUserName() != null){
+            simpleMessagingTemplate.convertAndSend(
+                    "/topic/duel/" + result.getFirstUserName(),
+                    result.getOpponentIsFound()
+            );
+            simpleMessagingTemplate.convertAndSend(
+                    "/topic/duel/" + result.getSecondUserName(),
+                    result.getOpponentIsFound()
+            );
+        }
+        simpleMessagingTemplate.convertAndSend(
+                "/topic/duel/" + getUsername(message),
+                result.getOpponentIsFound()
+        );
     }
 
     private Long getUserId(Message message) {
@@ -43,5 +65,13 @@ public class DuelWebsocketController {
         );
         var username = accessor.getUser().getName();
         return userService.getUser(username).get().getUserId();
+    }
+
+    private String getUsername(Message message) {
+        StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(
+                message,
+                StompHeaderAccessor.class
+        );
+        return accessor.getUser().getName();
     }
 }

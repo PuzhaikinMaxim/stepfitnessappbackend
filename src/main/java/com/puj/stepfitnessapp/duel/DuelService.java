@@ -27,7 +27,14 @@ public class DuelService {
         playerSearchQueue = new PlayerSearchQueue(maxLevel);
     }
 
-    public Boolean tryFindGame(Long userId) {
+    public DuelMessageData tryFindOpponent(Long userId, String username) {
+        var duelResponse = duelRepository.getDuelWithUserIfExists(userId);
+        if(duelResponse.isPresent()){
+            var duel = duelResponse.get();
+            var firstPlayerId = duel.getFirstPlayer().getUser_id();
+            var opponent = firstPlayerId.equals(userId) ? duel.getSecondPlayer() : duel.getFirstPlayer();
+            return new DuelMessageData(true, username, opponent.getUser().getUsername());
+        }
         var player = playerService.getPlayerById(userId);
         var playersInQueueSet = playerSearchQueue.getPlayerSetByLevel(player.getLevel());
         if(!playersInQueueSet.contains(player.getUser_id())){
@@ -36,16 +43,32 @@ public class DuelService {
         else{
             return startDuel(playersInQueueSet, player);
         }
-        return false;
+        return new DuelMessageData(false, username, null);
     }
 
-    private synchronized Boolean startDuel(LinkedHashSet<Long> playersInQueue, Player player) {
+    public void removeFromQueue(Long userId) {
+        var player = playerService.getPlayerById(userId);
+        var playersInQueueSet = playerSearchQueue.getPlayerSetByLevel(player.getLevel());
+        playersInQueueSet.remove(userId);
+    }
+
+    private synchronized DuelMessageData startDuel(LinkedHashSet<Long> playersInQueue, Player player) {
         var array = playersInQueue.toArray();
-        if(array.length < 2) return false;
+        if(array.length < 2) return new DuelMessageData(
+                false,
+                player.getUser().getUsername(),
+                null
+        );
         var firstPlayer = playerService.getPlayerById((Long) array[0]);
         var secondPlayer = playerService.getPlayerById((Long) array[1]);
         var duel = duelMapper.mapToDuel(firstPlayer,secondPlayer);
         duelRepository.save(duel);
-        return firstPlayer == player || secondPlayer == player;
+        playersInQueue.remove(firstPlayer.getUser_id());
+        playersInQueue.remove(secondPlayer.getUser_id());
+        return new DuelMessageData(
+                firstPlayer == player || secondPlayer == player,
+                firstPlayer.getUser().getUsername(),
+                secondPlayer.getUser().getUsername()
+        );
     }
 }

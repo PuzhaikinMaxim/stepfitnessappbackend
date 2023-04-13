@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Getter
 @Setter
@@ -43,6 +44,12 @@ public class Duel {
     private Integer secondPlayerHp;
 
     @Column(nullable = false)
+    private Integer firstPlayerInitialHp;
+
+    @Column(nullable = false)
+    private Integer secondPlayerInitialHp;
+
+    @Column(nullable = false)
     private Double firstPlayerPointsMultiplier;
 
     @Column(nullable = false)
@@ -72,6 +79,8 @@ public class Duel {
         this.secondPlayer = secondPlayer;
         this.firstPlayerHp = firstPlayerHp;
         this.secondPlayerHp = secondPlayerHp;
+        this.firstPlayerInitialHp = firstPlayerHp;
+        this.secondPlayerInitialHp = secondPlayerHp;
         this.firstPlayerPointsMultiplier = firstPlayerPointsMultiplier;
         this.secondPlayerPointsMultiplier = secondPlayerPointsMultiplier;
         this.firstPlayerPointsFixed = firstPlayerPointsFixed;
