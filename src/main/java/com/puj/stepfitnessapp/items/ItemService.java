@@ -65,6 +65,56 @@ public class ItemService {
         return rewardChances;
     }
 
+    public List<Item> generateRewardItemsForDuel(int playerLevel, int opponentLevel, double multiplier) {
+        final var items = new ArrayList<Item>();
+        final var itemGroupsByRarity = scheduledItemList.getItemGroupsByRarity();
+        final var maxRarity = itemGroupsByRarity.size();
+        int maxAmountOfItems = AMOUNT_OF_ITEMS_BASE + (opponentLevel / 20);
+        final var rewardChances = getRewardChancesForDuel(
+                playerLevel,
+                opponentLevel,
+                multiplier,
+                maxRarity
+        );
+
+        for(int i = maxAmountOfItems; i >= 0; i--){
+            Item addedItem = null;
+            for(int rarity = maxRarity; rarity >= MIN_NOT_GUARANTIED_RARITY; rarity--){
+                int chance = rewardChances.get(rarity);
+                if(splittableRandom.nextInt(1,ONE_HUNDRED) >= chance){
+                    var itemsList = itemGroupsByRarity.get(rarity);
+                    var listSize = itemsList.size();
+                    addedItem = itemsList.get(splittableRandom.nextInt(0, listSize));
+                    break;
+                }
+            }
+            if(addedItem == null){
+                var itemsList = itemGroupsByRarity.get(1);
+                var listSize = itemsList.size();
+                addedItem = itemsList.get(splittableRandom.nextInt(0, listSize));
+            }
+            items.add(addedItem);
+        }
+        return items;
+    }
+
+    private Map<Integer, Integer> getRewardChancesForDuel(
+            int playerLevel,
+            int opponentLevel,
+            double multiplier,
+            int maxRarity
+    ){
+        final var rewardChances = new HashMap<Integer, Integer>();
+        var percentLeft = 100;
+        for(int i = maxRarity; i >= 2; i--){
+            int chance = (int) (((playerLevel/5+opponentLevel*2)/i)*multiplier);
+            rewardChances.put(i, 100 - chance);
+            percentLeft -= chance;
+            if(percentLeft <= 0) break;
+        }
+        return rewardChances;
+    }
+
     public Item generateRewardItemForDailyChallenge(int amountOfSteps, int playerLevel) {
         Item item = null;
         final var itemGroupsByRarity = scheduledItemList.getItemGroupsByRarity();

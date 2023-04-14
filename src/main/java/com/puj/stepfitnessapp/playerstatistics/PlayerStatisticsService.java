@@ -40,6 +40,8 @@ public class PlayerStatisticsService {
                 challengesList,
                 new HashSet<>(),
                 0,
+                0,
+                0,
                 0
         );
         repository.save(playerStatistics);
@@ -83,6 +85,13 @@ public class PlayerStatisticsService {
         repository.save(playerStatistics);
     }
 
+    public void incrementAmountOfDuelsLost(Player player) {
+        final var playerStatistics = getPlayerStatistics(player.getUser_id());
+        final var amountOfDuelsLost = playerStatistics.getAmountOfDuelsLost() + 1;
+        playerStatistics.setAmountOfDuelsWon(amountOfDuelsLost);
+        repository.save(playerStatistics);
+    }
+
     public void addCompletedAchievement(PlayerStatistics playerStatistics, int achievementId) {
         playerStatistics.getCompletedAchievements().add(achievementId);
     }
@@ -100,6 +109,10 @@ public class PlayerStatisticsService {
                     new CompletedChallenges(challengeLevel)
             );
         }
+    }
+
+    DuelStatistics getDuelStatistics(Long userId) {
+        return repository.getDuelStatistics(userId).orElse(null);
     }
 
     private ArrayList<CompletedChallenges> createCompletedChallengesList() {

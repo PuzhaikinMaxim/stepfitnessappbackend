@@ -1,5 +1,12 @@
 package com.puj.stepfitnessapp.duel;
 
+import com.puj.stepfitnessapp.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,5 +14,57 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("duel")
 public class DuelRestController {
 
+    private final DuelService duelService;
 
+    private final DuelMapper duelMapper = new DuelMapper();
+
+    @Autowired
+    public DuelRestController(DuelService duelService) {
+        this.duelService = duelService;
+    }
+
+    @GetMapping("get_duel")
+    public ResponseEntity<DuelDto> getDuel() {
+        var response = duelService.getDuelByUserId(getUserId());
+        if(response.isPresent()){
+            var duelDto = duelMapper.mapDuelToDuelDto(response.get(), getUserId());
+            return createResponseEntity(HttpStatus.OK, duelDto);
+        }
+        return createResponseEntity(HttpStatus.NOT_FOUND, null);
+    }
+
+    @PutMapping("cancel_duel")
+    public ResponseEntity<Boolean> cancelDuel() {
+        duelService.cancelDuel(getUserId());
+        return createResponseEntity(HttpStatus.OK, true);
+    }
+
+    @PutMapping("update_progress")
+    public ResponseEntity<Boolean> updateProgress(Integer amountOfSteps) {
+        var response = duelService.getDuelByUserId(getUserId());
+        if(response.isEmpty()){
+            return createResponseEntity(HttpStatus.NOT_FOUND,false);
+        }
+        var duel = response.get();
+        if(duel.getWinner() != null) return createResponseEntity(HttpStatus.OK, true);
+
+        duelService.updateProgress(amountOfSteps, getUserId(), duel);
+        return createResponseEntity(HttpStatus.OK, true);
+    }
+
+    @PutMapping("claim_reward")
+    public ResponseEntity<FinishedDuelRewardDto> claimReward() {
+        return createResponseEntity(HttpStatus.OK, duelService.claimReward(getUserId()));
+    }
+
+    private long getUserId() {
+        final var userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return userDetails.getUserId();
+    }
+
+    private <T> ResponseEntity<T> createResponseEntity(HttpStatus status, T body) {
+        return ResponseEntity
+                .status(status)
+                .body(body);
+    }
 }

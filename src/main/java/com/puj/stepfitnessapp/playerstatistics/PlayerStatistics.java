@@ -35,5 +35,12 @@ public class PlayerStatistics {
 
     private int amountOfSteps;
 
+    @Column(columnDefinition = "int default 0")
     private int amountOfDuelsWon;
+
+    @Column(columnDefinition = "int default 0")
+    private int amountOfDuelsLost;
+
+    @Column(columnDefinition = "int default 0")
+    private int rank;
 }

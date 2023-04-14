@@ -65,6 +65,10 @@ public class Duel {
     @JoinColumn(name = "winner_id", referencedColumnName = "user_id", unique = true)
     private Player winner;
 
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "cancel_duel_id", referencedColumnName = "user_id", unique = true)
+    private Player cancelDuelPlayer;
+
     public Duel(Player firstPlayer,
                 Player secondPlayer,
                 Integer firstPlayerHp,

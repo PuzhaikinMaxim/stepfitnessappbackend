@@ -48,6 +48,12 @@ public class PlayerStatisticsController {
         return createResponseEntity(HttpStatus.OK, achievementDtoList);
     }
 
+    @GetMapping("get_duel_statistics")
+    public ResponseEntity<DuelStatistics> getDuelStatistics() {
+        var response = playerStatisticsService.getDuelStatistics(getUserId());
+        return createResponseEntity(HttpStatus.OK, response);
+    }
+
     private <T> ResponseEntity<T> createResponseEntity(HttpStatus status, T body) {
         return ResponseEntity
                 .status(status)
