@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.duel;
 
+import com.puj.stepfitnessapp.items.Item;
 import com.puj.stepfitnessapp.items.ItemService;
 import com.puj.stepfitnessapp.level.LevelService;
 import com.puj.stepfitnessapp.player.Player;
@@ -91,6 +92,8 @@ public class DuelService {
     public FinishedDuelRewardDto claimReward(Long userId) {
         var player = playerService.getPlayerById(userId);
         var duelResponse = duelRepository.getDuelWithUserIfExists(userId);
+        var xp = 0;
+        var itemsList = new ArrayList<Item>();
         if(duelResponse.isPresent()){
             var duel = duelResponse.get();
             var opponent = duel.getFirstPlayer().getUser_id().equals(userId) ? duel.getSecondPlayer() : duel.getFirstPlayer();
@@ -100,7 +103,7 @@ public class DuelService {
                         opponent.getLevel(),
                         1.0
                 );
-                var xp = player.getLevel()*5 + opponent.getLevel()*15;
+                xp = player.getLevel()*5 + opponent.getLevel()*15;
                 playerService.addInventoryItems(player, items);
                 playerService.addPlayerXp(player, xp);
                 if(duel.getFirstPlayer().getUser_id().equals(userId)){
@@ -109,6 +112,7 @@ public class DuelService {
                 else{
                     duel.setSecondPlayer(null);
                 }
+                itemsList.addAll(items);
                 playerStatisticsService.incrementAmountOfDuelsWon(player);
             }
             else if(duel.getWinner() != player && duel.getCancelDuelPlayer() != player){
@@ -117,7 +121,7 @@ public class DuelService {
                         opponent.getLevel(),
                         0.25
                 );
-                var xp = player.getLevel() + opponent.getLevel()*5;
+                xp = player.getLevel() + opponent.getLevel()*5;
                 playerService.addPlayerXp(player, xp);
                 playerService.addInventoryItems(player, items);
                 if(duel.getFirstPlayer().getUser_id().equals(userId)){
@@ -126,6 +130,7 @@ public class DuelService {
                 else{
                     duel.setSecondPlayer(null);
                 }
+                itemsList.addAll(items);
                 playerStatisticsService.incrementAmountOfDuelsLost(player);
             }
             else{
@@ -138,8 +143,11 @@ public class DuelService {
                 playerStatisticsService.incrementAmountOfDuelsLost(player);
             }
             duelRepository.save(duel);
+            if(duel.getFirstPlayer() == null && duel.getSecondPlayer() == null){
+                duelRepository.delete(duel);
+            }
         }
-        return new FinishedDuelRewardDto(0, new ArrayList<>());
+        return new FinishedDuelRewardDto(0, itemsList);
     }
 
     public void updateProgress(int amountOfSteps, Long userId, Duel duel) {
