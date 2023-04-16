@@ -1,6 +1,7 @@
 package com.puj.stepfitnessapp.duel;
 
 import com.puj.stepfitnessapp.player.Player;
+import com.puj.stepfitnessapp.playersduel.PlayersDuel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,6 +31,7 @@ public class Duel {
     @Id
     private Long duelId;
 
+    /*
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "first_player_id", referencedColumnName = "user_id", unique = true)
     private Player firstPlayer;
@@ -61,6 +64,11 @@ public class Duel {
     @Column(nullable = false)
     private Integer secondPlayerPointsFixed;
 
+     */
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<PlayersDuel> playersDuel;
+
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "winner_id", referencedColumnName = "user_id", unique = true)
     private Player winner;
@@ -69,6 +77,13 @@ public class Duel {
     @JoinColumn(name = "cancel_duel_id", referencedColumnName = "user_id", unique = true)
     private Player cancelDuelPlayer;
 
+    public Duel(
+                Player winner
+    ) {
+        this.winner = winner;
+    }
+
+    /*
     public Duel(Player firstPlayer,
                 Player secondPlayer,
                 Integer firstPlayerHp,
@@ -91,4 +106,6 @@ public class Duel {
         this.secondPlayerPointsFixed = secondPlayerPointsFixed;
         this.winner = winner;
     }
+
+     */
 }

@@ -66,14 +66,14 @@ public class PlayerInventory {
 
     @JsonIgnore
     public int calculateAmountOfAdditionalHp(int baseHp, int endurance) {
-        var hpMultiplier = 0.0;
+        var hpMultiplier = 1.0;
         var addedHp = 0;
         for(InventoryItem equippedItem : equippedItems){
             if(equippedItem == null) break;
             hpMultiplier += equippedItem.getTimeMultiplier();
             addedHp += equippedItem.getPlusTimeMinutes();
         }
-        double additionalHp = ((baseHp + addedHp) * (hpMultiplier+endurance)) - baseHp;
+        double additionalHp = ((baseHp + addedHp) * (hpMultiplier+(endurance*100.0/100.0))) - baseHp;
         return (int) additionalHp;
     }
 
