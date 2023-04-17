@@ -37,4 +37,6 @@ public class DuelDto {
     private Boolean isDuelFinished;
 
     private Boolean isWon;
+
+    private Boolean isCancelled;
 }

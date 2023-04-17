@@ -35,6 +35,10 @@ public class PlayersDuelService {
         playersDuelRepository.save(opponent);
     }
 
+    public void removePlayerDuel(PlayersDuel playersDuel) {
+        playersDuelRepository.delete(playersDuel);
+    }
+
     private int calculateAmountOfPoints(int amountOfSteps, int amountOfPointsFixed, double amountOfPointsMultiplier) {
         var amountOfPointsAdded = (amountOfPointsFixed * amountOfPointsFixed)/100;
         return (int) ((amountOfSteps + amountOfPointsAdded)*amountOfPointsMultiplier);

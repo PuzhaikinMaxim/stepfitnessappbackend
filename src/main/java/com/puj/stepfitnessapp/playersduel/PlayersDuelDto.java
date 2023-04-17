@@ -11,10 +11,10 @@ import lombok.Setter;
 @Setter
 public class PlayersDuelDto {
 
-    private String player_name;
+    private String name;
 
-    private Integer playerHp;
+    private Integer hp;
 
-    private Integer playerInitialHp;
+    private Integer initialHp;
 
 }

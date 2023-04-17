@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Getter
@@ -66,7 +65,8 @@ public class Duel {
 
      */
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "duel_id")
     private List<PlayersDuel> playersDuel;
 
     @OneToOne(cascade = CascadeType.MERGE)
@@ -74,14 +74,10 @@ public class Duel {
     private Player winner;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "cancel_duel_id", referencedColumnName = "user_id", unique = true)
-    private Player cancelDuelPlayer;
+    @JoinColumn(name = "looser_id", referencedColumnName = "user_id", unique = true)
+    private Player looser;
 
-    public Duel(
-                Player winner
-    ) {
-        this.winner = winner;
-    }
+    private Boolean isDuelCancelled;
 
     /*
     public Duel(Player firstPlayer,
