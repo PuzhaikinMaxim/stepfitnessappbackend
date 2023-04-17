@@ -20,7 +20,7 @@ public class PlayersDuel {
     @Id
     private Long player_id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "player_id", referencedColumnName = "user_id")
     private Player player;
 

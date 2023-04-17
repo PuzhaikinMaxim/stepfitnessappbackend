@@ -130,11 +130,13 @@ public class DuelService {
             playerService.addPlayerXp(player, xp);
             playerService.addInventoryItems(player, itemsList);
             playersDuelService.removePlayerDuel(duelPlayer);
+            playerStatisticsService.incrementAmountOfDuelsWon(player);
             return new FinishedDuelRewardDto(xp, itemsList);
         }
 
         if(duel.getIsDuelCancelled()){
             playersDuelService.removePlayerDuel(duelPlayer);
+            playerStatisticsService.incrementAmountOfDuelsLost(player);
             return new FinishedDuelRewardDto(xp, Collections.emptyList());
         }
 
@@ -146,6 +148,7 @@ public class DuelService {
         xp = player.getLevel() + duel.getWinner().getLevel()*5;
         playerService.addPlayerXp(player, xp);
         playerService.addInventoryItems(player, itemsList);
+        playerStatisticsService.incrementAmountOfDuelsLost(player);
         playersDuelService.removePlayerDuel(duelPlayer);
 
         if(duel.getPlayersDuel().size() == 0){

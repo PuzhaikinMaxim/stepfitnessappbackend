@@ -27,16 +27,6 @@ public class DuelWebsocketController {
         this.duelService = duelService;
     }
 
-    //@MessageMapping("/try_find_opponent")
-    //@SendTo("/topic/test")
-    /*
-    public Boolean tryFindOpponent(Message<?> message) {
-        var userId = getUserId(message);
-        return duelService.tryFindOpponent(userId);
-    }
-
-     */
-
     @MessageMapping("/try_find_opponent")
     public void tryFindOpponent(Message<?> message) {
         var userId = getUserId(message);

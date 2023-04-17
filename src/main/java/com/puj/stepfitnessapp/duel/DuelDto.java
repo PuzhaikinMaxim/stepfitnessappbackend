@@ -12,27 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DuelDto {
 
-    /*
-    private int playerHp;
-
-    private int playerInitialHp;
-
-    private int opponentHp;
-
-    private int opponentInitialHp;
-
-     */
-
     private PlayersDuelDto player;
 
     private PlayersDuelDto opponent;
-
-    /*
-    private String playerName;
-
-    private String opponentName;
-
-     */
 
     private Boolean isDuelFinished;
 

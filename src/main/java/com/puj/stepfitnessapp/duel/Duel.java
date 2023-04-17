@@ -30,78 +30,18 @@ public class Duel {
     @Id
     private Long duelId;
 
-    /*
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "first_player_id", referencedColumnName = "user_id", unique = true)
-    private Player firstPlayer;
-
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "second_player_id", referencedColumnName = "user_id", unique = true)
-    private Player secondPlayer;
-
-    @Column(nullable = false)
-    private Integer firstPlayerHp;
-
-    @Column(nullable = false)
-    private Integer secondPlayerHp;
-
-    @Column(nullable = false)
-    private Integer firstPlayerInitialHp;
-
-    @Column(nullable = false)
-    private Integer secondPlayerInitialHp;
-
-    @Column(nullable = false)
-    private Double firstPlayerPointsMultiplier;
-
-    @Column(nullable = false)
-    private Double secondPlayerPointsMultiplier;
-
-    @Column(nullable = false)
-    private Integer firstPlayerPointsFixed;
-
-    @Column(nullable = false)
-    private Integer secondPlayerPointsFixed;
-
-     */
-
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "duel_id")
     private List<PlayersDuel> playersDuel;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne()
     @JoinColumn(name = "winner_id", referencedColumnName = "user_id", unique = true)
     private Player winner;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne()
     @JoinColumn(name = "looser_id", referencedColumnName = "user_id", unique = true)
     private Player looser;
 
+    @Column(columnDefinition = "boolean default false")
     private Boolean isDuelCancelled;
-
-    /*
-    public Duel(Player firstPlayer,
-                Player secondPlayer,
-                Integer firstPlayerHp,
-                Integer secondPlayerHp,
-                Double firstPlayerPointsMultiplier,
-                Double secondPlayerPointsMultiplier,
-                Integer firstPlayerPointsFixed,
-                Integer secondPlayerPointsFixed,
-                Player winner
-    ) {
-        this.firstPlayer = firstPlayer;
-        this.secondPlayer = secondPlayer;
-        this.firstPlayerHp = firstPlayerHp;
-        this.secondPlayerHp = secondPlayerHp;
-        this.firstPlayerInitialHp = firstPlayerHp;
-        this.secondPlayerInitialHp = secondPlayerHp;
-        this.firstPlayerPointsMultiplier = firstPlayerPointsMultiplier;
-        this.secondPlayerPointsMultiplier = secondPlayerPointsMultiplier;
-        this.firstPlayerPointsFixed = firstPlayerPointsFixed;
-        this.secondPlayerPointsFixed = secondPlayerPointsFixed;
-        this.winner = winner;
-    }
-
-     */
 }

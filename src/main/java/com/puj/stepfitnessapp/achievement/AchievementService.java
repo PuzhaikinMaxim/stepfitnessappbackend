@@ -78,6 +78,7 @@ public class AchievementService {
             int newAmount,
             int oldAmount
     ) {
+        if(achievements == null) return;
         for(Achievement achievement: achievements){
             var achievementCategory = (AchievementCategoryStepAmount) achievement.getAchievementCategory();
 
