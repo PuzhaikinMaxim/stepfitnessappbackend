@@ -44,7 +44,7 @@ public class Challenge {
     @NotNull
     private int amountOfXp;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "challenge_level", referencedColumnName = "challengeLevel")
     private ChallengeLevel level;
 }

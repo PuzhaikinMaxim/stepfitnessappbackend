@@ -1,5 +1,7 @@
 package com.puj.stepfitnessapp.player;
 
+import com.puj.stepfitnessapp.guild.Guild;
+import com.puj.stepfitnessapp.guildenterrequest.GuildEnterRequest;
 import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
 import com.puj.stepfitnessapp.player.inventory.PlayerInventoryConverter;
 import com.puj.stepfitnessapp.user.User;
@@ -10,6 +12,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Setter
 @Getter
@@ -47,6 +50,14 @@ public class Player {
     @Convert(converter = PlayerInventoryConverter.class)
     @Column(columnDefinition = "TEXT", nullable = false)
     private PlayerInventory inventory;
+
+    @ManyToOne()
+    @JoinColumn(name = "guild")
+    private Guild guild;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<GuildEnterRequest> guildEnterRequestList;
 
     public Player(
             Long user_id,
