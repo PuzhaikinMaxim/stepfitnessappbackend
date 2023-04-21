@@ -103,6 +103,14 @@ public class Player {
         return inventory.calculatePointsMultiplier() + (strength + 100.0)/100.0;
     }
 
+    public Double calculateTimeMultiplier() {
+        return inventory.calculateTimeMultiplier();
+    }
+
+    public Integer calculateAdditionalMinutes() {
+        return inventory.calculateAdditionalMinutes();
+    }
+
     public int calculateAmountOfAdditionalPoints() {
         return inventory.calculateAmountOfAdditionalPoints();
     }

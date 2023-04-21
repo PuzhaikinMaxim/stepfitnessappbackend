@@ -128,7 +128,7 @@ public class UserDailyChallengeService {
             playerService.addPlayerXp(player, amountOfXp);
         }
         if(rewards.size() != 0){
-            playerService.addInventoryItems(player, rewards);
+            playerService.addItems(player, rewards);
         }
 
         repository.save(userDailyChallenges);

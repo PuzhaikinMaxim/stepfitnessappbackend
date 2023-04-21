@@ -79,7 +79,7 @@ public class PlayerInventory {
 
     @JsonIgnore
     public Double calculatePointsMultiplier() {
-        var pointsMultiplier = 0.0;
+        var pointsMultiplier = 1.0;
         for(InventoryItem equippedItem : equippedItems){
             if(equippedItem == null) break;
             pointsMultiplier += equippedItem.getPointsMultiplier();
@@ -95,6 +95,26 @@ public class PlayerInventory {
             additionalPoints += equippedItem.getPointsFixed();
         }
         return additionalPoints;
+    }
+
+    @JsonIgnore
+    public Double calculateTimeMultiplier() {
+        var timeMultiplier = 1.0;
+        for(InventoryItem equippedItem : equippedItems){
+            if(equippedItem == null) break;
+            timeMultiplier += equippedItem.getTimeMultiplier();
+        }
+        return timeMultiplier;
+    }
+
+    @JsonIgnore
+    public Integer calculateAdditionalMinutes() {
+        var additionalMinutes = 0;
+        for(InventoryItem equippedItem : equippedItems){
+            if(equippedItem == null) break;
+            additionalMinutes += equippedItem.getPlusTimeMinutes();
+        }
+        return additionalMinutes;
     }
 
     public void addItems(List<InventoryItem> list) {

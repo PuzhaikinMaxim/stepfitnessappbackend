@@ -1,7 +1,9 @@
 package com.puj.stepfitnessapp.guildchallengesreward;
 
+import com.puj.stepfitnessapp.guild.Guild;
 import com.puj.stepfitnessapp.items.Item;
 import com.puj.stepfitnessapp.player.Player;
+import com.puj.stepfitnessapp.player.inventory.item.InventoryItem;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,6 +30,10 @@ public class GuildChallengesReward {
     )
     private Long guildChallengesRewardId;
 
+    @ManyToOne
+    @JoinColumn(name = "guild")
+    private Guild guild;
+
     @OneToOne()
     @JoinColumn(name = "player")
     private Player player;
@@ -36,5 +42,12 @@ public class GuildChallengesReward {
     private Integer xp;
 
     @Convert(converter = GuildRewardConverter.class)
-    private List<Item> reward;
+    private List<InventoryItem> reward;
+
+    public GuildChallengesReward(Guild guild, Player player, Integer xp, List<InventoryItem> reward) {
+        this.guild = guild;
+        this.player = player;
+        this.xp = xp;
+        this.reward = reward;
+    }
 }

@@ -1,4 +1,4 @@
-package com.puj.stepfitnessapp.guildranks;
+package com.puj.stepfitnessapp.guildrank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,5 +20,9 @@ public class GuildRanksService {
             return previousGuildRank;
         }
         return response.get();
+    }
+
+    public GuildRank getFirstGuildRank() {
+        return guildRankRepository.findById(1).get();
     }
 }

@@ -1,4 +1,4 @@
-package com.puj.stepfitnessapp.guildranks;
+package com.puj.stepfitnessapp.guildrank;
 
 import lombok.*;
 

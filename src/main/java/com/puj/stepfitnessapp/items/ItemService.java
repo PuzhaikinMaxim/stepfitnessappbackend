@@ -147,4 +147,58 @@ public class ItemService {
         }
         return rewardChances;
     }
+
+    public List<Item> generateRewardItemsForGuildChallenge(
+            int playerLevel,
+            int collectiveLevel,
+            Double difficultyMultiplier
+    ) {
+        final var items = new ArrayList<Item>();
+        final var itemGroupsByRarity = scheduledItemList.getItemGroupsByRarity();
+        final var maxRarity = itemGroupsByRarity.size();
+        int maxAmountOfItems = AMOUNT_OF_ITEMS_BASE + (int) ((collectiveLevel / 50) * difficultyMultiplier);
+        final var rewardChances = generateRewardChancesForGuildChallenge(
+                playerLevel,
+                collectiveLevel,
+                maxRarity,
+                difficultyMultiplier
+        );
+
+        for(int i = maxAmountOfItems; i >= 0; i--){
+            Item addedItem = null;
+            for(int rarity = maxRarity; rarity >= MIN_NOT_GUARANTIED_RARITY; rarity--){
+                int chance = rewardChances.get(rarity);
+                if(splittableRandom.nextInt(1,ONE_HUNDRED) >= chance){
+                    var itemsList = itemGroupsByRarity.get(rarity);
+                    var listSize = itemsList.size();
+                    addedItem = itemsList.get(splittableRandom.nextInt(0, listSize));
+                    break;
+                }
+            }
+            if(addedItem == null){
+                var itemsList = itemGroupsByRarity.get(1);
+                var listSize = itemsList.size();
+                addedItem = itemsList.get(splittableRandom.nextInt(0, listSize));
+            }
+            items.add(addedItem);
+        }
+        return items;
+    }
+
+    private Map<Integer, Integer> generateRewardChancesForGuildChallenge(
+            int playerLevel,
+            int collectiveLevel,
+            int maxRarity,
+            Double difficultyMultiplier
+    ){
+        final var rewardChances = new HashMap<Integer, Integer>();
+        var percentLeft = 100;
+        for(int i = maxRarity; i >= 2; i--){
+            int chance = (int) (((playerLevel/5+collectiveLevel/5)/i)*difficultyMultiplier);
+            rewardChances.put(i, 100 - chance);
+            percentLeft -= chance;
+            if(percentLeft <= 0) break;
+        }
+        return rewardChances;
+    }
 }

@@ -1,7 +1,6 @@
 package com.puj.stepfitnessapp.userschallenges;
 
 import com.puj.stepfitnessapp.challenge.ChallengeService;
-import com.puj.stepfitnessapp.items.Item;
 import com.puj.stepfitnessapp.items.ItemService;
 import com.puj.stepfitnessapp.player.Player;
 import com.puj.stepfitnessapp.player.PlayerService;
@@ -15,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController()
 @RequestMapping("active_challenges")
@@ -151,7 +149,7 @@ public class ActiveChallengesController {
             );
             activeChallengesService.deleteUserChallenge(player.getUser_id());
             playerService.addPlayerXp(player, activeChallenge.getChallenge().getAmountOfXp());
-            playerService.addInventoryItems(player, items);
+            playerService.addItems(player, items);
             final var completedChallengeDataDto = new CompletedChallengeDataDto(
                     activeChallenge.getChallenge().getAmountOfXp(),
                     items

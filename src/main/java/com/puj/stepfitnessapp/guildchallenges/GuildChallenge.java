@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.guildchallenges;
 
+import com.puj.stepfitnessapp.guild.Guild;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,6 +40,21 @@ public class GuildChallenge {
 
     private Double pointsMultiplier;
 
+    @ManyToOne
+    @JoinColumn()
+    private Guild guild;
+
+    @Column(columnDefinition = "double precision default 1.0")
+    private Double difficultyRewardMultiplier;
+
     @Column(nullable = false)
     private Boolean isStarted = false;
+
+
+    public GuildChallenge(Integer xp, Integer baseHoursToFinish, Integer amountOfPointsToFinish, Guild guild) {
+        this.xp = xp;
+        this.baseHoursToFinish = baseHoursToFinish;
+        this.amountOfPointsToFinish = amountOfPointsToFinish;
+        this.guild = guild;
+    }
 }

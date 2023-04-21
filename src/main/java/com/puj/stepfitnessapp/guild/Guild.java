@@ -1,8 +1,9 @@
 package com.puj.stepfitnessapp.guild;
 
 import com.puj.stepfitnessapp.guildchallenges.GuildChallenge;
+import com.puj.stepfitnessapp.guildchallengesreward.GuildChallengesReward;
 import com.puj.stepfitnessapp.guildenterrequest.GuildEnterRequest;
-import com.puj.stepfitnessapp.guildranks.GuildRank;
+import com.puj.stepfitnessapp.guildrank.GuildRank;
 import com.puj.stepfitnessapp.player.Player;
 import lombok.*;
 
@@ -31,13 +32,15 @@ public class Guild {
     private Long guildId;
 
     @Column(columnDefinition = "integer default 0")
-    private Integer amountOfCompletedChallenges;
+    private Integer amountOfCompletedChallenges = 0;
 
     @Column(columnDefinition = "integer default 0")
-    private Integer xp;
+    private Integer xp = 0;
+
+    private String guildName;
 
     @OneToOne()
-    @JoinColumn(referencedColumnName = "user_id")
+    @JoinColumn(unique = true)
     private Player owner;
 
     @ManyToOne
@@ -51,4 +54,18 @@ public class Guild {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "guild_id")
     private List<GuildEnterRequest> guildEnterRequests;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "guild")
+    private List<GuildChallengesReward> guildChallengesRewards;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guild")
+    private List<Player> players;
+
+    public Guild(Player owner, GuildRank guildRank, String guildName) {
+        this.owner = owner;
+        this.guildRank = guildRank;
+        this.guildName = guildName;
+    }
 }

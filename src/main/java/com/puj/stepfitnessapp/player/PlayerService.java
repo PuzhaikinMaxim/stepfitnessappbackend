@@ -1,9 +1,11 @@
 package com.puj.stepfitnessapp.player;
 
+import com.puj.stepfitnessapp.guild.Guild;
 import com.puj.stepfitnessapp.items.Item;
 import com.puj.stepfitnessapp.level.Level;
 import com.puj.stepfitnessapp.level.LevelService;
 import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
+import com.puj.stepfitnessapp.player.inventory.item.InventoryItem;
 import com.puj.stepfitnessapp.player.inventory.item.InventoryItemMapper;
 import com.puj.stepfitnessapp.playerstatistics.PlayerStatisticsService;
 import com.puj.stepfitnessapp.user.User;
@@ -56,11 +58,17 @@ public class PlayerService {
         playerStatisticsService.addStatistics(player);
     }
 
-    public void addInventoryItems(Player player, List<Item> items) {
+    public void addItems(Player player, List<Item> items) {
         final var mapper = new InventoryItemMapper();
         final var inventoryItems = mapper.mapItemListToInventoryItemList(items);
 
         player.getInventory().addItems(inventoryItems);
+
+        repository.save(player);
+    }
+
+    public void addInventoryItems(Player player, List<InventoryItem> items){
+        player.getInventory().addItems(items);
 
         repository.save(player);
     }
@@ -92,6 +100,16 @@ public class PlayerService {
 
     public void incrementEndurance(Player player) {
         player.incrementEndurance();
+        repository.save(player);
+    }
+
+    public void assignToGuild(Player player, Guild guild) {
+        player.setGuild(guild);
+        repository.save(player);
+    }
+
+    public void removeFromGuild(Player player) {
+        player.setGuild(null);
         repository.save(player);
     }
 
@@ -131,6 +149,11 @@ public class PlayerService {
     public PlayerDataDto getPlayerDataByUserId(Long userId) {
         var player = getPlayerById(userId);
         return playerDataMapper.mapPlayerToPlayerDataDto(player);
+    }
+
+    public void unassignPlayerFromGuild(Player player) {
+        player.setGuild(null);
+        repository.save(player);
     }
 
     public Player getPlayerById(Long userId){
