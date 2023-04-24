@@ -76,4 +76,11 @@ public class GuildChallengesRewardService {
 
         return finishedGuildChallengeReward;
     }
+
+    public Boolean getHasReward(Long userId) {
+        var player = playerService.getPlayerById(userId);
+        var response = guildChallengesRewardRepository
+                .getGuildChallengesRewardByPlayer(player).orElse(null);
+        return response != null;
+    }
 }

@@ -5,7 +5,9 @@ import com.puj.stepfitnessapp.guild.GuildService;
 import com.puj.stepfitnessapp.guildchallengesreward.GuildChallengesRewardService;
 import com.puj.stepfitnessapp.player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -60,13 +62,13 @@ public class GuildChallengesService {
             return false;
         }
 
-        var points = guildChallenge.getAmountOfPointsToFinish();
+        var points = guildChallenge.getProgress();
         var pointsFixed = (amountOfSteps * guildChallenge.getPointsFixed())/100;
-        points = points - (int) (pointsFixed*guildChallenge.getPointsMultiplier());
-        points = Math.max(0, points);
-        guildChallenge.setAmountOfPointsToFinish(points);
+        points = points + (int) (pointsFixed*guildChallenge.getPointsMultiplier());
+        points = Math.min(guildChallenge.getAmountOfPointsToFinish(), points);
+        guildChallenge.setProgress(points);
 
-        if(points != 0){
+        if(points < guildChallenge.getAmountOfPointsToFinish()){
             guildChallengesRepository.save(guildChallenge);
             return false;
         }
@@ -112,6 +114,7 @@ public class GuildChallengesService {
         guildChallenge.setChallengeEndDateTime(guildChallengeFinishDateTime);
         guildChallenge.setPointsFixed(pointsFixed);
         guildChallenge.setPointsMultiplier(pointsMultiplier);
+        guildChallenge.setProgress(0);
         guildChallengesRepository.save(guildChallenge);
         guildChallengesRepository.deleteByIsStartedFalse();
     }
@@ -143,5 +146,17 @@ public class GuildChallengesService {
         guildChallengesRepository.saveAll(guildChallenges);
 
         return guildChallenges;
+    }
+
+    public GuildChallenge getCurrentGuildChallenge(Long userId) {
+        var guild = guildService.findGuildByUserId(userId);
+        var guildChallenge = guildChallengesRepository.findGuildChallengeByGuildAndIsStartedTrue(guild);
+        return guildChallenge.orElse(null);
+    }
+
+    public List<GuildChallenge> getGuildChallenges(Long userId) {
+        var guild = guildService.findGuildByUserId(userId);
+        if(!guild.getOwner().getUser_id().equals(userId)) return null;
+        return guild.getGuildChallenges();
     }
 }

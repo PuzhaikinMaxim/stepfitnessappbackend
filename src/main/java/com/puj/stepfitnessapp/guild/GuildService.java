@@ -1,9 +1,12 @@
 package com.puj.stepfitnessapp.guild;
 
 import com.puj.stepfitnessapp.guildrank.GuildRanksService;
+import com.puj.stepfitnessapp.player.Player;
 import com.puj.stepfitnessapp.player.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -33,10 +36,10 @@ public class GuildService {
         guildRepository.save(guild);
     }
 
-    public void createGuild(Long userId, String guildName) {
+    public void createGuild(Long userId, String guildName, Integer guildLogoId) {
         var player = playerService.getPlayerById(userId);
         var guildRank = guildRanksService.getFirstGuildRank();
-        var guild = new Guild(player,guildRank,guildName);
+        var guild = new Guild(player,guildRank,guildName,guildLogoId);
         guildRepository.save(guild);
         playerService.assignToGuild(player, guild);
     }
@@ -67,5 +70,21 @@ public class GuildService {
 
     public List<Guild> getGuildList() {
         return guildRepository.findAll();
+    }
+
+    public Guild getGuild(Long userId) {
+        return guildRepository.getGuildByUserId(userId).orElse(null);
+    }
+
+    public List<Player> getGuildParticipants(Long userId) {
+        var guild = guildRepository.getGuildByUserId(userId).orElse(null);
+        if(guild == null) return null;
+        return guild.getPlayers();
+    }
+
+    public Boolean getIsOwner(Long userId) {
+        var guild = guildRepository.getGuildByUserId(userId).orElse(null);
+        if(guild == null) return false;
+        return guild.getOwner().getUser_id().equals(userId);
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @Service
 public class GuildEnterRequestService {
 
@@ -36,6 +38,12 @@ public class GuildEnterRequestService {
         var guild = guildService.findGuildById(guildId);
         var player = playerService.getPlayerById(userId);
         return guildEnterRequestRepository.getGuildEnterRequestByGuildAndPlayer(guild, player).orElse(null);
+    }
+
+    public List<GuildEnterRequest> getGuildEnterRequests(Long userId) {
+        var guild = guildService.findGuildById(userId);
+        if(!guild.getOwner().getUser_id().equals(userId)) return null;
+        return guild.getGuildEnterRequests();
     }
 
     public void sendGuildEnterRequest(Long userId, Long guildId) {

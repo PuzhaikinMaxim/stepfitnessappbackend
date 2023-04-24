@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("guild")
 public class GuildController {
@@ -37,7 +39,7 @@ public class GuildController {
 
     @PostMapping("create_guild")
     public ResponseEntity<GuildDto> createGuild(@RequestBody GuildDataDto guildDataDto) {
-        guildService.createGuild(getUserId(), guildDataDto.getGuildName());
+        guildService.createGuild(getUserId(), guildDataDto.getGuildName(), guildDataDto.getGuildLogoId());
         var guild = guildService.findGuildByUserId(getUserId());
         return createResponseEntity(HttpStatus.OK, guildMapper.mapToGuildDto(guild));
     }
@@ -48,8 +50,41 @@ public class GuildController {
     }
 
     @PutMapping("leave_guild")
-    private void leaveGuild() {
+    public void leaveGuild() {
         guildService.leaveGuild(getUserId());
+    }
+
+    @GetMapping("get_guild_list")
+    public ResponseEntity<List<GuildListItemDto>> getGuildList() {
+        var response = guildService.getGuildList();
+        var guildChallenges = guildMapper.mapToGuildListItemDto(response);
+        return createResponseEntity(HttpStatus.OK, guildChallenges);
+    }
+
+    @GetMapping("get_guild_data")
+    public ResponseEntity<GuildDataDto> getGuildData() {
+        var response = guildService.getGuild(getUserId());
+        var guildChallenges = guildMapper.mapToGuildDataDto(response);
+        return createResponseEntity(HttpStatus.OK, guildChallenges);
+    }
+
+    @GetMapping("get_guild_statistics")
+    public ResponseEntity<GuildStatisticsDto> getGuildStatistics() {
+        var response = guildService.getGuild(getUserId());
+        var guildChallenges = guildMapper.mapToGuildStatisticsDto(response);
+        return createResponseEntity(HttpStatus.OK, guildChallenges);
+    }
+
+    @GetMapping("get_guild_participants")
+    public ResponseEntity<List<GuildParticipantDto>> getGuildParticipants() {
+        var response = guildService.getGuild(getUserId());
+        var guildChallenges = guildMapper.mapToGuildParticipantDto(response);
+        return createResponseEntity(HttpStatus.OK, guildChallenges);
+    }
+
+    @GetMapping("get_is_owner")
+    public ResponseEntity<Boolean> getIsOwner() {
+        return createResponseEntity(HttpStatus.OK, guildService.getIsOwner(getUserId()));
     }
 
     /*

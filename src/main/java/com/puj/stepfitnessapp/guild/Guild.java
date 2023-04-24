@@ -47,6 +47,9 @@ public class Guild {
     @JoinColumn()
     private GuildRank guildRank;
 
+    @Column(columnDefinition = "integer default 0")
+    private Integer guildLogoId;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "guild_id")
     private List<GuildChallenge> guildChallenges;
@@ -63,9 +66,10 @@ public class Guild {
     @JoinColumn(name = "guild")
     private List<Player> players;
 
-    public Guild(Player owner, GuildRank guildRank, String guildName) {
+    public Guild(Player owner, GuildRank guildRank, String guildName, Integer guildLogoId) {
         this.owner = owner;
         this.guildRank = guildRank;
         this.guildName = guildName;
+        this.guildLogoId = guildLogoId;
     }
 }

@@ -40,6 +40,8 @@ public class GuildChallenge {
 
     private Double pointsMultiplier;
 
+    private Integer progress;
+
     @ManyToOne
     @JoinColumn()
     private Guild guild;

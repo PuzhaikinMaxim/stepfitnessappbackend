@@ -1,7 +1,5 @@
 package com.puj.stepfitnessapp.guildchallenges;
 
-import com.puj.stepfitnessapp.guild.Guild;
-import com.puj.stepfitnessapp.player.Player;
 import com.puj.stepfitnessapp.player.PlayerService;
 import com.puj.stepfitnessapp.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,6 +17,8 @@ public class GuildChallengesController {
     private final GuildChallengesService guildChallengesService;
 
     private final PlayerService playerService;
+
+    private final GuildChallengesMapper guildChallengesMapper = new GuildChallengesMapper();
 
     @Autowired
     public GuildChallengesController(
@@ -51,6 +49,20 @@ public class GuildChallengesController {
                 HttpStatus.OK,
                 guildChallengesService.generateGuildChallenges(guild, getUserId())
         );
+    }
+
+    @GetMapping("get_current_guild_challenge")
+    public ResponseEntity<CurrentGuildChallengeDto> getCurrentGuildChallenge() {
+        var response = guildChallengesService.getCurrentGuildChallenge(getUserId());
+        var guildChallenges = guildChallengesMapper.mapToCurrentGuildChallengeDto(response);
+        return createResponseEntity(HttpStatus.OK, guildChallenges);
+    }
+
+    @GetMapping("get_guild_challenges")
+    public ResponseEntity<List<GuildChallengeDto>> getGuildChallenges() {
+        var response = guildChallengesService.getGuildChallenges(getUserId());
+        var guildChallenges = guildChallengesMapper.mapToGuildChallengeDtoList(response);
+        return createResponseEntity(HttpStatus.OK, guildChallenges);
     }
 
     private long getUserId() {

@@ -7,12 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("guild_enter_request")
 public class GuildEnterRequestController {
 
     private final GuildEnterRequestService guildEnterRequestService;
 
+    private final GuildEnterRequestMapper guildEnterRequestMapper = new GuildEnterRequestMapper();
 
     @Autowired
     public GuildEnterRequestController(
@@ -47,6 +50,13 @@ public class GuildEnterRequestController {
                 request_id
         );
         guildEnterRequestService.cancelGuildEnterRequest(guildEnterRequest);
+    }
+
+    @GetMapping("get_guild_enter_requests")
+    public ResponseEntity<List<GuildEnterRequestDto>> getGuildEnterRequests() {
+        var response = guildEnterRequestService.getGuildEnterRequests(getUserId());
+        var requestsList = guildEnterRequestMapper.mapToGuildEnterRequestDtoList(response);
+        return createResponseEntity(HttpStatus.OK, requestsList);
     }
 
     private long getUserId() {

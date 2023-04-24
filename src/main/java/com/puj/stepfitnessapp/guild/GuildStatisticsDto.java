@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GuildDataDto {
+@Getter
+@Setter
+public class GuildStatisticsDto {
 
-    private String guildName;
+    private Integer amountOfCompletedChallenges;
 
-    private Integer guildLogoId;
+    private Integer amountOfParticipants;
+
+    private Integer participantsCollectiveLevel;
 }
