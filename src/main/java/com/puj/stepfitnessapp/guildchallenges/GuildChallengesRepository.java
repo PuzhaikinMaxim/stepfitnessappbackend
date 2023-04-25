@@ -18,5 +18,5 @@ public interface GuildChallengesRepository extends JpaRepository<GuildChallenge,
 
     Optional<List<GuildChallenge>> findGuildChallengeByGuild(Guild guild);
 
-    Optional<GuildChallenge> findGuildChallengeByGuild_Owner_User_id(Long userId);
+    Optional<GuildChallenge> findGuildChallengeByGuild_Owner_User_UserId(Long userId);
 }

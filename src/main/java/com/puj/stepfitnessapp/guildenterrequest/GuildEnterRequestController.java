@@ -30,7 +30,7 @@ public class GuildEnterRequestController {
         guildEnterRequestService.sendGuildEnterRequest(getUserId(), guild_id);
     }
 
-    @PutMapping("accept_guild_request/{request_id}")
+    @DeleteMapping("accept_guild_request/{request_id}")
     public void acceptGuildRequest(@PathVariable Long request_id) {
         guildEnterRequestService.acceptGuildRequest(request_id, getUserId());
     }

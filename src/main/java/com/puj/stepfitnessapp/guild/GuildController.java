@@ -17,24 +17,13 @@ public class GuildController {
 
     private final GuildService guildService;
 
-    /*
-    private final GuildEnterRequestService guildEnterRequestService;
-
-    private final PlayerService playerService;
-
-     */
-
     private final GuildMapper guildMapper = new GuildMapper();
 
     @Autowired
     public GuildController(
             GuildService guildService
-            //GuildEnterRequestService guildEnterRequestService,
-            //PlayerService playerService
     ) {
         this.guildService = guildService;
-        //this.guildEnterRequestService = guildEnterRequestService;
-        //this.playerService = playerService;
     }
 
     @PostMapping("create_guild")

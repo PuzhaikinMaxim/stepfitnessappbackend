@@ -42,7 +42,7 @@ public class GuildChallengesService {
     }
 
     public GuildChallenge getGuildChallengeByOwnerId(Long userId) {
-        return guildChallengesRepository.findGuildChallengeByGuild_Owner_User_id(userId).orElse(null);
+        return guildChallengesRepository.findGuildChallengeByGuild_Owner_User_UserId(userId).orElse(null);
     }
 
     public GuildChallenge getGuildChallengeById(Long guildChallengeId) {

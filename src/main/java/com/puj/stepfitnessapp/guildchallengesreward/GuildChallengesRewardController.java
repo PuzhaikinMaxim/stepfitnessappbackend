@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("guild_challenges_reward_controller")
+@RequestMapping("guild_challenges_reward")
 public class GuildChallengesRewardController {
 
     private final GuildChallengesRewardService guildChallengesRewardService;
