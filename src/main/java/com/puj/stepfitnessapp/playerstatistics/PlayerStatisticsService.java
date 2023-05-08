@@ -88,7 +88,7 @@ public class PlayerStatisticsService {
     public void incrementAmountOfDuelsLost(Player player) {
         final var playerStatistics = getPlayerStatistics(player.getUser_id());
         final var amountOfDuelsLost = playerStatistics.getAmountOfDuelsLost() + 1;
-        playerStatistics.setAmountOfDuelsWon(amountOfDuelsLost);
+        playerStatistics.setAmountOfDuelsLost(amountOfDuelsLost);
         repository.save(playerStatistics);
     }
 

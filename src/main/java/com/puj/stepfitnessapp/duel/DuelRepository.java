@@ -7,7 +7,6 @@ import java.util.Optional;
 
 public interface DuelRepository extends JpaRepository<Duel, Long> {
 
-
     @Query("SELECT d FROM Duel d JOIN PlayersDuel pd ON pd.duel = d WHERE pd.player_id = ?1")
     Optional<Duel> getDuelWithUserIfExists(Long userId);
 

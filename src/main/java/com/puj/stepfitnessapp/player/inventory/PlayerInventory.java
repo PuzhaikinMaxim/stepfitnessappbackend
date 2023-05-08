@@ -16,7 +16,7 @@ public class PlayerInventory {
 
     InventoryItem[] equippedItems = new InventoryItem[2];
 
-    ArrayList<InventoryItem> inventoryItems;
+    ArrayList<InventoryItem> inventoryItems = new ArrayList<>();
 
     public PlayerInventory() {
 

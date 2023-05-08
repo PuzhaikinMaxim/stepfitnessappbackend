@@ -76,6 +76,11 @@ public class PlayerController {
         return createResponseEntity(HttpStatus.OK, inventoryItemDtoList);
     }
 
+    @GetMapping("get_player_profile_data")
+    private ResponseEntity<PlayerProfileData> getPlayerProfileData() {
+        return createResponseEntity(HttpStatus.OK, service.getPlayerProfileData(getUserId()));
+    }
+
     private long getUserId() {
         final var userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
         return userDetails.getUserId();

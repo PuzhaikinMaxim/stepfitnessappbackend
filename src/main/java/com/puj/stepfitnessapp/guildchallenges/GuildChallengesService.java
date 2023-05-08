@@ -64,7 +64,7 @@ public class GuildChallengesService {
 
         var points = guildChallenge.getProgress();
         var pointsFixed = (amountOfSteps * guildChallenge.getPointsFixed())/100;
-        points = points + (int) (pointsFixed*guildChallenge.getPointsMultiplier());
+        points = points + (int) ((amountOfSteps + pointsFixed)*guildChallenge.getPointsMultiplier());
         points = Math.min(guildChallenge.getAmountOfPointsToFinish(), points);
         guildChallenge.setProgress(points);
 

@@ -132,6 +132,14 @@ public class PlayerService {
                 );
     }
 
+    public PlayerProfileData getPlayerProfileData(Long userId) {
+        var playerResponse = repository.findPlayerByUser_id(userId);
+        if(playerResponse.isEmpty()) return null;
+        var player = playerResponse.get();
+        var playerStatistics = playerStatisticsService.getStatistics(userId);
+        return playerDataMapper.mapToPlayerProfileData(player,playerStatistics);
+    }
+
     public void addPlayerXp(Player player, int xp){
         int playerXp = player.getXp() + xp;
         if(playerXp >= player.getXpToNextLevel()){

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -32,14 +33,14 @@ public class Duel {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "duel_id")
-    private List<PlayersDuel> playersDuel;
+    private List<PlayersDuel> playersDuel = new ArrayList<>();
 
     @OneToOne()
-    @JoinColumn(name = "winner_id", referencedColumnName = "user_id", unique = true)
+    @JoinColumn(name = "winner_id", referencedColumnName = "user_id")
     private Player winner;
 
     @OneToOne()
-    @JoinColumn(name = "looser_id", referencedColumnName = "user_id", unique = true)
+    @JoinColumn(name = "looser_id", referencedColumnName = "user_id")
     private Player looser;
 
     @Column(columnDefinition = "boolean default false")

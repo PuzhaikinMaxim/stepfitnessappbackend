@@ -20,7 +20,7 @@ public class PlayersDuel {
     @Id
     private Long player_id;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "player_id", referencedColumnName = "user_id")
     private Player player;
 
@@ -36,8 +36,8 @@ public class PlayersDuel {
     @Column(nullable = false)
     private Integer pointsFixed;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "duel_id")
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "duel_id", nullable = false)
     private Duel duel;
 
 

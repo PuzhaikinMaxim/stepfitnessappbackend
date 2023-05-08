@@ -32,7 +32,7 @@ public class AchievementService {
     }
 
     private List<Achievement> getAchievements() {
-        ArrayList achievementList = new ArrayList<Achievement>();
+        ArrayList<Achievement> achievementList = new ArrayList<>();
         achievementList.add(new Achievement(
                 1,
                 "Новичок",
