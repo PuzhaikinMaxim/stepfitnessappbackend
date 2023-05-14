@@ -4,6 +4,7 @@ import com.puj.stepfitnessapp.achievement.AchievementService;
 import com.puj.stepfitnessapp.challengelevel.ChallengeLevel;
 import com.puj.stepfitnessapp.challengelevel.ChallengeLevelService;
 import com.puj.stepfitnessapp.player.Player;
+import com.puj.stepfitnessapp.playersrating.PlayersRatingService;
 import com.puj.stepfitnessapp.playerstatistics.completedchallenges.CompletedChallenges;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,15 +22,19 @@ public class PlayerStatisticsService {
 
     private final AchievementService achievementService;
 
+    private final PlayersRatingService playersRatingService;
+
     @Autowired
     public PlayerStatisticsService(
             PlayerStatisticsRepository repository,
             ChallengeLevelService service,
-            AchievementService achievementService
+            AchievementService achievementService,
+            PlayersRatingService playersRatingService
     ) {
         this.repository = repository;
         this.service = service;
         this.achievementService = achievementService;
+        this.playersRatingService = playersRatingService;
     }
 
     public void addStatistics(Player player) {
@@ -71,6 +76,7 @@ public class PlayerStatisticsService {
                 playerStatistics.getAmountOfSteps()
         );
         playerStatistics.setAmountOfSteps(newAmountOfSteps);
+        playersRatingService.addAmountOfStepsForPlayer(playerStatistics.getPlayer(), amountOfStepsPassed);
         repository.save(playerStatistics);
     }
 
@@ -82,6 +88,7 @@ public class PlayerStatisticsService {
                 amountOfDuelsWon,
                 playerStatistics.getAmountOfDuelsWon());
         playerStatistics.setAmountOfDuelsWon(amountOfDuelsWon);
+        playersRatingService.incrementAmountOfDuelsWonForPlayer(player);
         repository.save(playerStatistics);
     }
 
