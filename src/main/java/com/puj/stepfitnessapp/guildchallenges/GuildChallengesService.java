@@ -21,6 +21,8 @@ public class GuildChallengesService {
     private final GuildChallengesRewardService guildChallengesRewardService;
 
     private final GuildService guildService;
+
+    private final GuildChallengesMapper guildChallengesMapper = new GuildChallengesMapper();
     
     private final Double DIFFICULTY_MULTIPLIER_EASY = 1.0;
     private final Double DIFFICULTY_MULTIPLIER_NORMAL = 1.2;
@@ -119,11 +121,12 @@ public class GuildChallengesService {
         guildChallengesRepository.deleteByIsStartedFalse();
     }
 
-    public List<GuildChallenge> generateGuildChallenges(Guild guild, Long userId) {
+    public List<GuildChallengeDto> generateGuildChallenges(Guild guild, Long userId) {
         var response = guildChallengesRepository
                 .findGuildChallengeByGuild(guild);
 
-        if(response.isPresent()) return response.get();
+        if(response.isPresent() && !response.get().isEmpty())
+            return guildChallengesMapper.mapToGuildChallengeDtoList(response.get());
 
         if(!guild.getOwner().getUser_id().equals(userId)) return null;
 
@@ -145,7 +148,7 @@ public class GuildChallengesService {
 
         guildChallengesRepository.saveAll(guildChallenges);
 
-        return guildChallenges;
+        return guildChallengesMapper.mapToGuildChallengeDtoList(guildChallenges);
     }
 
     public GuildChallenge getCurrentGuildChallenge(Long userId) {

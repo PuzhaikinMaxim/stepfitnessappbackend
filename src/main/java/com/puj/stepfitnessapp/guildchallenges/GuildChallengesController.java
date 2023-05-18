@@ -43,7 +43,7 @@ public class GuildChallengesController {
     }
 
     @PostMapping("generate_guild_challenges")
-    public ResponseEntity<List<GuildChallenge>> generateGuildChallenges() {
+    public ResponseEntity<List<GuildChallengeDto>> generateGuildChallenges() {
         var guild = playerService.getPlayerById(getUserId()).getGuild();
         return createResponseEntity(
                 HttpStatus.OK,

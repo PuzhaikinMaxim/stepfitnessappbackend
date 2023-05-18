@@ -38,6 +38,14 @@ public class PlayersRatingController {
         );
     }
 
+    @GetMapping("get_rating_list_update_countdown")
+    public ResponseEntity<String> getRatingListUpdateCountdown() {
+        return createResponseEntity(
+                HttpStatus.OK,
+                ""
+        );
+    }
+
     private long getUserId() {
         final var userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
         return userDetails.getUserId();

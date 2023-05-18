@@ -41,7 +41,7 @@ public class UserDailyChallengeService {
         return repository.getUserDailyChallengeByUser_id(userId).orElse(null);
     }
 
-    public void generateDailyChallengeData(String offsetDateTime, Long userId) {
+    public void generateDailyChallengeList(String offsetDateTime, Long userId) {
         System.out.println(offsetDateTime);
         OffsetDateTime dateTime = OffsetDateTime.parse(offsetDateTime);
         dateTime = dateTime.withHour(23).withMinute(59).withSecond(59);

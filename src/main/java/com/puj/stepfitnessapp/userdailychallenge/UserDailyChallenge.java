@@ -21,7 +21,7 @@ public class UserDailyChallenge {
     @Id
     private Long user_id;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private Player player;
 

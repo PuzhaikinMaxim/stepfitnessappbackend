@@ -47,7 +47,7 @@ public class UserDailyChallengeServiceTests {
     void generateDailyChallengesListTest() {
         var offsetDateTime = OffsetDateTime.now().toString();
         Mockito.when(playerService.getPlayerById(player.getUser_id())).thenReturn(player);
-        userDailyChallengeService.generateDailyChallengeData(offsetDateTime,1L);
+        userDailyChallengeService.generateDailyChallengeList(offsetDateTime,1L);
         Mockito.verify(repository).save(dailyChallengesCaptor.capture());
         UserDailyChallenge userDailyChallenge = dailyChallengesCaptor.getValue();
         Assertions.assertEquals(7,userDailyChallenge.getDailyChallenges().size());
@@ -58,7 +58,7 @@ public class UserDailyChallengeServiceTests {
     void completeDailyChallengeTest() {
         var offsetDateTime = OffsetDateTime.now().toString();
         Mockito.when(playerService.getPlayerById(player.getUser_id())).thenReturn(player);
-        userDailyChallengeService.generateDailyChallengeData(offsetDateTime,1L);
+        userDailyChallengeService.generateDailyChallengeList(offsetDateTime,1L);
         Mockito.verify(repository).save(dailyChallengesCaptor.capture());
         UserDailyChallenge userDailyChallenge = dailyChallengesCaptor.getValue();
 
@@ -77,7 +77,7 @@ public class UserDailyChallengeServiceTests {
     void claimRewardTest() {
         var offsetDateTime = OffsetDateTime.now().toString();
         Mockito.when(playerService.getPlayerById(player.getUser_id())).thenReturn(player);
-        userDailyChallengeService.generateDailyChallengeData(offsetDateTime,1L);
+        userDailyChallengeService.generateDailyChallengeList(offsetDateTime,1L);
         Mockito.verify(repository).save(dailyChallengesCaptor.capture());
         UserDailyChallenge userDailyChallenge = dailyChallengesCaptor.getValue();
 

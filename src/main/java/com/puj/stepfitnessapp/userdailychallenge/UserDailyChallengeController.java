@@ -24,11 +24,11 @@ public class UserDailyChallengeController {
         this.service = service;
     }
 
-    @GetMapping("generate_daily_challenge_list")
-    public ResponseEntity<String> generateDailyChallengeData(@RequestBody String offsetDateTime) {
+    @PostMapping("generate_daily_challenge_list")
+    public ResponseEntity<String> generateDailyChallengeList(@RequestBody String offsetDateTime) {
         final var userDailyChallenges = service.getUserDailyChallenges(getUserId());
         if(userDailyChallenges == null){
-            service.generateDailyChallengeData(offsetDateTime, getUserId());
+            service.generateDailyChallengeList(offsetDateTime, getUserId());
             return createResponseEntity(HttpStatus.OK, "Data has been generated");
         }
         else {

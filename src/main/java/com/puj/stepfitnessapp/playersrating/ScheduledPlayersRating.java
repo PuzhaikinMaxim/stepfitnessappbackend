@@ -16,7 +16,7 @@ public class ScheduledPlayersRating {
         this.playersRatingRepository = playersRatingRepository;
     }
 
-    @Scheduled(cron = "1 0 0 1 * ? *")
+    @Scheduled(cron = "1 0 0 1 * *")
     public void resetPlayersRating() {
         playersRatingRepository.deleteAll();
     }
