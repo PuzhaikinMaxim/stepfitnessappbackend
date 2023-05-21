@@ -85,4 +85,15 @@ public class GuildService {
         if(guild == null) return false;
         return guild.getOwner().getUser_id().equals(userId);
     }
+
+    public void editGuildData(GuildEditionInfo guildEditionInfo, Long userId) {
+        var guild = getGuild(userId);
+
+        if(guild == null) return;
+        if(!guild.getOwner().getUser_id().equals(userId)) return;
+
+        guild.setGuildName(guildEditionInfo.getGuildName());
+        guild.setGuildLogoId(guildEditionInfo.getGuildLogoId());
+        guildRepository.save(guild);
+    }
 }

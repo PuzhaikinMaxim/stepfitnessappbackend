@@ -1,6 +1,5 @@
 package com.puj.stepfitnessapp.guild;
 
-import com.puj.stepfitnessapp.guildenterrequest.GuildEnterRequestService;
 import com.puj.stepfitnessapp.player.PlayerService;
 import com.puj.stepfitnessapp.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +18,20 @@ public class GuildController {
 
     private final GuildMapper guildMapper = new GuildMapper();
 
+    private final PlayerService playerService;
+
     @Autowired
     public GuildController(
-            GuildService guildService
+            GuildService guildService,
+            PlayerService playerService
     ) {
         this.guildService = guildService;
+        this.playerService = playerService;
     }
 
     @PostMapping("create_guild")
-    public ResponseEntity<GuildDto> createGuild(@RequestBody GuildDataDto guildDataDto) {
-        guildService.createGuild(getUserId(), guildDataDto.getGuildName(), guildDataDto.getGuildLogoId());
+    public ResponseEntity<GuildDto> createGuild(@RequestBody GuildEditionInfo guildEditionInfo) {
+        guildService.createGuild(getUserId(), guildEditionInfo.getGuildName(), guildEditionInfo.getGuildLogoId());
         var guild = guildService.findGuildByUserId(getUserId());
         return createResponseEntity(HttpStatus.OK, guildMapper.mapToGuildDto(guild));
     }
@@ -46,34 +49,47 @@ public class GuildController {
     @GetMapping("get_guild_list")
     public ResponseEntity<List<GuildListItemDto>> getGuildList() {
         var response = guildService.getGuildList();
-        var guildChallenges = guildMapper.mapToGuildListItemDto(response);
+        var player = playerService.getPlayerById(getUserId());
+        var guildChallenges = guildMapper.mapToGuildListItemDto(response,player);
         return createResponseEntity(HttpStatus.OK, guildChallenges);
     }
 
     @GetMapping("get_guild_data")
     public ResponseEntity<GuildDataDto> getGuildData() {
         var response = guildService.getGuild(getUserId());
-        var guildChallenges = guildMapper.mapToGuildDataDto(response);
-        return createResponseEntity(HttpStatus.OK, guildChallenges);
+        var guildData = guildMapper.mapToGuildDataDto(response);
+        return createResponseEntity(HttpStatus.OK, guildData);
     }
 
     @GetMapping("get_guild_statistics")
     public ResponseEntity<GuildStatisticsDto> getGuildStatistics() {
         var response = guildService.getGuild(getUserId());
-        var guildChallenges = guildMapper.mapToGuildStatisticsDto(response);
-        return createResponseEntity(HttpStatus.OK, guildChallenges);
+        var guildStatistics = guildMapper.mapToGuildStatisticsDto(response);
+        return createResponseEntity(HttpStatus.OK, guildStatistics);
     }
 
     @GetMapping("get_guild_participants")
     public ResponseEntity<List<GuildParticipantDto>> getGuildParticipants() {
         var response = guildService.getGuild(getUserId());
-        var guildChallenges = guildMapper.mapToGuildParticipantDto(response);
+        var guildChallenges = guildMapper.mapToGuildParticipantDto(response,getUserId());
         return createResponseEntity(HttpStatus.OK, guildChallenges);
     }
 
     @GetMapping("get_is_owner")
     public ResponseEntity<Boolean> getIsOwner() {
         return createResponseEntity(HttpStatus.OK, guildService.getIsOwner(getUserId()));
+    }
+
+    @PutMapping("edit_guild_data")
+    public void editGuildData(@RequestBody GuildEditionInfo guildEditionInfo) {
+        guildService.editGuildData(guildEditionInfo, getUserId());
+    }
+
+    @GetMapping("get_guild_edition_info")
+    public ResponseEntity<GuildEditionInfo> getGuildEditionInfo() {
+        var response = guildService.getGuild(getUserId());
+        var guildData = guildMapper.mapToGuildEditionInfo(response);
+        return createResponseEntity(HttpStatus.OK, guildData);
     }
 
     /*

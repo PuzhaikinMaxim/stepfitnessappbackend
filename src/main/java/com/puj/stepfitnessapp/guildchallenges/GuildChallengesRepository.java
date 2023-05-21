@@ -3,6 +3,7 @@ package com.puj.stepfitnessapp.guildchallenges;
 import com.puj.stepfitnessapp.guild.Guild;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -14,7 +15,8 @@ public interface GuildChallengesRepository extends JpaRepository<GuildChallenge,
 
     @Modifying
     @Transactional
-    void deleteByIsStartedFalse();
+    @Query("DELETE FROM GuildChallenge g WHERE g.guild.guildId = ?1 AND g.isStarted = false")
+    void deleteByIsStartedFalse(Long guildId);
 
     Optional<List<GuildChallenge>> findGuildChallengeByGuild(Guild guild);
 

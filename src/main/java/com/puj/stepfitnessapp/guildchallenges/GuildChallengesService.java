@@ -118,7 +118,7 @@ public class GuildChallengesService {
         guildChallenge.setPointsMultiplier(pointsMultiplier);
         guildChallenge.setProgress(0);
         guildChallengesRepository.save(guildChallenge);
-        guildChallengesRepository.deleteByIsStartedFalse();
+        guildChallengesRepository.deleteByIsStartedFalse(guild.getGuildId());
     }
 
     public List<GuildChallengeDto> generateGuildChallenges(Guild guild, Long userId) {

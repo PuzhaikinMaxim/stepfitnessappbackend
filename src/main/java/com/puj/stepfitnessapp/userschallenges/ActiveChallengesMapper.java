@@ -11,7 +11,7 @@ public class ActiveChallengesMapper {
         String timeTillEndText = "";
 
         long minutesDiff = ChronoUnit.MINUTES.between(
-                challengeEndDateTime, LocalDateTime.now()
+                LocalDateTime.now(), challengeEndDateTime
         );
 
         if(challengeEndDateTime.compareTo(LocalDateTime.now()) < 0){

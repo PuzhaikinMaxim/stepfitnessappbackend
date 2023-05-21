@@ -16,9 +16,12 @@ public class GuildMapper {
         );
     }
 
-    public List<GuildListItemDto> mapToGuildListItemDto(List<Guild> guildList) {
+    public List<GuildListItemDto> mapToGuildListItemDto(List<Guild> guildList, Player player) {
         ArrayList<GuildListItemDto> guildListItemDtoList = new ArrayList<>();
         for(Guild guild : guildList){
+            if(player.getGuild() != null && player.getGuild().getGuildId().equals(guild.getGuildId())){
+                continue;
+            }
             guildListItemDtoList.add(
                     new GuildListItemDto(
                             guild.getGuildId(),
@@ -41,10 +44,11 @@ public class GuildMapper {
         );
     }
 
-    public List<GuildParticipantDto> mapToGuildParticipantDto(Guild guild) {
+    public List<GuildParticipantDto> mapToGuildParticipantDto(Guild guild, Long userId) {
         ArrayList<GuildParticipantDto> guildParticipantDtoList = new ArrayList<>();
         var guildParticipants = guild.getPlayers();
         for(Player player : guildParticipants){
+            if(userId.equals(player.getUser_id())) continue;
             guildParticipantDtoList.add(
                     new GuildParticipantDto(
                             player.getUser_id(),
@@ -58,6 +62,14 @@ public class GuildMapper {
 
     public GuildDataDto mapToGuildDataDto(Guild guild) {
         return new GuildDataDto(
+                guild.getGuildName(),
+                guild.getGuildRank().getGuildRank(),
+                guild.getGuildLogoId()
+        );
+    }
+
+    public GuildEditionInfo mapToGuildEditionInfo(Guild guild) {
+        return new GuildEditionInfo(
                 guild.getGuildName(),
                 guild.getGuildLogoId()
         );

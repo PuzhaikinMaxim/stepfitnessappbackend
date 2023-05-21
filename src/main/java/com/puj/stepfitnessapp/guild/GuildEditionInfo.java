@@ -7,13 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class GuildDataDto {
+@AllArgsConstructor
+public class GuildEditionInfo {
 
     private String guildName;
-
-    private Integer guildRank;
 
     private Integer guildLogoId;
 }

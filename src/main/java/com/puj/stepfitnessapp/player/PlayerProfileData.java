@@ -1,7 +1,5 @@
 package com.puj.stepfitnessapp.player;
 
-import com.puj.stepfitnessapp.guild.GuildDataDto;
-import com.puj.stepfitnessapp.guild.GuildDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

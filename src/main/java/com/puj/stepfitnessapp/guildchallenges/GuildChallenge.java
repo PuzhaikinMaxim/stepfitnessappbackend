@@ -43,7 +43,7 @@ public class GuildChallenge {
     private Integer progress;
 
     @ManyToOne
-    @JoinColumn()
+    @JoinColumn(name = "guild")
     private Guild guild;
 
     @Column(columnDefinition = "double precision default 1.0")

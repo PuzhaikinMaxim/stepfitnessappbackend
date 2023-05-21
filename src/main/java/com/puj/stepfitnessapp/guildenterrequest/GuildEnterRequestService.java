@@ -41,7 +41,7 @@ public class GuildEnterRequestService {
     }
 
     public List<GuildEnterRequest> getGuildEnterRequests(Long userId) {
-        var guild = guildService.findGuildById(userId);
+        var guild = guildService.findGuildByUserId(userId);
         if(!guild.getOwner().getUser_id().equals(userId)) return null;
         return guild.getGuildEnterRequests();
     }
