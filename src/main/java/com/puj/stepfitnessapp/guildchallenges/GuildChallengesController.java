@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.guildchallenges;
 
+import com.puj.stepfitnessapp.StepCount;
 import com.puj.stepfitnessapp.player.PlayerService;
 import com.puj.stepfitnessapp.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,9 @@ public class GuildChallengesController {
     }
 
     @PutMapping("update_progress")
-    public Boolean updateProgress(@RequestBody ProgressData progressData) {
+    public Boolean updateProgress(@RequestBody StepCount stepCount) {
         var player = playerService.getPlayerById(getUserId());
-        guildChallengesService.updateProgress(progressData.getAmountOfSteps(), player.getGuild());
+        guildChallengesService.updateProgress(stepCount.getStepCount(), player.getGuild());
         return true;
     }
 

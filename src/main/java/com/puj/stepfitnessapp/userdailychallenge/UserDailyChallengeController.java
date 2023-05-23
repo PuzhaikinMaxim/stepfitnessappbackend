@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.userdailychallenge;
 
+import com.puj.stepfitnessapp.StepCount;
 import com.puj.stepfitnessapp.user.User;
 import com.puj.stepfitnessapp.userdailychallenge.dailychallenge.DailyChallengeDto;
 import com.puj.stepfitnessapp.userdailychallenge.dailychallenge.DailyChallengeMapper;
@@ -38,8 +39,8 @@ public class UserDailyChallengeController {
     }
 
     @PutMapping("update_user_progress")
-    public ResponseEntity<String> updateUserProgress(@RequestBody int amountOfSteps){
-        service.updateProgress(getUserId(), amountOfSteps);
+    public ResponseEntity<String> updateUserProgress(@RequestBody StepCount stepCount){
+        service.updateProgress(getUserId(), stepCount.getStepCount());
         return createResponseEntity(HttpStatus.OK, "New data has been accepted");
     }
 

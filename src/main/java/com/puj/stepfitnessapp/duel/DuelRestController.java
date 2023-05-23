@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.duel;
 
+import com.puj.stepfitnessapp.StepCount;
 import com.puj.stepfitnessapp.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class DuelRestController {
     }
 
     @PutMapping("update_progress")
-    public ResponseEntity<Boolean> updateProgress(@RequestBody Integer amountOfSteps) {
+    public ResponseEntity<Boolean> updateProgress(@RequestBody StepCount stepCount) {
         var response = duelService.getDuelByUserId(getUserId());
 
         if(response.isEmpty()){
@@ -46,7 +47,7 @@ public class DuelRestController {
         var duel = response.get();
         if(duel.getWinner() != null) return createResponseEntity(HttpStatus.OK, true);
 
-        duelService.updateProgress(amountOfSteps, getUserId(), duel);
+        duelService.updateProgress(stepCount.getStepCount(), getUserId(), duel);
         return createResponseEntity(HttpStatus.OK, true);
     }
 

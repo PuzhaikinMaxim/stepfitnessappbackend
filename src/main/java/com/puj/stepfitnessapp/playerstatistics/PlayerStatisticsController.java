@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.playerstatistics;
 
+import com.puj.stepfitnessapp.StepCount;
 import com.puj.stepfitnessapp.achievement.AchievementDto;
 import com.puj.stepfitnessapp.achievement.AchievementService;
 import com.puj.stepfitnessapp.user.User;
@@ -31,10 +32,10 @@ public class PlayerStatisticsController {
     }
 
     @PutMapping("update_step_count")
-    public void updateStepCount(@RequestBody int amountOfSteps) {
+    public void updateStepCount(@RequestBody StepCount stepCount) {
         var playerStatistics = playerStatisticsService.getStatistics(getUserId());
 
-        playerStatisticsService.addAmountOfSteps(playerStatistics, amountOfSteps);
+        playerStatisticsService.addAmountOfSteps(playerStatistics, stepCount.getStepCount());
     }
 
     @GetMapping("get_achievements")

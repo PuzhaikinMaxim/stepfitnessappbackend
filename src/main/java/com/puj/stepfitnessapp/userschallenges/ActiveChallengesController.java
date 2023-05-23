@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.userschallenges;
 
+import com.puj.stepfitnessapp.StepCount;
 import com.puj.stepfitnessapp.challenge.ChallengeService;
 import com.puj.stepfitnessapp.items.ItemService;
 import com.puj.stepfitnessapp.player.Player;
@@ -108,25 +109,29 @@ public class ActiveChallengesController {
     }
 
     @PutMapping("update_user_progress")
-    public ResponseEntity<String> updateUserProgress(@RequestBody int amountOfSteps) {
+    public ResponseEntity<String> updateUserProgress(@RequestBody StepCount stepCount) {
         final var player = getPlayerById(getUserId());
         final var activeChallenge = activeChallengesService.getUserChallenges(getUserId());
+
+        if(activeChallenge == null){
+            return createResponseEntity(HttpStatus.NOT_FOUND, "Active challenge not found");
+        }
 
         if(activeChallenge.isFailed()){
             return createResponseEntity(HttpStatus.CONFLICT, "Challenge is failed");
         }
 
-        if(activeChallenge.getChallengeEndDateTime().isAfter(LocalDateTime.now())){
+        if(activeChallenge.getChallengeEndDateTime().isBefore(LocalDateTime.now())){
             activeChallengesService.setChallengeFailed(activeChallenge);
             return createResponseEntity(HttpStatus.CONFLICT, "Challenge has been failed");
         }
 
         var amountOfPoints = playerService.calculatePointsGained(
                 player,
-                amountOfSteps
+                stepCount.getStepCount()
         );
 
-        activeChallengesService.updateUserChallengesProgress(amountOfPoints, amountOfSteps, getUserId());
+        activeChallengesService.updateUserChallengesProgress(amountOfPoints, stepCount.getStepCount(), getUserId());
 
         if(activeChallenge.getChallenge().getAmountOfPoints() <= activeChallenge.getProgress()){
             addCompletedChallenge(player, activeChallenge);
