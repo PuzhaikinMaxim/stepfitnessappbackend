@@ -46,6 +46,7 @@ public class SecurityConfig {
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/authorized").hasRole("USER")
+                .antMatchers("/change_username").hasRole("USER")
                 .antMatchers("/user_challenges").hasRole("USER")
                 .antMatchers("/daily_challenges").hasRole("USER")
                 .antMatchers("/player").hasRole("USER")

@@ -81,6 +81,17 @@ public class PlayerController {
         return createResponseEntity(HttpStatus.OK, service.getPlayerProfileData(getUserId()));
     }
 
+    @GetMapping("get_edit_profile_data")
+    private ResponseEntity<EditProfileData> getEditProfileData() {
+        var response = service.getPlayerById(getUserId());
+        var editProfileData = new EditProfileData(
+                response.getUser().getUsername(),
+                response.getUser().getEmail(),
+                response.getImageId()
+        );
+        return createResponseEntity(HttpStatus.OK, editProfileData);
+    }
+
     @PutMapping("set_player_profile_image/{imageId}")
     private ResponseEntity<Boolean> setPlayerProfileImage(@PathVariable Integer imageId) {
         return createResponseEntity(
