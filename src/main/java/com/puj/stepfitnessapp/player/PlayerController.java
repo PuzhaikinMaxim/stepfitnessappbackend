@@ -81,6 +81,14 @@ public class PlayerController {
         return createResponseEntity(HttpStatus.OK, service.getPlayerProfileData(getUserId()));
     }
 
+    @PutMapping("set_player_profile_image/{imageId}")
+    private ResponseEntity<Boolean> setPlayerProfileImage(@PathVariable Integer imageId) {
+        return createResponseEntity(
+                HttpStatus.OK,
+                service.setPlayerImageId(getUserId(), imageId)
+        );
+    }
+
     private long getUserId() {
         final var userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
         return userDetails.getUserId();

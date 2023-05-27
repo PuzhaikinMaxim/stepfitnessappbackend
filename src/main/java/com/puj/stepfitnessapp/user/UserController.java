@@ -6,11 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -88,9 +86,27 @@ public class UserController {
         return createResponseEntity(HttpStatus.OK, token);
     }
 
+    @PutMapping("/change_username")
+    public ResponseEntity<String> changeUsername(@RequestBody UsernameChangeRequest usernameChangeRequest) {
+        var newUsername = usernameChangeRequest.getUsername();
+        if(newUsername.length() <6 || newUsername.length() > 50){
+            return createResponseEntity(HttpStatus.NOT_ACCEPTABLE, "Username is not valid");
+        }
+        var isUsernameChanged = userService.changeUsername(newUsername, getUserId());
+        if(!isUsernameChanged){
+            return createResponseEntity(HttpStatus.CONFLICT, "Username already exists");
+        }
+        return createResponseEntity(HttpStatus.OK, "Username was changed");
+    }
+
     private <T> ResponseEntity<T> createResponseEntity(HttpStatus status, T body) {
         return ResponseEntity
                 .status(status)
                 .body(body);
+    }
+
+    private long getUserId() {
+        final var userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return userDetails.getUserId();
     }
 }

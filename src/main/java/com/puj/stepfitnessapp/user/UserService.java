@@ -39,6 +39,17 @@ public class UserService implements UserDetailsService {
         return user.get().getUserId();
     }
 
+    public Boolean changeUsername(String username, Long userId) {
+        if(userRepository.findByUsername(username).isPresent()) return false;
+
+        var user = getUserById(userId).orElse(null);
+        if(user == null) return false;
+
+        user.setUsername(username);
+        userRepository.save(user);
+        return true;
+    }
+
     public void addUser(UserDto user) {
         userRepository.save(mapper.mapUserDtoToUser(user));
     }

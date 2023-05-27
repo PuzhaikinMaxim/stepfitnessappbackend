@@ -113,6 +113,13 @@ public class PlayerService {
         repository.save(player);
     }
 
+    public Boolean setPlayerImageId(Long userId, Integer imageId) {
+        var player = getPlayerById(userId);
+        player.setImageId(imageId);
+        repository.save(player);
+        return true;
+    }
+
     public CharacteristicsDto getCharacteristics(Long userId) {
         var player = getPlayerById(userId);
         return characteristicsMapper.mapPlayerToCharacteristicsDto(player);

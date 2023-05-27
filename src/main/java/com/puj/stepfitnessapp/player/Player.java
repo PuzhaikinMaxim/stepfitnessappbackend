@@ -59,6 +59,10 @@ public class Player {
     @JoinColumn(name = "user_id")
     private List<GuildEnterRequest> guildEnterRequestList;
 
+    @NotNull
+    @Column(columnDefinition = "int default 0")
+    private int imageId = 0;
+
     public Player(
             Long user_id,
             User user,
