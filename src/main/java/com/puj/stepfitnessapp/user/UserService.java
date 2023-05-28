@@ -60,6 +60,13 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public void logOut(Long userId) {
+        var user = getUserById(userId).orElse(null);
+        if(user == null) return;
+        user.setEnterToken("");
+        userRepository.save(user);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var response = getUser(username);

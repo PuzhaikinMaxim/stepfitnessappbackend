@@ -99,6 +99,11 @@ public class UserController {
         return createResponseEntity(HttpStatus.OK, "Username was changed");
     }
 
+    @PutMapping("/logout")
+    public void logOut() {
+        userService.logOut(getUserId());
+    }
+
     private <T> ResponseEntity<T> createResponseEntity(HttpStatus status, T body) {
         return ResponseEntity
                 .status(status)

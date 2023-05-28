@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/authorized").hasRole("USER")
                 .antMatchers("/change_username").hasRole("USER")
+                .antMatchers("/logout").hasRole("USER")
                 .antMatchers("/user_challenges").hasRole("USER")
                 .antMatchers("/daily_challenges").hasRole("USER")
                 .antMatchers("/player").hasRole("USER")
