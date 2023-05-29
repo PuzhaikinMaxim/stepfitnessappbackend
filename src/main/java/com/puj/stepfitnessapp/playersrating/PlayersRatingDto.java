@@ -15,6 +15,8 @@ public class PlayersRatingDto {
 
     private Integer playerLevel;
 
+    private Integer profileImageId;
+
     private Integer place;
 
     private Integer amountOfSteps = 0;

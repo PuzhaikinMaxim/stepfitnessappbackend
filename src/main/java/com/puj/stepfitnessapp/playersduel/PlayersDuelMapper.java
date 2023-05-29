@@ -11,7 +11,9 @@ public class PlayersDuelMapper {
         return new PlayersDuelDto(
                 playersDuel.getPlayer().getUser().getUsername(),
                 playersDuel.getHp(),
-                playersDuel.getInitialHp()
+                playersDuel.getInitialHp(),
+                playersDuel.getPlayer().getLevel(),
+                playersDuel.getPlayer().getImageId()
         );
     }
 

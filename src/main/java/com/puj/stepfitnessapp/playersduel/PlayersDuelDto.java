@@ -17,4 +17,8 @@ public class PlayersDuelDto {
 
     private Integer initialHp;
 
+    private Integer level;
+
+    private Integer profileImageId;
+
 }

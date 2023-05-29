@@ -28,6 +28,7 @@ public class PlayersRatingMapper {
         return new PlayersRatingDto(
                 rating.getPlayer().getUser().getUsername(),
                 rating.getPlayer().getLevel(),
+                rating.getPlayer().getImageId(),
                 place,
                 rating.getAmountOfSteps(),
                 rating.getAmountOfDuelsWon()

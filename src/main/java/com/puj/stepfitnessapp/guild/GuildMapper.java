@@ -53,6 +53,7 @@ public class GuildMapper {
                     new GuildParticipantDto(
                             player.getUser_id(),
                             player.getUser().getUsername(),
+                            player.getImageId(),
                             player.getLevel()
                     )
             );

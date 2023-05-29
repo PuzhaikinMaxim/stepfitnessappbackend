@@ -80,7 +80,8 @@ public class UserDailyChallengeService {
     }
 
     public void updateProgress(long userId, int amountOfSteps) {
-        final var userDailyChallenges = repository.findById(userId).get();
+        final var userDailyChallenges = repository.findById(userId).orElse(null);
+        if(userDailyChallenges == null) return;
         amountOfSteps = userDailyChallenges.getAmountOfSteps() + amountOfSteps;
         userDailyChallenges.setAmountOfSteps(amountOfSteps);
         final var dailyChallenges = userDailyChallenges.getDailyChallenges();

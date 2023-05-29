@@ -7,6 +7,7 @@ public class PlayerDataMapper {
     public PlayerDataDto mapPlayerToPlayerDataDto(Player player) {
         return new PlayerDataDto(
                 player.getUser().getUsername(),
+                player.getImageId(),
                 player.getLevel(),
                 player.getXp(),
                 player.getXpToNextLevel()
@@ -14,14 +15,21 @@ public class PlayerDataMapper {
     }
 
     public PlayerProfileData mapToPlayerProfileData(Player player, PlayerStatistics playerStatistics) {
+        var guild = player.getGuild();
+        String guildName = null;
+        Integer guildLogoId = null;
+        if(guild != null){
+            guildName = guild.getGuildName();
+            guildLogoId = guild.getGuildLogoId();
+        }
         return new PlayerProfileData(
                 mapPlayerToPlayerDataDto(player),
                 playerStatistics.getCompletedChallenges().size(),
                 playerStatistics.getCompletedAchievements().size(),
                 playerStatistics.getAmountOfSteps(),
                 playerStatistics.getAmountOfDuelsWon(),
-                player.getGuild().getGuildName(),
-                player.getGuild().getGuildLogoId()
+                guildName,
+                guildLogoId
         );
     }
 }

@@ -13,6 +13,8 @@ public class PlayerDataDto {
 
     private String username;
 
+    private int profileImageId;
+
     private int level;
 
     private int amountOfXp;

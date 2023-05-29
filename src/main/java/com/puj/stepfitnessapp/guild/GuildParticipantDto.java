@@ -15,5 +15,7 @@ public class GuildParticipantDto {
 
     private String participantName;
 
+    private Integer participantProfileImageId;
+
     private Integer participantLevel;
 }
