@@ -158,6 +158,11 @@ public class DuelService {
         return new FinishedDuelRewardDto(0, itemsList);
     }
 
+    public Boolean isDuelNotFinished(Long userId) {
+        var duel = getDuelByUserId(userId);
+        return duel.isPresent();
+    }
+
     public void updateProgress(int amountOfSteps, Long userId, Duel duel) {
         var opponentResponse = duel.getPlayersDuel().stream().filter((playersDuel) -> {
             return !playersDuel.getPlayer().getUser_id().equals(userId);

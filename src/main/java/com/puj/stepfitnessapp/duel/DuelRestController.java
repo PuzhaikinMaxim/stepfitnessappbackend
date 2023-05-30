@@ -56,6 +56,11 @@ public class DuelRestController {
         return createResponseEntity(HttpStatus.OK, duelService.claimReward(getUserId()));
     }
 
+    @GetMapping("is_duel_not_finished")
+    public ResponseEntity<Boolean> isDuelNotFinished() {
+        return createResponseEntity(HttpStatus.OK, duelService.isDuelNotFinished(getUserId()));
+    }
+
     private long getUserId() {
         final var userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
         return userDetails.getUserId();

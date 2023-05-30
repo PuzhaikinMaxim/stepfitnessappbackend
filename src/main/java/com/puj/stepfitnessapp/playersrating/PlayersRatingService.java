@@ -4,6 +4,8 @@ import com.puj.stepfitnessapp.player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -12,6 +14,12 @@ public class PlayersRatingService {
     private final PlayersRatingRepository playersRatingRepository;
 
     private final PlayersRatingMapper playersRatingMapper = new PlayersRatingMapper();
+
+    private final Long ONE_MINUTE = 60L;
+
+    private final Long ONE_HOUR = 60 * ONE_MINUTE;
+
+    private final Long ONE_DAY = 24 * ONE_HOUR;
 
     @Autowired
     public PlayersRatingService(PlayersRatingRepository playersRatingRepository) {
@@ -55,6 +63,33 @@ public class PlayersRatingService {
         amountOfSteps = playerRating.getAmountOfSteps() + amountOfSteps;
         playerRating.setAmountOfSteps(amountOfSteps);
         playersRatingRepository.save(playerRating);
+    }
+
+    public String getRatingListUpdateCountdown() {
+        var now = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+        var resetDate = LocalDateTime.now()
+                .plusMonths(1)
+                .withDayOfMonth(1)
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(1)
+                .toEpochSecond(ZoneOffset.UTC);
+        var res = Math.max(0, resetDate - now);
+        var countdown = "";
+        if((res / ONE_DAY) != 0){
+            countdown = countdown + (res / ONE_DAY) + "д ";
+            res = res % ONE_DAY;
+        }
+        if((res / ONE_HOUR) != 0){
+            countdown = countdown + (res / ONE_HOUR) + "ч ";
+            res = res % ONE_HOUR;
+        }
+        if((res / ONE_MINUTE) != 0){
+            countdown = countdown + (res / ONE_MINUTE) + "м ";
+            res = res % ONE_MINUTE;
+        }
+        countdown = countdown + res + "с";
+        return countdown;
     }
 
     public void incrementAmountOfDuelsWonForPlayer(Player player) {

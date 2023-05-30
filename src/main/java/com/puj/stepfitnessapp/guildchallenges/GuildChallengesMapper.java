@@ -32,10 +32,10 @@ public class GuildChallengesMapper {
     private String getTimeTillEnd(LocalDateTime endDateTime) {
         var timeNow = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
         var endTime = endDateTime.toEpochSecond(ZoneOffset.UTC);
-        var res = Math.min(0, endTime - timeNow);
+        var res = Math.max(0, endTime - timeNow);
         res = res / 60;
         var minutes = res % 60;
         var hours = res / 60;
-        return hours == 0 ? minutes + " минут" : hours + " часов" + minutes + " минут";
+        return hours == 0 ? minutes + " м" : hours + " ч " + minutes + " м";
     }
 }

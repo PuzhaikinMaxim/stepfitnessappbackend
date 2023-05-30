@@ -42,7 +42,7 @@ public class PlayersRatingController {
     public ResponseEntity<String> getRatingListUpdateCountdown() {
         return createResponseEntity(
                 HttpStatus.OK,
-                ""
+                playersRatingService.getRatingListUpdateCountdown()
         );
     }
 
