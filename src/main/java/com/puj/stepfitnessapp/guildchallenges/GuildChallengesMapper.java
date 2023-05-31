@@ -8,6 +8,7 @@ import java.util.List;
 public class GuildChallengesMapper {
 
     public CurrentGuildChallengeDto mapToCurrentGuildChallengeDto(GuildChallenge guildChallenge) {
+        if(guildChallenge == null) return null;
         return new CurrentGuildChallengeDto(
                 guildChallenge.getProgress(),
                 guildChallenge.getAmountOfPointsToFinish(),

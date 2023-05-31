@@ -141,7 +141,7 @@ public class GuildChallengesService {
             var pointsToFinish = (int) (40000 * amountOfPlayers * difficultyMultiplier);
             var xp = (int) ((100 + collectiveLevel)*difficultyMultiplier);
             var guildChallenge = new GuildChallenge(
-                xp, hoursToFinish, pointsToFinish, guild
+                xp, hoursToFinish, pointsToFinish, guild, difficultyMultiplier
             );
             guildChallenges.add(guildChallenge);
         }

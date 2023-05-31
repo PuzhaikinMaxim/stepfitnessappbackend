@@ -5,15 +5,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.puj.stepfitnessapp.items.Item;
 import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
+import com.puj.stepfitnessapp.player.inventory.item.InventoryItem;
 
 import javax.persistence.AttributeConverter;
 import java.util.List;
 
-public class GuildRewardConverter implements AttributeConverter<List<Item>, String> {
+public class GuildRewardConverter implements AttributeConverter<List<InventoryItem>, String> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public List<Item> fromJsonToItemsList(String json){
+    public List<InventoryItem> fromJsonToItemsList(String json){
         try {
             return objectMapper.readValue(json,  new TypeReference<>() {});
         }
@@ -22,7 +23,7 @@ public class GuildRewardConverter implements AttributeConverter<List<Item>, Stri
         }
     }
 
-    public String fromItemsListToJson(List<Item> itemsList){
+    public String fromItemsListToJson(List<InventoryItem> itemsList){
         try {
             return objectMapper.writeValueAsString(itemsList);
         }
@@ -32,12 +33,12 @@ public class GuildRewardConverter implements AttributeConverter<List<Item>, Stri
     }
 
     @Override
-    public String convertToDatabaseColumn(List<Item> attribute) {
+    public String convertToDatabaseColumn(List<InventoryItem> attribute) {
         return fromItemsListToJson(attribute);
     }
 
     @Override
-    public List<Item> convertToEntityAttribute(String dbData) {
+    public List<InventoryItem> convertToEntityAttribute(String dbData) {
         return fromJsonToItemsList(dbData);
     }
 }

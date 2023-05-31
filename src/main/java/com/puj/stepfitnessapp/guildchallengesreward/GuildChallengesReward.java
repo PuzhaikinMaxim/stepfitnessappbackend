@@ -41,10 +41,10 @@ public class GuildChallengesReward {
     @Column(nullable = false)
     private Integer xp;
 
-    @Convert(converter = GuildRewardConverter.class)
-    private List<InventoryItem> reward;
+    @ManyToMany
+    private List<Item> reward;
 
-    public GuildChallengesReward(Guild guild, Player player, Integer xp, List<InventoryItem> reward) {
+    public GuildChallengesReward(Guild guild, Player player, Integer xp, List<Item> reward) {
         this.guild = guild;
         this.player = player;
         this.xp = xp;

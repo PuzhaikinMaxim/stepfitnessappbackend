@@ -2,6 +2,7 @@ package com.puj.stepfitnessapp.guildchallengesreward;
 
 import com.puj.stepfitnessapp.items.Item;
 import com.puj.stepfitnessapp.player.inventory.item.InventoryItem;
+import com.puj.stepfitnessapp.player.inventory.item.dto.InventoryItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import java.util.List;
 @Setter
 public class FinishedGuildChallengeReward {
 
-    private int xp;
+    private int amountOfXp;
 
-    private List<InventoryItem> reward;
+    private List<Item> items;
 }

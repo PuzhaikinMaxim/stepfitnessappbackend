@@ -53,10 +53,17 @@ public class GuildChallenge {
     private Boolean isStarted = false;
 
 
-    public GuildChallenge(Integer xp, Integer baseHoursToFinish, Integer amountOfPointsToFinish, Guild guild) {
+    public GuildChallenge(
+            Integer xp,
+            Integer baseHoursToFinish,
+            Integer amountOfPointsToFinish,
+            Guild guild,
+            Double difficultyRewardMultiplier
+    ) {
         this.xp = xp;
         this.baseHoursToFinish = baseHoursToFinish;
         this.amountOfPointsToFinish = amountOfPointsToFinish;
         this.guild = guild;
+        this.difficultyRewardMultiplier = difficultyRewardMultiplier;
     }
 }

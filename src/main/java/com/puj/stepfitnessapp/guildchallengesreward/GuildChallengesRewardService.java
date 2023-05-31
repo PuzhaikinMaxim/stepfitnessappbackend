@@ -53,7 +53,7 @@ public class GuildChallengesRewardService {
                     player,
                     guild,
                     (int) xp,
-                    inventoryItemMapper.mapItemListToInventoryItemList(items)
+                    items
             ));
         }
         guildChallengesRewardRepository.saveAll(challengeRewards);
@@ -69,7 +69,7 @@ public class GuildChallengesRewardService {
                 guildChallengeReward.getReward()
         );
 
-        playerService.addInventoryItems(player, guildChallengeReward.getReward());
+        playerService.addItems(player, guildChallengeReward.getReward());
         playerService.addPlayerXp(player, guildChallengeReward.getXp());
 
         guildChallengesRewardRepository.delete(guildChallengeReward);

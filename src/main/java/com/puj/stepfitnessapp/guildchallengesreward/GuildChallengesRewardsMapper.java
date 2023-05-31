@@ -1,6 +1,7 @@
 package com.puj.stepfitnessapp.guildchallengesreward;
 
 import com.puj.stepfitnessapp.guild.Guild;
+import com.puj.stepfitnessapp.items.Item;
 import com.puj.stepfitnessapp.player.Player;
 import com.puj.stepfitnessapp.player.inventory.item.InventoryItem;
 
@@ -12,7 +13,7 @@ public class GuildChallengesRewardsMapper {
             Player player,
             Guild guild,
             int xp,
-            List<InventoryItem> rewards
+            List<Item> rewards
             ) {
         return new GuildChallengesReward(
                 guild,

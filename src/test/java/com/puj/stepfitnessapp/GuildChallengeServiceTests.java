@@ -113,7 +113,7 @@ class GuildChallengeServiceTests {
 
 	private GuildChallenge getGuildChallenge() {
 		var guildChallenge = new GuildChallenge(
-				100,2,200,guild
+				100,2,200,guild,1.5
 		);
 		guildChallenge.setChallengeEndDateTime(LocalDateTime.now().plusHours(2));
 		guildChallenge.setPointsFixed(0);

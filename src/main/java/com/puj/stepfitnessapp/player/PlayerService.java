@@ -152,7 +152,7 @@ public class PlayerService {
         if(playerXp >= player.getXpToNextLevel()){
             playerXp -= player.getXpToNextLevel();
 
-            int newPlayerLevel = player.getLevel();
+            int newPlayerLevel = player.getLevel() + 1;
             Level level = levelService.getLevel(newPlayerLevel);
             player.setLevel(level.getLevel());
             player.setXpToNextLevel(level.getXp());
