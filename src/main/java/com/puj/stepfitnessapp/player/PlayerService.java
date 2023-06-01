@@ -154,6 +154,10 @@ public class PlayerService {
 
             int newPlayerLevel = player.getLevel() + 1;
             Level level = levelService.getLevel(newPlayerLevel);
+            if(level.getLevel() == newPlayerLevel){
+                var unassignedPoints = player.getUnassignedPoints();
+                player.setUnassignedPoints(unassignedPoints + 1);
+            }
             player.setLevel(level.getLevel());
             player.setXpToNextLevel(level.getXp());
             addPlayerXp(player, playerXp);

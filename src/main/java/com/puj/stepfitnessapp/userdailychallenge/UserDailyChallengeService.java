@@ -79,9 +79,12 @@ public class UserDailyChallengeService {
         return dailyChallenges;
     }
 
-    public void updateProgress(long userId, int amountOfSteps) {
+    public UpdateDailyChallengeResult updateProgress(long userId, int amountOfSteps) {
         final var userDailyChallenges = repository.findById(userId).orElse(null);
-        if(userDailyChallenges == null) return;
+        if(userDailyChallenges == null) return UpdateDailyChallengeResult.RESULT_NOT_EXIST;
+        if(getIfOffsetDateAfter(userDailyChallenges)){
+            return UpdateDailyChallengeResult.RESULT_OUTDATED;
+        }
         amountOfSteps = userDailyChallenges.getAmountOfSteps() + amountOfSteps;
         userDailyChallenges.setAmountOfSteps(amountOfSteps);
         final var dailyChallenges = userDailyChallenges.getDailyChallenges();
@@ -91,6 +94,14 @@ public class UserDailyChallengeService {
             }
         }
         repository.save(userDailyChallenges);
+        return UpdateDailyChallengeResult.RESULT_UPDATED;
+    }
+
+    private Boolean getIfOffsetDateAfter(UserDailyChallenge userDailyChallenge) {
+        final var offset = userDailyChallenge.getDailyChallengeEndDateTime().getOffset();
+        final var dateTimeWithOffset = LocalDateTime.now().atOffset(offset);
+
+        return dateTimeWithOffset.isAfter(userDailyChallenge.getDailyChallengeEndDateTime());
     }
 
     public CompletedUserDailyChallengesDataDto claimReward(Long userId) {
@@ -104,10 +115,7 @@ public class UserDailyChallengeService {
             return null;
         }
 
-        final var offset = userDailyChallenges.getDailyChallengeEndDateTime().getOffset();
-        final var dateTimeWithOffset = LocalDateTime.now().atOffset(offset);
-
-        if(dateTimeWithOffset.isAfter(userDailyChallenges.getDailyChallengeEndDateTime())){
+        if(getIfOffsetDateAfter(userDailyChallenges)){
             return null;
         }
 
@@ -135,5 +143,11 @@ public class UserDailyChallengeService {
         repository.save(userDailyChallenges);
 
         return new CompletedUserDailyChallengesDataDto(amountOfXp, rewards);
+    }
+
+    enum UpdateDailyChallengeResult {
+        RESULT_UPDATED,
+        RESULT_NOT_EXIST,
+        RESULT_OUTDATED
     }
 }

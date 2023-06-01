@@ -40,8 +40,14 @@ public class UserDailyChallengeController {
 
     @PutMapping("update_user_progress")
     public ResponseEntity<String> updateUserProgress(@RequestBody StepCount stepCount){
-        service.updateProgress(getUserId(), stepCount.getStepCount());
-        return createResponseEntity(HttpStatus.OK, "New data has been accepted");
+        var result = service.updateProgress(getUserId(), stepCount.getStepCount());
+        if(result == UserDailyChallengeService.UpdateDailyChallengeResult.RESULT_UPDATED){
+            return createResponseEntity(HttpStatus.OK, "New data has been accepted");
+        }
+        else if(result == UserDailyChallengeService.UpdateDailyChallengeResult.RESULT_OUTDATED){
+            return createResponseEntity(HttpStatus.OK, "Daily challenges is outdated");
+        }
+        return createResponseEntity(HttpStatus.NOT_FOUND, "Daily challenges not found");
     }
 
     @GetMapping("get_daily_challenges_list")
