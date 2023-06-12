@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduledPlayersRating {
 
-    private PlayersRatingRepository playersRatingRepository;
+    private final PlayersRatingRepository playersRatingRepository;
 
     @Autowired
     public ScheduledPlayersRating(

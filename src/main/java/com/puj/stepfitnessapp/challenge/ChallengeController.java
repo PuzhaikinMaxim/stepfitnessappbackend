@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @RestController()
 @RequestMapping("challenges")
@@ -49,12 +50,10 @@ public class ChallengeController {
         }
         for(CompletedChallenges completedChallenges : completedChallengesByLevel){
             if(completedChallenges.getLevel() == level){
-                for(ChallengeDto challengeDto : result){
+                result.removeIf(challengeDto -> {
                     var challengeId = Long.valueOf(challengeDto.getId());
-                    if(completedChallenges.getChallenges().contains(challengeId)){
-                        result.remove(challengeDto);
-                    }
-                }
+                    return completedChallenges.getChallenges().contains(challengeId);
+                });
                 break;
             }
         }
