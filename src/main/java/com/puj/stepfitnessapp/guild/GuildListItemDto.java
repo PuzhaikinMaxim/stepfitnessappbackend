@@ -18,4 +18,6 @@ public class GuildListItemDto {
     private Integer rank;
 
     private Integer amountOfPlayers;
+
+    private Boolean isEnterRequested;
 }

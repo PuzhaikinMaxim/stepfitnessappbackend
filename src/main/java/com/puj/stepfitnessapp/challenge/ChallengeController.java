@@ -60,6 +60,11 @@ public class ChallengeController {
         return createResponseEntity(HttpStatus.OK, result);
     }
 
+    @GetMapping("/challenge_statistics/{level}")
+    public ResponseEntity<ChallengeStatistics> getChallengeStatistics(@PathVariable Integer level) {
+        return createResponseEntity(HttpStatus.OK, challengeService.getChallengeStatistics(level, getUserId()));
+    }
+
     private long getUserId() {
         final var userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
         return userDetails.getUserId();

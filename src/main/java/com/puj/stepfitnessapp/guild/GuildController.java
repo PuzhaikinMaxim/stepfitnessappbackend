@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.guild;
 
+import com.puj.stepfitnessapp.guildenterrequest.GuildEnterRequestService;
 import com.puj.stepfitnessapp.player.PlayerService;
 import com.puj.stepfitnessapp.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,17 @@ public class GuildController {
 
     private final PlayerService playerService;
 
+    private final GuildEnterRequestService guildEnterRequestService;
+
     @Autowired
     public GuildController(
             GuildService guildService,
-            PlayerService playerService
+            PlayerService playerService,
+            GuildEnterRequestService guildEnterRequestService
     ) {
         this.guildService = guildService;
         this.playerService = playerService;
+        this.guildEnterRequestService = guildEnterRequestService;
     }
 
     @PostMapping("create_guild")
@@ -50,8 +55,12 @@ public class GuildController {
     public ResponseEntity<List<GuildListItemDto>> getGuildList() {
         var response = guildService.getGuildList();
         var player = playerService.getPlayerById(getUserId());
-        var guildChallenges = guildMapper.mapToGuildListItemDto(response,player);
-        return createResponseEntity(HttpStatus.OK, guildChallenges);
+        var guildListItems = guildMapper.mapToGuildListItemDto(
+                response,
+                player,
+                guildEnterRequestService.getPlayerEnterRequests(player)
+        );
+        return createResponseEntity(HttpStatus.OK, guildListItems);
     }
 
     @GetMapping("get_guild_data")

@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GuildEnterRequestService {
@@ -50,6 +52,7 @@ public class GuildEnterRequestService {
         var guild = guildService.findGuildById(guildId);
         var player = playerService.getPlayerById(userId);
         if(player.getUser_id().equals(guild.getOwner().getUser_id())) return;
+        if(getGuildEnterRequestByGuildAndPlayer(userId, guildId) != null) return;
         addNewGuildEnterRequest(player, guild);
     }
 
@@ -69,5 +72,18 @@ public class GuildEnterRequestService {
 
     public void cancelGuildEnterRequest(GuildEnterRequest guildEnterRequest) {
         guildEnterRequestRepository.delete(guildEnterRequest);
+    }
+
+    public Map<Long, GuildEnterRequest> getPlayerEnterRequests(Player player) {
+        var guildEnterRequests
+                = guildEnterRequestRepository.getGuildEnterRequestsByPlayer(player);
+        if(guildEnterRequests.isEmpty()) return null;
+        var guildEnterRequestsMap = new HashMap<Long, GuildEnterRequest>();
+        for(GuildEnterRequest guildEnterRequest : guildEnterRequests.get()){
+            if(guildEnterRequestsMap.getOrDefault(guildEnterRequest.getGuild().getGuildId(), null) == null){
+                guildEnterRequestsMap.put(guildEnterRequest.getGuild().getGuildId(), guildEnterRequest);
+            }
+        }
+        return guildEnterRequestsMap;
     }
 }

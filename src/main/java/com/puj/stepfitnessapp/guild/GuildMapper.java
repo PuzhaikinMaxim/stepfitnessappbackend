@@ -1,9 +1,11 @@
 package com.puj.stepfitnessapp.guild;
 
+import com.puj.stepfitnessapp.guildenterrequest.GuildEnterRequest;
 import com.puj.stepfitnessapp.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GuildMapper {
 
@@ -16,7 +18,11 @@ public class GuildMapper {
         );
     }
 
-    public List<GuildListItemDto> mapToGuildListItemDto(List<Guild> guildList, Player player) {
+    public List<GuildListItemDto> mapToGuildListItemDto(
+            List<Guild> guildList,
+            Player player,
+            Map<Long, GuildEnterRequest> guildEnterRequestMap
+    ) {
         ArrayList<GuildListItemDto> guildListItemDtoList = new ArrayList<>();
         for(Guild guild : guildList){
             if(player.getGuild() != null && player.getGuild().getGuildId().equals(guild.getGuildId())){
@@ -27,7 +33,8 @@ public class GuildMapper {
                             guild.getGuildId(),
                             guild.getGuildName(),
                             guild.getGuildRank().getGuildRank(),
-                            guild.getPlayers().size()
+                            guild.getPlayers().size(),
+                            guildEnterRequestMap.getOrDefault(guild.getGuildId(), null) != null
                     )
             );
         }
