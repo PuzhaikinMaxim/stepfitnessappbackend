@@ -34,6 +34,10 @@ public class DuelMapper {
 
         var opponentDuelDto = playersDuelMapper.mapPlayersDuelToPlayersDuelDto(opponentOptional.orElse(null));
 
+        if(opponentDuelDto == null && playerOptional.isPresent()){
+            opponentDuelDto = playersDuelMapper.getOpponentsPlayersDuelDto(duel, playerOptional.get().getPlayer());
+        }
+
         return new DuelDto(
                 playerDuelDto,
                 opponentDuelDto,

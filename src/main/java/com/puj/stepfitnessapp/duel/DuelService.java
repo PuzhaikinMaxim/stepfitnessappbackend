@@ -155,7 +155,7 @@ public class DuelService {
             duelRepository.delete(duel);
         }
 
-        return new FinishedDuelRewardDto(0, itemsList);
+        return new FinishedDuelRewardDto(xp, itemsList);
     }
 
     public Boolean isDuelNotFinished(Long userId) {

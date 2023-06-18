@@ -44,5 +44,5 @@ public class Duel {
     private Player looser;
 
     @Column(columnDefinition = "boolean default false")
-    private Boolean isDuelCancelled;
+    private Boolean isDuelCancelled = false;
 }
