@@ -2,6 +2,7 @@ package com.puj.stepfitnessapp.guildchallengesreward;
 
 import com.puj.stepfitnessapp.guild.Guild;
 import com.puj.stepfitnessapp.guildchallenges.GuildChallenge;
+import com.puj.stepfitnessapp.items.ItemMapper;
 import com.puj.stepfitnessapp.items.ItemService;
 import com.puj.stepfitnessapp.player.Player;
 import com.puj.stepfitnessapp.player.PlayerService;
@@ -18,7 +19,7 @@ public class GuildChallengesRewardService {
 
     private final GuildChallengesRewardsMapper guildChallengesRewardsMapper = new GuildChallengesRewardsMapper();
 
-    private final InventoryItemMapper inventoryItemMapper = new InventoryItemMapper();
+    private final ItemMapper itemMapper = new ItemMapper();
 
     private final ItemService itemService;
 
@@ -66,7 +67,7 @@ public class GuildChallengesRewardService {
         var guildChallengeReward = response.get();
         var finishedGuildChallengeReward = new FinishedGuildChallengeReward(
                 guildChallengeReward.getXp(),
-                guildChallengeReward.getReward()
+                itemMapper.itemListToItemDtoList(guildChallengeReward.getReward())
         );
 
         playerService.addItems(player, guildChallengeReward.getReward());

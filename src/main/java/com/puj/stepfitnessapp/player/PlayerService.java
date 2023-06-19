@@ -2,6 +2,7 @@ package com.puj.stepfitnessapp.player;
 
 import com.puj.stepfitnessapp.guild.Guild;
 import com.puj.stepfitnessapp.items.Item;
+import com.puj.stepfitnessapp.items.ItemService;
 import com.puj.stepfitnessapp.level.Level;
 import com.puj.stepfitnessapp.level.LevelService;
 import com.puj.stepfitnessapp.player.inventory.PlayerInventory;
@@ -23,6 +24,8 @@ public class PlayerService {
 
     private final LevelService levelService;
 
+    private final ItemService itemService;
+
     private final PlayerDataMapper playerDataMapper = new PlayerDataMapper();
 
     private final CharacteristicsMapper characteristicsMapper = new CharacteristicsMapper();
@@ -31,11 +34,13 @@ public class PlayerService {
     public PlayerService(
             PlayerRepository repository,
             PlayerStatisticsService playerStatisticsService,
-            LevelService levelService
+            LevelService levelService,
+            ItemService itemService
     ){
         this.repository = repository;
         this.playerStatisticsService = playerStatisticsService;
         this.levelService = levelService;
+        this.itemService = itemService;
     }
 
     public void addPlayer(User user) {
@@ -83,7 +88,13 @@ public class PlayerService {
     }
 
     public void equipItem(Player player, int inventoryItemId, int itemSlot){
-        player.getInventory().equipItem(inventoryItemId, itemSlot);
+        var inventoryItem = player.getInventory().getInventoryItem(inventoryItemId);
+
+        player.getInventory().equipItem(
+                inventoryItemId,
+                itemSlot,
+                itemService.getItemById(inventoryItem.getItemId())
+        );
 
         repository.save(player);
     }

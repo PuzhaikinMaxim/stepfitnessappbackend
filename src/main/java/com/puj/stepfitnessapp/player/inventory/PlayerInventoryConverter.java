@@ -14,7 +14,7 @@ public class PlayerInventoryConverter implements AttributeConverter<PlayerInvent
             return objectMapper.readValue(json, PlayerInventory.class);
         }
         catch (JsonProcessingException ex) {
-            return null;
+            return new PlayerInventory();
         }
     }
 
@@ -23,6 +23,7 @@ public class PlayerInventoryConverter implements AttributeConverter<PlayerInvent
             return objectMapper.writeValueAsString(inventory);
         }
         catch (JsonProcessingException ex) {
+            ex.printStackTrace();
             return "";
         }
     }

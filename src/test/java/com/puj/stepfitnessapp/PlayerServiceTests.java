@@ -1,5 +1,7 @@
 package com.puj.stepfitnessapp;
 
+import com.puj.stepfitnessapp.items.Item;
+import com.puj.stepfitnessapp.items.ItemService;
 import com.puj.stepfitnessapp.level.LevelService;
 import com.puj.stepfitnessapp.player.Player;
 import com.puj.stepfitnessapp.player.PlayerRepository;
@@ -34,6 +36,9 @@ public class PlayerServiceTests {
     @MockBean
     private LevelService levelService;
 
+    @MockBean
+    private ItemService itemService;
+
     @Captor
     private ArgumentCaptor<Player> playerArgumentCaptor;
 
@@ -43,7 +48,7 @@ public class PlayerServiceTests {
 
     @BeforeEach
     public void setup() {
-        playerService = new PlayerService(repository, playerStatisticsService, levelService);
+        playerService = new PlayerService(repository, playerStatisticsService, levelService, itemService);
         user = getUser();
         player = getPlayer();
     }
@@ -71,8 +76,8 @@ public class PlayerServiceTests {
         var inventory = player.getInventory();
         inventory.addItem(getInventoryItem());
         inventory.addItem(getInventoryItem());
-        inventory.equipItem(0,1);
-        inventory.equipItem(1,2);
+        inventory.equipItem(0,1,getItem());
+        inventory.equipItem(1,2,getItem());
         var pointsGained = playerService.calculatePointsGained(player, 100);
         Assertions.assertEquals(280, pointsGained);
         var additionalMinutes = playerService.calculateMinutesToFinishChallenge(player,60);
@@ -87,11 +92,18 @@ public class PlayerServiceTests {
 
     private InventoryItem getInventoryItem() {
         var inventoryItem = new InventoryItem();
-        inventoryItem.setPointsFixed(20);
-        inventoryItem.setPointsMultiplier(0.5);
-        inventoryItem.setPlusTimeMinutes(15);
-        inventoryItem.setTimeMultiplier(0.5);
+        inventoryItem.setItemId(1);
         return inventoryItem;
+    }
+
+    private Item getItem() {
+        var item = new Item();
+        item.setItemId(1);
+        item.setPointsFixed(20);
+        item.setPointsMultiplier(0.5);
+        item.setPlusTimeMinutes(15);
+        item.setTimeMultiplier(0.5);
+        return item;
     }
 
     private Player getPlayer() {

@@ -1,6 +1,7 @@
 package com.puj.stepfitnessapp.userdailychallenge;
 
 import com.puj.stepfitnessapp.items.Item;
+import com.puj.stepfitnessapp.items.ItemMapper;
 import com.puj.stepfitnessapp.items.ItemService;
 import com.puj.stepfitnessapp.player.PlayerService;
 import com.puj.stepfitnessapp.userdailychallenge.dailychallenge.DailyChallenge;
@@ -15,8 +16,12 @@ import java.util.List;
 public class UserDailyChallengeService {
 
     private final UserDailyChallengeRepository repository;
+
     private final PlayerService playerService;
+
     private final ItemService itemService;
+
+    private final ItemMapper itemMapper = new ItemMapper();
 
     private static final int[] amountOfStepsToComplete = new int[]{
             200, 500, 1000, 2000, 5000, 10000, 15000
@@ -142,7 +147,10 @@ public class UserDailyChallengeService {
 
         repository.save(userDailyChallenges);
 
-        return new CompletedUserDailyChallengesDataDto(amountOfXp, rewards);
+        return new CompletedUserDailyChallengesDataDto(
+                amountOfXp,
+                itemMapper.itemListToItemDtoList(rewards)
+        );
     }
 
     enum UpdateDailyChallengeResult {

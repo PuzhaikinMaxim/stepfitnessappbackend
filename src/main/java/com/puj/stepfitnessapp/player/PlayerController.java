@@ -1,5 +1,6 @@
 package com.puj.stepfitnessapp.player;
 
+import com.puj.stepfitnessapp.items.ItemService;
 import com.puj.stepfitnessapp.player.inventory.item.dto.InventoryItemDto;
 import com.puj.stepfitnessapp.player.inventory.item.InventoryItemMapper;
 import com.puj.stepfitnessapp.player.inventory.item.dto.ItemEquipDataDto;
@@ -18,11 +19,17 @@ public class PlayerController {
 
     private PlayerService service;
 
+    private ItemService itemService;
+
     private InventoryItemMapper inventoryItemMapper = new InventoryItemMapper();
 
     @Autowired
-    public PlayerController(PlayerService service) {
+    public PlayerController(
+            PlayerService service,
+            ItemService itemService
+    ) {
         this.service = service;
+        this.itemService = itemService;
     }
 
     @GetMapping("get_player_data")
@@ -71,7 +78,8 @@ public class PlayerController {
         var player = service.getPlayerById(getUserId());
         var inventoryItemDtoList = inventoryItemMapper.mapInventoryItemListToInventoryItemDtoList(
                 player.getInventory().getInventoryItems(),
-                player.getInventory().getEquippedItems()
+                player.getInventory().getEquippedItems(),
+                itemService.getItemsByIds(player.getInventory().getItemIds())
         );
         return createResponseEntity(HttpStatus.OK, inventoryItemDtoList);
     }

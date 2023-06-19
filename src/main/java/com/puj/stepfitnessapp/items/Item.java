@@ -54,6 +54,8 @@ public class Item {
     @JoinColumn(name = "rarity_level")
     private Rarity rarity;
 
+    private Integer imageId;
+
     public Item(String itemName){
         this.itemName = itemName;
         //this.rarity = rarity;

@@ -1,6 +1,6 @@
 package com.puj.stepfitnessapp.duel;
 
-import com.puj.stepfitnessapp.items.Item;
+import com.puj.stepfitnessapp.items.ItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +16,6 @@ public class FinishedDuelRewardDto {
 
     private int xp;
 
-    private List<Item> reward;
+    private List<ItemDto> reward;
 
 }

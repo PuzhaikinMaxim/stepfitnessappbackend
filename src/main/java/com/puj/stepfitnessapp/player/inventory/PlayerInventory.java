@@ -1,7 +1,10 @@
 package com.puj.stepfitnessapp.player.inventory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.puj.stepfitnessapp.items.Item;
+import com.puj.stepfitnessapp.player.inventory.item.EquippedItem;
 import com.puj.stepfitnessapp.player.inventory.item.InventoryItem;
+import com.puj.stepfitnessapp.player.inventory.item.InventoryItemMapper;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,22 +17,38 @@ public class PlayerInventory {
 
     static final int FIRST_INVENTORY_SLOT = 1;
 
-    InventoryItem[] equippedItems = new InventoryItem[2];
+    EquippedItem[] equippedItems = new EquippedItem[2];
 
     ArrayList<InventoryItem> inventoryItems = new ArrayList<>();
+
+    @JsonIgnore
+    private final InventoryItemMapper mapper = new InventoryItemMapper();
 
     public PlayerInventory() {
 
     }
 
-    public void equipItem(int inventoryItemId, int slot){
+    public void equipItem(int inventoryItemId, int slot, Item item){
         if(slot < 0 || slot > equippedItems.length) return;
-        for(InventoryItem item : equippedItems){
-            if(item != null && inventoryItemId == item.getInventoryId()){
+        for(EquippedItem equippedItem : equippedItems){
+            if(equippedItem != null && inventoryItemId == equippedItem.getInventoryId()){
                 return;
             }
         }
-        equippedItems[slot - 1] = inventoryItems.get(inventoryItemId);
+        equippedItems[slot - 1] = mapper.mapToEquippedItem(
+                inventoryItemId,
+                item
+        );
+    }
+
+    @JsonIgnore
+    public InventoryItem getInventoryItem(int inventoryItemId) {
+        for(InventoryItem item : inventoryItems){
+            if(item.getInventoryId() == inventoryItemId){
+                return item;
+            }
+        }
+        return null;
     }
 
     public void addItem(InventoryItem item) {
@@ -42,10 +61,11 @@ public class PlayerInventory {
         equippedItems[slot - 1] = null;
     }
 
+    @JsonIgnore
     public int calculateAmountOfMinutes(int amountOfMinutes) {
         var addedMinutes = 0;
         var minutesMultiplier = 1.0;
-        for(InventoryItem equippedItem : equippedItems){
+        for(EquippedItem equippedItem : equippedItems){
             if(equippedItem == null) break;
             addedMinutes += equippedItem.getPlusTimeMinutes();
             minutesMultiplier += equippedItem.getTimeMultiplier();
@@ -53,10 +73,11 @@ public class PlayerInventory {
         return (int) ((amountOfMinutes + addedMinutes)*minutesMultiplier);
     }
 
+    @JsonIgnore
     public int calculateAmountOfPoints(int amountOfSteps) {
         var addedPoints = 0;
         var pointsMultiplier = 1.0;
-        for (InventoryItem equippedItem : equippedItems) {
+        for (EquippedItem equippedItem : equippedItems) {
             if(equippedItem == null) break;
             addedPoints += (equippedItem.getPointsFixed() * amountOfSteps) / 100;
             pointsMultiplier += equippedItem.getPointsMultiplier();
@@ -68,7 +89,7 @@ public class PlayerInventory {
     public int calculateAmountOfAdditionalHp(int baseHp, int endurance) {
         var hpMultiplier = 1.0;
         var addedHp = 0;
-        for(InventoryItem equippedItem : equippedItems){
+        for(EquippedItem equippedItem : equippedItems){
             if(equippedItem == null) break;
             hpMultiplier += equippedItem.getTimeMultiplier();
             addedHp += equippedItem.getPlusTimeMinutes();
@@ -80,7 +101,7 @@ public class PlayerInventory {
     @JsonIgnore
     public Double calculatePointsMultiplier() {
         var pointsMultiplier = 1.0;
-        for(InventoryItem equippedItem : equippedItems){
+        for(EquippedItem equippedItem : equippedItems){
             if(equippedItem == null) break;
             pointsMultiplier += equippedItem.getPointsMultiplier();
         }
@@ -90,7 +111,7 @@ public class PlayerInventory {
     @JsonIgnore
     public int calculateAmountOfAdditionalPoints() {
         var additionalPoints = 0;
-        for(InventoryItem equippedItem : equippedItems){
+        for(EquippedItem equippedItem : equippedItems){
             if(equippedItem == null) break;
             additionalPoints += equippedItem.getPointsFixed();
         }
@@ -100,7 +121,7 @@ public class PlayerInventory {
     @JsonIgnore
     public Double calculateTimeMultiplier() {
         var timeMultiplier = 1.0;
-        for(InventoryItem equippedItem : equippedItems){
+        for(EquippedItem equippedItem : equippedItems){
             if(equippedItem == null) break;
             timeMultiplier += equippedItem.getTimeMultiplier();
         }
@@ -110,7 +131,7 @@ public class PlayerInventory {
     @JsonIgnore
     public Integer calculateAdditionalMinutes() {
         var additionalMinutes = 0;
-        for(InventoryItem equippedItem : equippedItems){
+        for(EquippedItem equippedItem : equippedItems){
             if(equippedItem == null) break;
             additionalMinutes += equippedItem.getPlusTimeMinutes();
         }
@@ -126,9 +147,18 @@ public class PlayerInventory {
         }
     }
 
-    public void setEquippedItems(InventoryItem[] equippedItems){
+    @JsonIgnore
+    public List<Integer> getItemIds() {
+        var itemIds = new ArrayList<Integer>();
+        for(InventoryItem item : inventoryItems){
+            itemIds.add(item.getItemId());
+        }
+        return itemIds;
+    }
+
+    public void setEquippedItems(EquippedItem[] equippedItems){
         if(equippedItems == null){
-            this.equippedItems = new InventoryItem[2];
+            this.equippedItems = new EquippedItem[2];
         }
         this.equippedItems = equippedItems;
     }

@@ -1,6 +1,6 @@
 package com.puj.stepfitnessapp.userschallenges;
 
-import com.puj.stepfitnessapp.items.Item;
+import com.puj.stepfitnessapp.items.ItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,5 +16,5 @@ public class CompletedChallengeDataDto {
 
     private int amountOfXp;
 
-    private List<Item> items;
+    private List<ItemDto> items;
 }

@@ -23,7 +23,6 @@ public class UserMapper {
         user.setEmail(userDto.getEmail());
         user.setPassword(encryptedPassword);
         user.setRole(Role.ROLE_USER.toString());
-        user.setEnterToken("");
         return user;
     }
 }

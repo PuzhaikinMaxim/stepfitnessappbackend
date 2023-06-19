@@ -2,6 +2,7 @@ package com.puj.stepfitnessapp.userschallenges;
 
 import com.puj.stepfitnessapp.StepCount;
 import com.puj.stepfitnessapp.challenge.ChallengeService;
+import com.puj.stepfitnessapp.items.ItemMapper;
 import com.puj.stepfitnessapp.items.ItemService;
 import com.puj.stepfitnessapp.player.Player;
 import com.puj.stepfitnessapp.player.PlayerService;
@@ -31,6 +32,8 @@ public class ActiveChallengesController {
     private PlayerService playerService;
 
     private ItemService itemService;
+
+    private ItemMapper itemMapper = new ItemMapper();
 
     @Autowired
     public ActiveChallengesController(
@@ -157,7 +160,7 @@ public class ActiveChallengesController {
             playerService.addItems(player, items);
             final var completedChallengeDataDto = new CompletedChallengeDataDto(
                     activeChallenge.getChallenge().getAmountOfXp(),
-                    items
+                    itemMapper.itemListToItemDtoList(items)
             );
             return createResponseEntity(HttpStatus.OK, completedChallengeDataDto);
         }

@@ -1,6 +1,7 @@
 package com.puj.stepfitnessapp.duel;
 
 import com.puj.stepfitnessapp.items.Item;
+import com.puj.stepfitnessapp.items.ItemMapper;
 import com.puj.stepfitnessapp.items.ItemService;
 import com.puj.stepfitnessapp.level.LevelService;
 import com.puj.stepfitnessapp.player.Player;
@@ -28,6 +29,8 @@ public class DuelService {
     private final PlayersDuelService playersDuelService;
 
     private final DuelMapper duelMapper = new DuelMapper();
+
+    private final ItemMapper itemMapper = new ItemMapper();
 
     @Autowired
     public DuelService(
@@ -131,7 +134,10 @@ public class DuelService {
             playerService.addItems(player, itemsList);
             playersDuelService.removePlayerDuel(duelPlayer);
             playerStatisticsService.incrementAmountOfDuelsWon(player);
-            return new FinishedDuelRewardDto(xp, itemsList);
+            return new FinishedDuelRewardDto(
+                    xp,
+                    itemMapper.itemListToItemDtoList(itemsList)
+            );
         }
 
         if(duel.getIsDuelCancelled()){
@@ -155,7 +161,10 @@ public class DuelService {
             duelRepository.delete(duel);
         }
 
-        return new FinishedDuelRewardDto(xp, itemsList);
+        return new FinishedDuelRewardDto(
+                xp,
+                itemMapper.itemListToItemDtoList(itemsList)
+        );
     }
 
     public Boolean isDuelNotFinished(Long userId) {

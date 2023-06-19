@@ -1,5 +1,7 @@
 package com.puj.stepfitnessapp.achievement;
 
+import com.puj.stepfitnessapp.achievement.categories.AchievementCategoryChallengeAmount;
+import com.puj.stepfitnessapp.achievement.categories.AchievementCategoryDuelAmount;
 import com.puj.stepfitnessapp.achievement.categories.AchievementCategoryStepAmount;
 import com.puj.stepfitnessapp.playerstatistics.PlayerStatistics;
 import com.puj.stepfitnessapp.playerstatistics.PlayerStatisticsService;
@@ -28,7 +30,7 @@ public class AchievementService {
         this.achievementRepository = achievementRepository;
         this.playerStatisticsService = playerStatisticsService;
         this.scheduledAchievementList = scheduledAchievementList;
-        achievementRepository.saveAll(getAchievements());
+        //achievementRepository.saveAll(getAchievements());
     }
 
     private List<Achievement> getAchievements() {
@@ -38,6 +40,30 @@ public class AchievementService {
                 "Новичок",
                 new AchievementCategoryStepAmount(10000)
         ));
+        var cnt = 20;
+        var id = 2;
+        for(int i = 0; i < 20; i++){
+            achievementList.add(new Achievement(
+                    id,
+                    "Пройдите " + cnt * 10000 + " шагов",
+                    new AchievementCategoryStepAmount(cnt * 10000)
+            ));
+            id++;
+            cnt = cnt + 5;
+        }
+        for(int i = 0; i < 5; i++){
+            achievementList.add(new Achievement(
+                    1,
+                    "Выполните " + i * 5 + " испытаний",
+                    new AchievementCategoryChallengeAmount(i * 5)
+            ));
+            achievementList.add(new Achievement(
+                    1,
+                    "Выиграйте " + i * 5 + " дуэлей",
+                    new AchievementCategoryDuelAmount(i * 5)
+            ));
+            id++;
+        }
         return achievementList;
     }
 

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemService {
@@ -200,5 +201,15 @@ public class ItemService {
             if(percentLeft <= 0) break;
         }
         return rewardChances;
+    }
+
+    public Item getItemById(int itemId) {
+        return repository.findById(itemId).get();
+    }
+
+    public Map<Integer, Item> getItemsByIds(List<Integer> itemIds) {
+        return repository.findAllById(itemIds).stream().collect(
+                Collectors.toMap(Item::getItemId, i -> i)
+        );
     }
 }

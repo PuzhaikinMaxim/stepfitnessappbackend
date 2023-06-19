@@ -1,6 +1,7 @@
 package com.puj.stepfitnessapp.userdailychallenge;
 
 import com.puj.stepfitnessapp.items.Item;
+import com.puj.stepfitnessapp.items.ItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,5 @@ public class CompletedUserDailyChallengesDataDto {
 
     private int xp;
 
-    private List<Item> reward;
+    private List<ItemDto> reward;
 }
